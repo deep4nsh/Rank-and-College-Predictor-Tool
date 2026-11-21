@@ -199,8 +199,10 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
     re_evaluated_count = 0
     deltas = []
 
+    # Pass 1: Grade all submissions against updated key rules and collect raw scores per session
+    graded_candidates = []
+    session_scores_map = {}
     for sub in active_subs:
-        # Load candidate responses
         responses = (
             db.query(StudentResponseModel)
             .filter(StudentResponseModel.submission_id == sub.submission_id)
@@ -215,15 +217,17 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
             )
             for r in responses
         ]
-
         summary = grade_paper(rules, student_answers)
+        graded_candidates.append((sub, summary))
+        session_scores_map.setdefault(sub.session_id, []).append(summary.total_raw_score)
 
-        # Normalize score
+    # Pass 2: Normalize with updated shift distributions, predict rank, and match options
+    for sub, summary in graded_candidates:
         norm_result = normalize_gate_score(
             paper_code=paper_code,
             session_id=sub.session_id,
             raw_score=summary.total_raw_score,
-            all_sessions_scores=None,
+            all_sessions_scores=session_scores_map,
         )
 
         # Predict rank
