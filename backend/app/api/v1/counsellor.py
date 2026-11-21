@@ -1,6 +1,13 @@
 from typing import Optional
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
+from backend.app.core.knowledge_base import (
+    get_branch_matrix,
+    get_ccmt_cutoffs,
+    get_coap_cutoffs,
+    get_psu_cutoffs,
+)
+from backend.app.core.matcher import match_options_for_student
 from backend.app.db.models import EvaluationResultModel, StudentSubmissionModel
 from backend.app.db.session import get_db
 
@@ -64,10 +71,12 @@ def list_students(
     return {"total": len(results), "students": results}
 
 
-@router.get("/students/{phone}/whatsapp-summary")
-def generate_whatsapp_summary(phone: str, db: Session = Depends(get_db)):
+@router.get("/students/{phone}")
+def get_student_counselling_profile(phone: str, db: Session = Depends(get_db)):
     """
-    Generates a 1-click formatted summary for counsellors to paste directly on WhatsApp.
+    Full Counsellor Diagnostic Profile:
+    Returns student details, marks breakdown, and complete choice lists
+    (COAP, CCMT, PSUs, and Cross-Discipline options) for live counselling calls.
     """
     row = (
         db.query(StudentSubmissionModel, EvaluationResultModel)
@@ -77,31 +86,124 @@ def generate_whatsapp_summary(phone: str, db: Session = Depends(get_db)):
     )
 
     if not row:
-        return {"error": "Student submission not found"}
+        raise HTTPException(status_code=404, detail=f"No active submission found for phone {phone}")
 
     sub, ev = row
 
-    summary_text = (
+    # Generate full real-time choice matching using Phase 2 knowledge base
+    summary = match_options_for_student(
+        gate_score=ev.gate_score,
+        predicted_air=ev.predicted_air,
+        paper_code=sub.paper_code,
+        category=sub.student_category,
+        btech_percentage=sub.btech_percentage or 70.0,
+        candidate_age=sub.candidate_age or 23,
+        has_valid_ncl=sub.has_valid_ncl,
+        include_cross_discipline=True,
+        historical_coap_data=get_coap_cutoffs(),
+        historical_ccmt_data=get_ccmt_cutoffs(),
+        historical_psu_data=get_psu_cutoffs(),
+        branch_matrix_data=get_branch_matrix(),
+    )
+
+    return {
+        "student_phone": sub.student_phone,
+        "student_name": sub.student_name,
+        "student_email": sub.student_email,
+        "category": sub.student_category,
+        "btech_percentage": sub.btech_percentage,
+        "candidate_age": sub.candidate_age,
+        "has_valid_ncl": sub.has_valid_ncl,
+        "pw_batch_id": sub.pw_batch_id,
+        "paper_code": sub.paper_code,
+        "raw_score_total": ev.raw_score_total,
+        "raw_score_aptitude": ev.raw_score_aptitude,
+        "raw_score_core": ev.raw_score_core,
+        "marks_lost_to_negatives": ev.marks_lost_to_negatives,
+        "correct_count": ev.correct_count,
+        "incorrect_count": ev.incorrect_count,
+        "unattempted_count": ev.unattempted_count,
+        "normalized_marks": ev.normalized_marks,
+        "gate_score": ev.gate_score,
+        "predicted_air": ev.predicted_air,
+        "air_range": f"{ev.air_range_min} - {ev.air_range_max}",
+        "lead_classification": ev.lead_classification,
+        "coap_options": [o.__dict__ for o in summary.coap_options],
+        "ccmt_options": [o.__dict__ for o in summary.ccmt_options],
+        "psu_options": [o.__dict__ for o in summary.psu_options],
+        "interdisciplinary_options": [o.__dict__ for o in summary.interdisciplinary_options],
+    }
+
+
+@router.get("/students/{phone}/whatsapp-summary")
+def generate_whatsapp_summary(phone: str, db: Session = Depends(get_db)):
+    """
+    Generates a 1-click dynamic summary for counsellors to share via WhatsApp,
+    featuring candidate diagnostic metrics and their specific Safe/Target colleges.
+    """
+    row = (
+        db.query(StudentSubmissionModel, EvaluationResultModel)
+        .join(EvaluationResultModel, StudentSubmissionModel.submission_id == EvaluationResultModel.submission_id)
+        .filter(StudentSubmissionModel.student_phone == phone.strip(), StudentSubmissionModel.is_active == True)
+        .first()
+    )
+
+    if not row:
+        raise HTTPException(status_code=404, detail="Student submission not found")
+
+    sub, ev = row
+
+    # Live matching
+    summary = match_options_for_student(
+        gate_score=ev.gate_score,
+        predicted_air=ev.predicted_air,
+        paper_code=sub.paper_code,
+        category=sub.student_category,
+        btech_percentage=sub.btech_percentage or 70.0,
+        candidate_age=sub.candidate_age or 23,
+        has_valid_ncl=sub.has_valid_ncl,
+        include_cross_discipline=True,
+        historical_coap_data=get_coap_cutoffs(),
+        historical_ccmt_data=get_ccmt_cutoffs(),
+        historical_psu_data=get_psu_cutoffs(),
+        branch_matrix_data=get_branch_matrix(),
+    )
+
+    # Format top choices
+    safe_coap = [f"{o.institution_name} ({o.program_name})" for o in summary.coap_options if o.match_tier == "SAFE"][:2]
+    target_coap = [f"{o.institution_name} ({o.program_name})" for o in summary.coap_options if o.match_tier == "TARGET"][:2]
+    safe_ccmt = [f"{o.institution_name} ({o.program_name})" for o in summary.ccmt_options if o.match_tier == "SAFE"][:2]
+    psu_eligible = [f"{p.psu_name} ({p.post_name})" for p in summary.psu_options if p.is_eligible][:2]
+    interdisc = [f"{o.institution_name} ({o.program_name})" for o in summary.interdisciplinary_options][:2]
+
+    msg = (
         f"🎯 *PW GATE Academic & Counselling Diagnostic*\n\n"
         f"👤 *Candidate:* {sub.student_name}\n"
         f"📱 *Phone:* {sub.student_phone}\n"
-        f"📚 *Branch:* GATE {sub.paper_code}\n\n"
+        f"📚 *Branch:* GATE {sub.paper_code} | *Category:* {sub.student_category}\n\n"
         f"📊 *Performance Summary:*\n"
         f"• Raw Score: {ev.raw_score_total:.2f} / 100\n"
         f"• Marks Lost to Negatives: -{ev.marks_lost_to_negatives:.2f}\n"
         f"• Predicted GATE Score: {ev.gate_score} / 1000\n"
         f"• Estimated AIR Band: {ev.air_range_min} - {ev.air_range_max}\n"
-        f"• Priority Classification: *{ev.lead_classification}*\n\n"
-        f"💡 *Counsellor Recommendation:*\n"
+        f"• Lead Priority: *{ev.lead_classification}*\n\n"
+        f"🏛️ *Top Matching Recommendations:*\n"
     )
 
-    if ev.gate_score >= 700:
-        summary_text += "• Eligible for top IITs Direct/Interview M.Tech and PSU shortlist (IOCL/ONGC/NTPC).\n"
-    elif ev.gate_score >= 550:
-        summary_text += "• Strong contender for top NITs (Trichy, Surathkal, Warangal) core branches.\n"
-    else:
-        summary_text += "• Recommend reviewing marks lost to negative marking; strong candidate for target improvement batch.\n"
+    if safe_coap:
+        msg += f"• *Safe (IITs/COAP):* {', '.join(safe_coap)}\n"
+    if target_coap:
+        msg += f"• *Target (IITs/COAP):* {', '.join(target_coap)}\n"
+    if psu_eligible:
+        msg += f"• *PSU Shortlist Chance:* {', '.join(psu_eligible)}\n"
+    if safe_ccmt:
+        msg += f"• *Safe (NITs/CCMT):* {', '.join(safe_ccmt)}\n"
+    if interdisc:
+        msg += f"• *Cross-Discipline:* {', '.join(interdisc)}\n"
 
-    summary_text += "\n_Powered by Physics Wallah In-House Counselling Operations Engine_"
+    if not safe_coap and not target_coap and not safe_ccmt:
+        msg += "• *Target Batches:* Advise reviewing negative marks; strong candidate for PW rank-improvement batches.\n"
 
-    return {"phone": sub.student_phone, "whatsapp_text": summary_text}
+    msg += "\n_Powered by Physics Wallah In-House Counselling Operations Engine_"
+
+    return {"phone": sub.student_phone, "whatsapp_text": msg}
