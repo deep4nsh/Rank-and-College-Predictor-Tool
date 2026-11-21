@@ -188,6 +188,7 @@ def submit_student_exam_paper(
         historical_coap_data=load_json("cutoffs_coap.json"),
         historical_ccmt_data=load_json("cutoffs_ccmt.json"),
         historical_psu_data=load_json("cutoffs_psu.json"),
+        branch_matrix_data=load_json("branch_matrix.json"),
     )
 
     # Store Evaluation Result in DB
@@ -228,4 +229,5 @@ def submit_student_exam_paper(
         "coap_matches": [o.__dict__ for o in rec_summary.coap_options],
         "ccmt_matches": [o.__dict__ for o in rec_summary.ccmt_options],
         "psu_matches": [o.__dict__ for o in rec_summary.psu_options],
+        "interdisciplinary_matches": [o.__dict__ for o in rec_summary.interdisciplinary_options],
     }

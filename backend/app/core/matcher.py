@@ -1,12 +1,15 @@
 """
-Three-Tier College & PSU Prediction Engine (COAP, CCMT, PSUs)
-Categorizes options into AMBITIOUS, TARGET, and SAFE.
-Distinguishes COAP Direct Admission vs Interview Calls.
-Enforces hard eligibility disqualifiers (B.Tech %, Age, NCL certificate).
+Three-Tier College & PSU Prediction Engine (COAP, CCMT, PSUs) - Phase 2
+Features:
+- Multi-Year Weighted Moving Average (0.50 * Y_2024 + 0.30 * Y_2023 + 0.20 * Y_2022)
+- Interdisciplinary Cross-Discipline Branch Matching
+- Categorizes options into AMBITIOUS, TARGET, and SAFE with fine-grained probability
+- Distinguishes COAP Direct Admission vs Interview Calls
+- Enforces hard eligibility disqualifiers (B.Tech %, Age, NCL certificate)
 """
 
 from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set
 
 
 @dataclass
@@ -18,6 +21,7 @@ class CollegeOption:
     historical_closing_score: int
     match_tier: str  # "AMBITIOUS", "TARGET", "SAFE"
     probability_pct: int
+    is_interdisciplinary: bool
     counsellor_note: str
 
 
@@ -44,6 +48,7 @@ class CounsellingRecommendationSummary:
     coap_options: List[CollegeOption]
     ccmt_options: List[CollegeOption]
     psu_options: List[PSUOption]
+    interdisciplinary_options: List[CollegeOption]
 
 
 def classify_lead_priority(gate_score: int, air: int) -> str:
@@ -60,6 +65,37 @@ def classify_lead_priority(gate_score: int, air: int) -> str:
         return "NURTURE_REPEATER"
 
 
+def compute_weighted_cutoff(item: Dict, category: str) -> int:
+    """
+    Calculates weighted moving average of previous years' cutoffs:
+    0.50 * Y_latest + 0.30 * Y_prev + 0.20 * Y_old.
+    Falls back gracefully if fewer years are recorded.
+    """
+    hist = item.get("historical_scores")
+    if hist and isinstance(hist, dict):
+        sorted_years = sorted(hist.keys(), reverse=True)
+        cat = category.upper()
+        scores = []
+        for y in sorted_years:
+            yr_dict = hist[y]
+            val = yr_dict.get(cat, yr_dict.get("GEN"))
+            if val is not None:
+                scores.append(val)
+
+        if len(scores) >= 3:
+            weighted = 0.50 * scores[0] + 0.30 * scores[1] + 0.20 * scores[2]
+            return int(round(weighted))
+        elif len(scores) == 2:
+            weighted = 0.60 * scores[0] + 0.40 * scores[1]
+            return int(round(weighted))
+        elif len(scores) == 1:
+            return int(scores[0])
+
+    # Fallback to single cutoffs mapping
+    cutoffs = item.get("cutoffs", {})
+    return int(cutoffs.get(category.upper(), cutoffs.get("GEN", 650)))
+
+
 def match_options_for_student(
     gate_score: int,
     predicted_air: int,
@@ -68,106 +104,149 @@ def match_options_for_student(
     btech_percentage: float = 70.0,
     candidate_age: int = 23,
     has_valid_ncl: bool = True,
+    include_cross_discipline: bool = True,
     historical_coap_data: Optional[List[Dict]] = None,
     historical_ccmt_data: Optional[List[Dict]] = None,
     historical_psu_data: Optional[List[Dict]] = None,
+    branch_matrix_data: Optional[Dict[str, List[str]]] = None,
 ) -> CounsellingRecommendationSummary:
     """
-    Evaluates candidate GATE Score & Category against COAP, CCMT, and PSU databases.
-    Categorizes into Safe, Target, and Ambitious tiers.
+    Evaluates candidate GATE Score & Category against multi-year COAP, CCMT, and PSU databases.
+    Categorizes into Safe, Target, and Ambitious tiers with weighted moving average cutoffs.
     """
-    # Normalize category: If OBC without valid NCL, treat as GEN
+    clean_paper = paper_code.upper().strip()
+
+    # Normalize category: If OBC without valid NCL certificate, treat as GEN
     effective_cat = category.upper().strip()
-    if effective_cat == "OBC" and not has_valid_ncl:
+    if effective_cat in ["OBC", "OBC_NCL"] and not has_valid_ncl:
         effective_cat = "GEN"
 
     coap_matches: List[CollegeOption] = []
     ccmt_matches: List[CollegeOption] = []
     psu_matches: List[PSUOption] = []
+    interdisciplinary_matches: List[CollegeOption] = []
+
+    # Get permissible interdisciplinary program keywords
+    eligible_specializations: Set[str] = set()
+    if branch_matrix_data and clean_paper in branch_matrix_data:
+        eligible_specializations = {s.lower() for s in branch_matrix_data[clean_paper]}
 
     # 1. COAP Matcher (IITs / IISc)
     coap_records = historical_coap_data or []
     for item in coap_records:
-        if item.get("paper_code", "").upper() != paper_code.upper():
-            continue
-        
-        # Category specific cutoff score with fallback
-        cutoff = item.get("cutoffs", {}).get(effective_cat, item.get("cutoffs", {}).get("GEN", 700))
-        delta = gate_score - cutoff
+        item_paper = item.get("paper_code", "").upper().strip()
+        item_program = item.get("program", "")
         offer_type = item.get("offer_type", "DIRECT_OFFER")
 
-        if delta >= 35:
-            tier = "SAFE"
-            prob = 90
-            note = f"Score is +{delta} above historical closing score. High admission probability."
-        elif -20 <= delta < 35:
-            tier = "TARGET"
-            prob = 65
-            note = f"Score aligns closely ({'+' if delta >= 0 else ''}{delta}) with recent cutoff trends."
-        elif -50 <= delta < -20:
-            tier = "AMBITIOUS"
-            prob = 30
-            note = f"Opportunity in spot rounds or subsequent offer windows ({delta} below cutoff)."
-        else:
-            continue  # Out of range
+        # Check core match vs interdisciplinary match
+        is_core = (item_paper == clean_paper)
+        is_interdisc = False
 
-        coap_matches.append(
-            CollegeOption(
-                institution_name=item.get("institution", "IIT"),
-                program_name=item.get("program", "M.Tech"),
-                counselling_body="COAP",
-                offer_type=offer_type,
-                historical_closing_score=cutoff,
-                match_tier=tier,
-                probability_pct=prob,
-                counsellor_note=note,
-            )
+        if not is_core and include_cross_discipline and eligible_specializations:
+            # Check if any eligible specialization matches the program
+            is_interdisc = any(spec in item_program.lower() for spec in eligible_specializations)
+
+        if not is_core and not is_interdisc:
+            continue
+
+        weighted_cutoff = compute_weighted_cutoff(item, effective_cat)
+        delta = gate_score - weighted_cutoff
+
+        if delta >= 30:
+            tier = "SAFE"
+            prob = min(98, 85 + int(delta * 0.2))
+            note = f"Score (+{delta}) comfortably above multi-year predicted cutoff ({weighted_cutoff}). High admission probability."
+        elif -20 <= delta < 30:
+            tier = "TARGET"
+            prob = max(50, min(84, 65 + int(delta * 0.4)))
+            note = f"Score aligns closely ({'+' if delta >= 0 else ''}{delta}) with 3-year weighted cutoff ({weighted_cutoff})."
+        elif -55 <= delta < -20:
+            tier = "AMBITIOUS"
+            prob = max(15, min(45, 30 + int(delta * 0.3)))
+            note = f"Opportunity in Round 4/5 or spot offer windows ({delta} points from {weighted_cutoff})."
+        else:
+            continue
+
+        if is_interdisc:
+            note = f"[Cross-Discipline] {note}"
+
+        opt = CollegeOption(
+            institution_name=item.get("institution", "IIT"),
+            program_name=item_program,
+            counselling_body="COAP",
+            offer_type=offer_type,
+            historical_closing_score=weighted_cutoff,
+            match_tier=tier,
+            probability_pct=prob,
+            is_interdisciplinary=is_interdisc,
+            counsellor_note=note,
         )
+
+        if is_interdisc:
+            interdisciplinary_matches.append(opt)
+        else:
+            coap_matches.append(opt)
 
     # 2. CCMT Matcher (NITs / IIITs / CFTIs)
     ccmt_records = historical_ccmt_data or []
     for item in ccmt_records:
-        if item.get("paper_code", "").upper() != paper_code.upper():
+        item_paper = item.get("paper_code", "").upper().strip()
+        item_program = item.get("program", "")
+
+        is_core = (item_paper == clean_paper)
+        is_interdisc = False
+
+        if not is_core and include_cross_discipline and eligible_specializations:
+            is_interdisc = any(spec in item_program.lower() for spec in eligible_specializations)
+
+        if not is_core and not is_interdisc:
             continue
 
-        cutoff = item.get("cutoffs", {}).get(effective_cat, item.get("cutoffs", {}).get("GEN", 550))
-        delta = gate_score - cutoff
+        weighted_cutoff = compute_weighted_cutoff(item, effective_cat)
+        delta = gate_score - weighted_cutoff
 
         if delta >= 30:
             tier = "SAFE"
-            prob = 92
-            note = f"Strong safe option (+{delta} points above regular round closing score)."
+            prob = min(98, 88 + int(delta * 0.2))
+            note = f"Strong safe option (+{delta} points above 3-year weighted cutoff: {weighted_cutoff})."
         elif -15 <= delta < 30:
             tier = "TARGET"
-            prob = 70
-            note = f"Strong target for regular rounds 1-3 ({'+' if delta >= 0 else ''}{delta} points)."
-        elif -45 <= delta < -15:
+            prob = max(50, min(85, 70 + int(delta * 0.4)))
+            note = f"Strong target for regular rounds 1-3 ({'+' if delta >= 0 else ''}{delta} points from {weighted_cutoff})."
+        elif -50 <= delta < -15:
             tier = "AMBITIOUS"
-            prob = 35
-            note = f"Viable in National Spot Round (NSR) or Special Round 2 ({delta} points)."
+            prob = max(20, min(45, 35 + int(delta * 0.3)))
+            note = f"Viable in National Spot Round (NSR) or Special Round 2 ({delta} points from {weighted_cutoff})."
         else:
             continue
 
-        ccmt_matches.append(
-            CollegeOption(
-                institution_name=item.get("institution", "NIT"),
-                program_name=item.get("program", "M.Tech"),
-                counselling_body="CCMT",
-                offer_type="DIRECT_OFFER",
-                historical_closing_score=cutoff,
-                match_tier=tier,
-                probability_pct=prob,
-                counsellor_note=note,
-            )
+        if is_interdisc:
+            note = f"[Cross-Discipline] {note}"
+
+        opt = CollegeOption(
+            institution_name=item.get("institution", "NIT"),
+            program_name=item_program,
+            counselling_body="CCMT",
+            offer_type="DIRECT_OFFER",
+            historical_closing_score=weighted_cutoff,
+            match_tier=tier,
+            probability_pct=prob,
+            is_interdisciplinary=is_interdisc,
+            counsellor_note=note,
         )
+
+        if is_interdisc:
+            interdisciplinary_matches.append(opt)
+        else:
+            ccmt_matches.append(opt)
 
     # 3. PSU Recruitment Matcher
     psu_records = historical_psu_data or []
     for item in psu_records:
-        if item.get("paper_code", "").upper() != paper_code.upper():
+        if item.get("paper_code", "").upper().strip() != clean_paper:
             continue
 
-        cutoff = item.get("cutoffs", {}).get(effective_cat, item.get("cutoffs", {}).get("GEN", 750))
+        weighted_cutoff = compute_weighted_cutoff(item, effective_cat)
         min_pct = item.get("min_btech_pct", 65.0)
         max_age = item.get("max_age_general", 26)
         if effective_cat in ["OBC", "OBC_NCL"]:
@@ -175,7 +254,7 @@ def match_options_for_student(
         elif effective_cat in ["SC", "ST"]:
             max_age += 5
 
-        delta = gate_score - cutoff
+        delta = gate_score - weighted_cutoff
 
         # Hard criteria verification
         is_eligible = True
@@ -189,23 +268,23 @@ def match_options_for_student(
 
         if delta >= 30:
             tier = "SAFE"
-            prob = 85 if is_eligible else 0
+            prob = 88 if is_eligible else 0
         elif -15 <= delta < 30:
             tier = "TARGET"
-            prob = 60 if is_eligible else 0
+            prob = 62 if is_eligible else 0
         elif -45 <= delta < -15:
             tier = "AMBITIOUS"
-            prob = 25 if is_eligible else 0
+            prob = 28 if is_eligible else 0
         else:
             continue
 
-        status_text = "Eligible for interview call." if is_eligible else "Disqualified: " + "; ".join(notes)
+        status_text = "Eligible for interview call shortlist." if is_eligible else "Disqualified: " + "; ".join(notes)
 
         psu_matches.append(
             PSUOption(
                 psu_name=item.get("psu_name", "PSU"),
                 post_name=item.get("post_name", "Graduate Engineer Trainee"),
-                min_gate_score=cutoff,
+                min_gate_score=weighted_cutoff,
                 min_btech_percentage=min_pct,
                 max_age_general=max_age,
                 match_tier=tier,
@@ -219,6 +298,7 @@ def match_options_for_student(
     tier_order = {"SAFE": 1, "TARGET": 2, "AMBITIOUS": 3}
     coap_matches.sort(key=lambda x: (tier_order.get(x.match_tier, 4), -x.historical_closing_score))
     ccmt_matches.sort(key=lambda x: (tier_order.get(x.match_tier, 4), -x.historical_closing_score))
+    interdisciplinary_matches.sort(key=lambda x: (tier_order.get(x.match_tier, 4), -x.historical_closing_score))
     psu_matches.sort(key=lambda x: (tier_order.get(x.match_tier, 4), -x.min_gate_score))
 
     lead_priority = classify_lead_priority(gate_score, predicted_air)
@@ -227,9 +307,10 @@ def match_options_for_student(
         student_gate_score=gate_score,
         predicted_air=predicted_air,
         category=effective_cat,
-        target_paper=paper_code.upper(),
+        target_paper=clean_paper,
         lead_classification=lead_priority,
         coap_options=coap_matches,
         ccmt_options=ccmt_matches,
         psu_options=psu_matches,
+        interdisciplinary_options=interdisciplinary_matches,
     )

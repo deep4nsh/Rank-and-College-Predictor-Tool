@@ -1,11 +1,17 @@
 [
   {
     "psu_name": "IOCL",
-    "post_name": "Graduate Apprentice Engineer (GAE)",
+    "post_name": "Graduate Apprentice Engineer (GAE - Computer Science)",
     "paper_code": "CS",
     "min_btech_pct": 65.0,
     "max_age_general": 26,
-    "cutoffs": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 410 }
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 410 },
+    "historical_scores": {
+      "2024": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 410 },
+      "2023": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 400 }
+    }
   },
   {
     "psu_name": "ONGC",
@@ -13,23 +19,27 @@
     "paper_code": "CS",
     "min_btech_pct": 60.0,
     "max_age_general": 28,
-    "cutoffs": { "GEN": 780, "OBC_NCL": 710, "EWS": 730, "SC": 530, "ST": 420 }
+    "gate_weightage_pct": 60,
+    "interview_weightage_pct": 25,
+    "cutoffs": { "GEN": 780, "OBC_NCL": 710, "EWS": 730, "SC": 530, "ST": 420 },
+    "historical_scores": {
+      "2024": { "GEN": 780, "OBC_NCL": 710, "EWS": 730, "SC": 530, "ST": 420 },
+      "2023": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 }
+    }
   },
   {
     "psu_name": "NTPC",
-    "post_name": "Executive Trainee (IT)",
+    "post_name": "Executive Trainee (Information Technology)",
     "paper_code": "CS",
     "min_btech_pct": 65.0,
     "max_age_general": 27,
-    "cutoffs": { "GEN": 730, "OBC_NCL": 660, "EWS": 680, "SC": 480, "ST": 380 }
-  },
-  {
-    "psu_name": "BHEL",
-    "post_name": "Engineer Trainee",
-    "paper_code": "ME",
-    "min_btech_pct": 65.0,
-    "max_age_general": 27,
-    "cutoffs": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 }
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": { "GEN": 730, "OBC_NCL": 660, "EWS": 680, "SC": 480, "ST": 380 },
+    "historical_scores": {
+      "2024": { "GEN": 730, "OBC_NCL": 660, "EWS": 680, "SC": 480, "ST": 380 },
+      "2023": { "GEN": 720, "OBC_NCL": 650, "EWS": 670, "SC": 470, "ST": 370 }
+    }
   },
   {
     "psu_name": "IOCL",
@@ -37,14 +47,166 @@
     "paper_code": "ME",
     "min_btech_pct": 65.0,
     "max_age_general": 26,
-    "cutoffs": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 }
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
+    "historical_scores": {
+      "2024": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
+      "2023": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 }
+    }
+  },
+  {
+    "psu_name": "ONGC",
+    "post_name": "AEE (Mechanical / Drilling / Production)",
+    "paper_code": "ME",
+    "min_btech_pct": 60.0,
+    "max_age_general": 28,
+    "gate_weightage_pct": 60,
+    "interview_weightage_pct": 25,
+    "cutoffs": { "GEN": 785, "OBC_NCL": 715, "EWS": 735, "SC": 535, "ST": 425 },
+    "historical_scores": {
+      "2024": { "GEN": 785, "OBC_NCL": 715, "EWS": 735, "SC": 535, "ST": 425 },
+      "2023": { "GEN": 775, "OBC_NCL": 705, "EWS": 725, "SC": 525, "ST": 415 }
+    }
+  },
+  {
+    "psu_name": "BHEL",
+    "post_name": "Engineer Trainee (Mechanical)",
+    "paper_code": "ME",
+    "min_btech_pct": 65.0,
+    "max_age_general": 27,
+    "gate_weightage_pct": 75,
+    "interview_weightage_pct": 25,
+    "cutoffs": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
+    "historical_scores": {
+      "2024": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
+      "2023": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 400 }
+    }
   },
   {
     "psu_name": "BARC",
-    "post_name": "Scientific Officer (OCES/DGFS)",
+    "post_name": "Scientific Officer (OCES/DGFS - Mechanical)",
     "paper_code": "ME",
     "min_btech_pct": 60.0,
     "max_age_general": 26,
-    "cutoffs": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 490, "ST": 380 }
+    "gate_weightage_pct": 0,
+    "interview_weightage_pct": 100,
+    "cutoffs": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 490, "ST": 380 },
+    "historical_scores": {
+      "2024": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 490, "ST": 380 },
+      "2023": { "GEN": 730, "OBC_NCL": 660, "EWS": 680, "SC": 480, "ST": 370 }
+    }
+  },
+  {
+    "psu_name": "IOCL",
+    "post_name": "Graduate Apprentice Engineer (Electrical)",
+    "paper_code": "EE",
+    "min_btech_pct": 65.0,
+    "max_age_general": 26,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 },
+    "historical_scores": {
+      "2024": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 },
+      "2023": { "GEN": 745, "OBC_NCL": 675, "EWS": 695, "SC": 495, "ST": 385 }
+    }
+  },
+  {
+    "psu_name": "PGCIL (PowerGrid)",
+    "post_name": "Engineer Trainee (Electrical)",
+    "paper_code": "EE",
+    "min_btech_pct": 65.0,
+    "max_age_general": 28,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
+    "historical_scores": {
+      "2024": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
+      "2023": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 }
+    }
+  },
+  {
+    "psu_name": "NTPC",
+    "post_name": "Executive Trainee (Electrical)",
+    "paper_code": "EE",
+    "min_btech_pct": 65.0,
+    "max_age_general": 27,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": { "GEN": 745, "OBC_NCL": 675, "EWS": 695, "SC": 495, "ST": 385 },
+    "historical_scores": {
+      "2024": { "GEN": 745, "OBC_NCL": 675, "EWS": 695, "SC": 495, "ST": 385 },
+      "2023": { "GEN": 735, "OBC_NCL": 665, "EWS": 685, "SC": 485, "ST": 375 }
+    }
+  },
+  {
+    "psu_name": "IOCL",
+    "post_name": "Graduate Apprentice Engineer (Civil)",
+    "paper_code": "CE",
+    "min_btech_pct": 65.0,
+    "max_age_general": 26,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 390 },
+    "historical_scores": {
+      "2024": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 390 },
+      "2023": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 490, "ST": 380 }
+    }
+  },
+  {
+    "psu_name": "ONGC",
+    "post_name": "AEE (Civil)",
+    "paper_code": "CE",
+    "min_btech_pct": 60.0,
+    "max_age_general": 28,
+    "gate_weightage_pct": 60,
+    "interview_weightage_pct": 25,
+    "cutoffs": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
+    "historical_scores": {
+      "2024": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
+      "2023": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 400 }
+    }
+  },
+  {
+    "psu_name": "BHEL",
+    "post_name": "Engineer Trainee (Civil)",
+    "paper_code": "CE",
+    "min_btech_pct": 65.0,
+    "max_age_general": 27,
+    "gate_weightage_pct": 75,
+    "interview_weightage_pct": 25,
+    "cutoffs": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 },
+    "historical_scores": {
+      "2024": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 },
+      "2023": { "GEN": 745, "OBC_NCL": 675, "EWS": 695, "SC": 495, "ST": 385 }
+    }
+  },
+  {
+    "psu_name": "IOCL",
+    "post_name": "Graduate Apprentice Engineer (Electronics)",
+    "paper_code": "EC",
+    "min_btech_pct": 65.0,
+    "max_age_general": 26,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 390 },
+    "historical_scores": {
+      "2024": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 390 },
+      "2023": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 490, "ST": 380 }
+    }
+  },
+  {
+    "psu_name": "BEL (Bharat Electronics)",
+    "post_name": "Member Research Staff / Probationary Engineer",
+    "paper_code": "EC",
+    "min_btech_pct": 65.0,
+    "max_age_general": 26,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": { "GEN": 735, "OBC_NCL": 665, "EWS": 685, "SC": 485, "ST": 375 },
+    "historical_scores": {
+      "2024": { "GEN": 735, "OBC_NCL": 665, "EWS": 685, "SC": 485, "ST": 375 },
+      "2023": { "GEN": 725, "OBC_NCL": 655, "EWS": 675, "SC": 475, "ST": 365 }
+    }
   }
 ]

@@ -1,0 +1,70 @@
+{
+  "CS": [
+    "Computer Science & Engineering",
+    "Artificial Intelligence",
+    "Data Science",
+    "Cyber Security",
+    "Information Technology",
+    "Computational & Data Science",
+    "Software Engineering",
+    "Robotics & Autonomous Systems"
+  ],
+  "ME": [
+    "Thermal & Fluids Engineering",
+    "Mechanical Design",
+    "Manufacturing Engineering",
+    "Robotics & Automation",
+    "Industrial Engineering & Operations Research",
+    "Materials Science & Metallurgical Engineering",
+    "Energy Systems & Climate Studies",
+    "Automotive Engineering"
+  ],
+  "EE": [
+    "Power Systems",
+    "Power Electronics & Power Drives",
+    "Control & Automation",
+    "Microelectronics & VLSI",
+    "Electric Vehicles & Renewable Energy",
+    "Signal Processing & Machine Learning",
+    "Systems & Control Engineering"
+  ],
+  "EC": [
+    "VLSI Design & Embedded Systems",
+    "Communication Systems",
+    "Signal Processing",
+    "RF & Microwave Engineering",
+    "Microelectronics",
+    "Photonics & Optical Communications",
+    "Internet of Things (IoT)"
+  ],
+  "CE": [
+    "Structural Engineering",
+    "Geotechnical Engineering",
+    "Transportation Systems Engineering",
+    "Water Resources Engineering",
+    "Environmental Engineering & Management",
+    "Construction Technology & Management",
+    "Ocean Engineering"
+  ],
+  "DA": [
+    "Data Science & Artificial Intelligence",
+    "Machine Learning & Computational Statistics",
+    "Computer Science & Engineering (Interdisciplinary)",
+    "Computational Biology",
+    "Business Analytics & Financial Engineering"
+  ],
+  "CH": [
+    "Chemical Engineering",
+    "Polymer Science & Engineering",
+    "Petrochemical Engineering",
+    "Energy & Environmental Technology",
+    "Process Design & Synthesis"
+  ],
+  "IN": [
+    "Instrumentation & Control",
+    "Biomedical Engineering & Devices",
+    "VLSI & Embedded Systems",
+    "Sensors & Signal Conditioning",
+    "Automation & Robotics"
+  ]
+}

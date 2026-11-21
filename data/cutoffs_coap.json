@@ -4,69 +4,309 @@
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
-    "cutoffs": { "GEN": 775, "OBC_NCL": 700, "EWS": 725, "SC": 520, "ST": 410 }
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 775, "OBC_NCL": 700, "EWS": 725, "SC": 520, "ST": 410 },
+    "historical_scores": {
+      "2024": { "GEN": 775, "OBC_NCL": 700, "EWS": 725, "SC": 520, "ST": 410 },
+      "2023": { "GEN": 765, "OBC_NCL": 690, "EWS": 715, "SC": 510, "ST": 400 },
+      "2022": { "GEN": 780, "OBC_NCL": 705, "EWS": 730, "SC": 525, "ST": 415 }
+    }
   },
   {
     "institution": "IIT Bombay",
     "program": "Artificial Intelligence & Data Science",
     "paper_code": "CS",
     "offer_type": "INTERVIEW_CALL",
-    "cutoffs": { "GEN": 750, "OBC_NCL": 670, "EWS": 700, "SC": 500, "ST": 390 }
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 750, "OBC_NCL": 670, "EWS": 700, "SC": 500, "ST": 390 },
+    "historical_scores": {
+      "2024": { "GEN": 750, "OBC_NCL": 670, "EWS": 700, "SC": 500, "ST": 390 },
+      "2023": { "GEN": 740, "OBC_NCL": 660, "EWS": 690, "SC": 490, "ST": 380 },
+      "2022": { "GEN": 755, "OBC_NCL": 675, "EWS": 705, "SC": 505, "ST": 395 }
+    }
   },
   {
     "institution": "IIT Delhi",
     "program": "Computer Technology",
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
-    "cutoffs": { "GEN": 760, "OBC_NCL": 685, "EWS": 710, "SC": 510, "ST": 400 }
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 760, "OBC_NCL": 685, "EWS": 710, "SC": 510, "ST": 400 },
+    "historical_scores": {
+      "2024": { "GEN": 760, "OBC_NCL": 685, "EWS": 710, "SC": 510, "ST": 400 },
+      "2023": { "GEN": 750, "OBC_NCL": 675, "EWS": 700, "SC": 500, "ST": 390 },
+      "2022": { "GEN": 765, "OBC_NCL": 690, "EWS": 715, "SC": 515, "ST": 405 }
+    }
   },
   {
     "institution": "IIT Madras",
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
-    "cutoffs": { "GEN": 755, "OBC_NCL": 680, "EWS": 705, "SC": 505, "ST": 395 }
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 755, "OBC_NCL": 680, "EWS": 705, "SC": 505, "ST": 395 },
+    "historical_scores": {
+      "2024": { "GEN": 755, "OBC_NCL": 680, "EWS": 705, "SC": 505, "ST": 395 },
+      "2023": { "GEN": 745, "OBC_NCL": 670, "EWS": 695, "SC": 495, "ST": 385 },
+      "2022": { "GEN": 760, "OBC_NCL": 685, "EWS": 710, "SC": 510, "ST": 400 }
+    }
   },
   {
     "institution": "IIT Kanpur",
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
-    "cutoffs": { "GEN": 745, "OBC_NCL": 670, "EWS": 695, "SC": 490, "ST": 380 }
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 745, "OBC_NCL": 670, "EWS": 695, "SC": 490, "ST": 380 },
+    "historical_scores": {
+      "2024": { "GEN": 745, "OBC_NCL": 670, "EWS": 695, "SC": 490, "ST": 380 },
+      "2023": { "GEN": 735, "OBC_NCL": 660, "EWS": 685, "SC": 480, "ST": 370 },
+      "2022": { "GEN": 750, "OBC_NCL": 675, "EWS": 700, "SC": 495, "ST": 385 }
+    }
+  },
+  {
+    "institution": "IIT Kharagpur",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 480, "ST": 370 },
+    "historical_scores": {
+      "2024": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 480, "ST": 370 },
+      "2023": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 470, "ST": 360 },
+      "2022": { "GEN": 735, "OBC_NCL": 660, "EWS": 685, "SC": 485, "ST": 375 }
+    }
   },
   {
     "institution": "IIT Roorkee",
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
-    "cutoffs": { "GEN": 715, "OBC_NCL": 640, "EWS": 665, "SC": 470, "ST": 360 }
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 715, "OBC_NCL": 640, "EWS": 665, "SC": 470, "ST": 360 },
+    "historical_scores": {
+      "2024": { "GEN": 715, "OBC_NCL": 640, "EWS": 665, "SC": 470, "ST": 360 },
+      "2023": { "GEN": 705, "OBC_NCL": 630, "EWS": 655, "SC": 460, "ST": 350 },
+      "2022": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 475, "ST": 365 }
+    }
+  },
+  {
+    "institution": "IIT Guwahati",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 700, "OBC_NCL": 630, "EWS": 650, "SC": 455, "ST": 350 },
+    "historical_scores": {
+      "2024": { "GEN": 700, "OBC_NCL": 630, "EWS": 650, "SC": 455, "ST": 350 },
+      "2023": { "GEN": 690, "OBC_NCL": 620, "EWS": 640, "SC": 445, "ST": 340 },
+      "2022": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 460, "ST": 355 }
+    }
+  },
+  {
+    "institution": "IIT Hyderabad",
+    "program": "Artificial Intelligence",
+    "paper_code": "CS",
+    "offer_type": "INTERVIEW_CALL",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 690, "OBC_NCL": 620, "EWS": 640, "SC": 450, "ST": 340 },
+    "historical_scores": {
+      "2024": { "GEN": 690, "OBC_NCL": 620, "EWS": 640, "SC": 450, "ST": 340 },
+      "2023": { "GEN": 680, "OBC_NCL": 610, "EWS": 630, "SC": 440, "ST": 330 },
+      "2022": { "GEN": 695, "OBC_NCL": 625, "EWS": 645, "SC": 455, "ST": 345 }
+    }
+  },
+  {
+    "institution": "IIT BHU (Varanasi)",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 685, "OBC_NCL": 615, "EWS": 635, "SC": 445, "ST": 335 },
+    "historical_scores": {
+      "2024": { "GEN": 685, "OBC_NCL": 615, "EWS": 635, "SC": 445, "ST": 335 },
+      "2023": { "GEN": 675, "OBC_NCL": 605, "EWS": 625, "SC": 435, "ST": 325 },
+      "2022": { "GEN": 690, "OBC_NCL": 620, "EWS": 640, "SC": 450, "ST": 340 }
+    }
   },
   {
     "institution": "IIT Bombay",
     "program": "Thermal & Fluids Engineering",
     "paper_code": "ME",
     "offer_type": "DIRECT_OFFER",
-    "cutoffs": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 380 }
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 380 },
+    "historical_scores": {
+      "2024": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 380 },
+      "2023": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 370 },
+      "2022": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 385 }
+    }
   },
   {
     "institution": "IIT Delhi",
     "program": "Mechanical Design",
     "paper_code": "ME",
     "offer_type": "DIRECT_OFFER",
-    "cutoffs": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 495, "ST": 370 }
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 495, "ST": 370 },
+    "historical_scores": {
+      "2024": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 495, "ST": 370 },
+      "2023": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 485, "ST": 360 },
+      "2022": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 500, "ST": 375 }
+    }
   },
   {
     "institution": "IIT Madras",
     "program": "Thermal Engineering",
     "paper_code": "ME",
     "offer_type": "DIRECT_OFFER",
-    "cutoffs": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 485, "ST": 360 }
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 485, "ST": 360 },
+    "historical_scores": {
+      "2024": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 485, "ST": 360 },
+      "2023": { "GEN": 730, "OBC_NCL": 660, "EWS": 680, "SC": 475, "ST": 350 },
+      "2022": { "GEN": 745, "OBC_NCL": 675, "EWS": 695, "SC": 490, "ST": 365 }
+    }
   },
   {
     "institution": "IIT Roorkee",
     "program": "Machine Design",
     "paper_code": "ME",
     "offer_type": "DIRECT_OFFER",
-    "cutoffs": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 450, "ST": 340 }
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 450, "ST": 340 },
+    "historical_scores": {
+      "2024": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 450, "ST": 340 },
+      "2023": { "GEN": 695, "OBC_NCL": 625, "EWS": 645, "SC": 440, "ST": 330 },
+      "2022": { "GEN": 710, "OBC_NCL": 640, "EWS": 660, "SC": 455, "ST": 345 }
+    }
+  },
+  {
+    "institution": "IIT Kharagpur",
+    "program": "Manufacturing Science & Engineering",
+    "paper_code": "ME",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 695, "OBC_NCL": 625, "EWS": 645, "SC": 440, "ST": 330 },
+    "historical_scores": {
+      "2024": { "GEN": 695, "OBC_NCL": 625, "EWS": 645, "SC": 440, "ST": 330 },
+      "2023": { "GEN": 685, "OBC_NCL": 615, "EWS": 635, "SC": 430, "ST": 320 },
+      "2022": { "GEN": 700, "OBC_NCL": 630, "EWS": 650, "SC": 445, "ST": 335 }
+    }
+  },
+  {
+    "institution": "IIT Bombay",
+    "program": "Microelectronics & VLSI",
+    "paper_code": "EE",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 780, "OBC_NCL": 710, "EWS": 735, "SC": 530, "ST": 420 },
+    "historical_scores": {
+      "2024": { "GEN": 780, "OBC_NCL": 710, "EWS": 735, "SC": 530, "ST": 420 },
+      "2023": { "GEN": 770, "OBC_NCL": 700, "EWS": 725, "SC": 520, "ST": 410 },
+      "2022": { "GEN": 785, "OBC_NCL": 715, "EWS": 740, "SC": 535, "ST": 425 }
+    }
+  },
+  {
+    "institution": "IIT Delhi",
+    "program": "Power Systems",
+    "paper_code": "EE",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 735, "OBC_NCL": 660, "EWS": 685, "SC": 480, "ST": 370 },
+    "historical_scores": {
+      "2024": { "GEN": 735, "OBC_NCL": 660, "EWS": 685, "SC": 480, "ST": 370 },
+      "2023": { "GEN": 725, "OBC_NCL": 650, "EWS": 675, "SC": 470, "ST": 360 },
+      "2022": { "GEN": 740, "OBC_NCL": 665, "EWS": 690, "SC": 485, "ST": 375 }
+    }
+  },
+  {
+    "institution": "IIT Madras",
+    "program": "Power Electronics & Drives",
+    "paper_code": "EE",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 475, "ST": 365 },
+    "historical_scores": {
+      "2024": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 475, "ST": 365 },
+      "2023": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 465, "ST": 355 },
+      "2022": { "GEN": 735, "OBC_NCL": 660, "EWS": 685, "SC": 480, "ST": 370 }
+    }
+  },
+  {
+    "institution": "IIT Bombay",
+    "program": "Communication Engineering",
+    "paper_code": "EC",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
+    "historical_scores": {
+      "2024": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
+      "2023": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 },
+      "2022": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 }
+    }
+  },
+  {
+    "institution": "IIT Delhi",
+    "program": "Integrated Electronics & Circuits (VLSI)",
+    "paper_code": "EC",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
+    "historical_scores": {
+      "2024": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
+      "2023": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 400 },
+      "2022": { "GEN": 775, "OBC_NCL": 705, "EWS": 725, "SC": 525, "ST": 415 }
+    }
+  },
+  {
+    "institution": "IIT Bombay",
+    "program": "Structural Engineering",
+    "paper_code": "CE",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 750, "OBC_NCL": 675, "EWS": 700, "SC": 500, "ST": 380 },
+    "historical_scores": {
+      "2024": { "GEN": 750, "OBC_NCL": 675, "EWS": 700, "SC": 500, "ST": 380 },
+      "2023": { "GEN": 740, "OBC_NCL": 665, "EWS": 690, "SC": 490, "ST": 370 },
+      "2022": { "GEN": 755, "OBC_NCL": 680, "EWS": 705, "SC": 505, "ST": 385 }
+    }
+  },
+  {
+    "institution": "IIT Delhi",
+    "program": "Geotechnical & Geoenvironmental Engineering",
+    "paper_code": "CE",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 470, "ST": 350 },
+    "historical_scores": {
+      "2024": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 470, "ST": 350 },
+      "2023": { "GEN": 710, "OBC_NCL": 635, "EWS": 660, "SC": 460, "ST": 340 },
+      "2022": { "GEN": 725, "OBC_NCL": 650, "EWS": 675, "SC": 475, "ST": 355 }
+    }
+  },
+  {
+    "institution": "IIT Madras",
+    "program": "Data Science & Artificial Intelligence",
+    "paper_code": "DA",
+    "offer_type": "INTERVIEW_CALL",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 480, "ST": 370 },
+    "historical_scores": {
+      "2024": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 480, "ST": 370 },
+      "2023": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 470, "ST": 360 }
+    }
+  },
+  {
+    "institution": "IIT Roorkee",
+    "program": "Artificial Intelligence",
+    "paper_code": "DA",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 455, "ST": 350 },
+    "historical_scores": {
+      "2024": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 455, "ST": 350 },
+      "2023": { "GEN": 695, "OBC_NCL": 625, "EWS": 645, "SC": 445, "ST": 340 }
+    }
   }
 ]

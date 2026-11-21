@@ -3,48 +3,215 @@
     "institution": "NIT Trichy",
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
-    "cutoffs": { "GEN": 680, "OBC_NCL": 615, "EWS": 640, "SC": 440, "ST": 330 }
+    "round": "Round 3",
+    "cutoffs": { "GEN": 680, "OBC_NCL": 615, "EWS": 640, "SC": 440, "ST": 330 },
+    "historical_scores": {
+      "2024": { "GEN": 680, "OBC_NCL": 615, "EWS": 640, "SC": 440, "ST": 330 },
+      "2023": { "GEN": 670, "OBC_NCL": 605, "EWS": 630, "SC": 430, "ST": 320 },
+      "2022": { "GEN": 685, "OBC_NCL": 620, "EWS": 645, "SC": 445, "ST": 335 }
+    }
   },
   {
     "institution": "NIT Surathkal",
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
-    "cutoffs": { "GEN": 665, "OBC_NCL": 600, "EWS": 625, "SC": 425, "ST": 320 }
+    "round": "Round 3",
+    "cutoffs": { "GEN": 665, "OBC_NCL": 600, "EWS": 625, "SC": 425, "ST": 320 },
+    "historical_scores": {
+      "2024": { "GEN": 665, "OBC_NCL": 600, "EWS": 625, "SC": 425, "ST": 320 },
+      "2023": { "GEN": 655, "OBC_NCL": 590, "EWS": 615, "SC": 415, "ST": 310 },
+      "2022": { "GEN": 670, "OBC_NCL": 605, "EWS": 630, "SC": 430, "ST": 325 }
+    }
   },
   {
     "institution": "NIT Warangal",
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
-    "cutoffs": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 }
+    "round": "Round 3",
+    "cutoffs": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 },
+    "historical_scores": {
+      "2024": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 },
+      "2023": { "GEN": 640, "OBC_NCL": 575, "EWS": 600, "SC": 405, "ST": 300 },
+      "2022": { "GEN": 655, "OBC_NCL": 590, "EWS": 615, "SC": 420, "ST": 315 }
+    }
   },
   {
     "institution": "NIT Rourkela",
     "program": "Computer Science",
     "paper_code": "CS",
-    "cutoffs": { "GEN": 615, "OBC_NCL": 550, "EWS": 575, "SC": 385, "ST": 290 }
+    "round": "Round 3",
+    "cutoffs": { "GEN": 615, "OBC_NCL": 550, "EWS": 575, "SC": 385, "ST": 290 },
+    "historical_scores": {
+      "2024": { "GEN": 615, "OBC_NCL": 550, "EWS": 575, "SC": 385, "ST": 290 },
+      "2023": { "GEN": 605, "OBC_NCL": 540, "EWS": 565, "SC": 375, "ST": 280 },
+      "2022": { "GEN": 620, "OBC_NCL": 555, "EWS": 580, "SC": 390, "ST": 295 }
+    }
   },
   {
     "institution": "NIT Calicut",
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
-    "cutoffs": { "GEN": 595, "OBC_NCL": 530, "EWS": 555, "SC": 365, "ST": 275 }
+    "round": "Round 3",
+    "cutoffs": { "GEN": 595, "OBC_NCL": 530, "EWS": 555, "SC": 365, "ST": 275 },
+    "historical_scores": {
+      "2024": { "GEN": 595, "OBC_NCL": 530, "EWS": 555, "SC": 365, "ST": 275 },
+      "2023": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 265 },
+      "2022": { "GEN": 600, "OBC_NCL": 535, "EWS": 560, "SC": 370, "ST": 280 }
+    }
+  },
+  {
+    "institution": "MNNIT Allahabad",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "round": "Round 3",
+    "cutoffs": { "GEN": 610, "OBC_NCL": 545, "EWS": 570, "SC": 380, "ST": 285 },
+    "historical_scores": {
+      "2024": { "GEN": 610, "OBC_NCL": 545, "EWS": 570, "SC": 380, "ST": 285 },
+      "2023": { "GEN": 600, "OBC_NCL": 535, "EWS": 560, "SC": 370, "ST": 275 },
+      "2022": { "GEN": 615, "OBC_NCL": 550, "EWS": 575, "SC": 385, "ST": 290 }
+    }
+  },
+  {
+    "institution": "MNIT Jaipur",
+    "program": "Computer Science & Information Security",
+    "paper_code": "CS",
+    "round": "Round 3",
+    "cutoffs": { "GEN": 580, "OBC_NCL": 515, "EWS": 540, "SC": 350, "ST": 260 },
+    "historical_scores": {
+      "2024": { "GEN": 580, "OBC_NCL": 515, "EWS": 540, "SC": 350, "ST": 260 },
+      "2023": { "GEN": 570, "OBC_NCL": 505, "EWS": 530, "SC": 340, "ST": 250 },
+      "2022": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 265 }
+    }
+  },
+  {
+    "institution": "VNIT Nagpur",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "round": "Round 3",
+    "cutoffs": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 265 },
+    "historical_scores": {
+      "2024": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 265 },
+      "2023": { "GEN": 575, "OBC_NCL": 510, "EWS": 535, "SC": 345, "ST": 255 },
+      "2022": { "GEN": 590, "OBC_NCL": 525, "EWS": 550, "SC": 360, "ST": 270 }
+    }
   },
   {
     "institution": "NIT Trichy",
     "program": "Thermal Power Engineering",
     "paper_code": "ME",
-    "cutoffs": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 }
+    "round": "Round 3",
+    "cutoffs": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 },
+    "historical_scores": {
+      "2024": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 },
+      "2023": { "GEN": 640, "OBC_NCL": 575, "EWS": 600, "SC": 405, "ST": 300 },
+      "2022": { "GEN": 655, "OBC_NCL": 590, "EWS": 615, "SC": 420, "ST": 315 }
+    }
   },
   {
     "institution": "NIT Surathkal",
     "program": "Design & Precision Engineering",
     "paper_code": "ME",
-    "cutoffs": { "GEN": 635, "OBC_NCL": 570, "EWS": 595, "SC": 400, "ST": 300 }
+    "round": "Round 3",
+    "cutoffs": { "GEN": 635, "OBC_NCL": 570, "EWS": 595, "SC": 400, "ST": 300 },
+    "historical_scores": {
+      "2024": { "GEN": 635, "OBC_NCL": 570, "EWS": 595, "SC": 400, "ST": 300 },
+      "2023": { "GEN": 625, "OBC_NCL": 560, "EWS": 585, "SC": 390, "ST": 290 },
+      "2022": { "GEN": 640, "OBC_NCL": 575, "EWS": 600, "SC": 405, "ST": 305 }
+    }
   },
   {
     "institution": "NIT Warangal",
     "program": "Manufacturing Engineering",
     "paper_code": "ME",
-    "cutoffs": { "GEN": 605, "OBC_NCL": 540, "EWS": 565, "SC": 375, "ST": 280 }
+    "round": "Round 3",
+    "cutoffs": { "GEN": 605, "OBC_NCL": 540, "EWS": 565, "SC": 375, "ST": 280 },
+    "historical_scores": {
+      "2024": { "GEN": 605, "OBC_NCL": 540, "EWS": 565, "SC": 375, "ST": 280 },
+      "2023": { "GEN": 595, "OBC_NCL": 530, "EWS": 555, "SC": 365, "ST": 270 },
+      "2022": { "GEN": 610, "OBC_NCL": 545, "EWS": 570, "SC": 380, "ST": 285 }
+    }
+  },
+  {
+    "institution": "NIT Trichy",
+    "program": "VLSI System Design",
+    "paper_code": "EC",
+    "round": "Round 3",
+    "cutoffs": { "GEN": 675, "OBC_NCL": 610, "EWS": 635, "SC": 435, "ST": 325 },
+    "historical_scores": {
+      "2024": { "GEN": 675, "OBC_NCL": 610, "EWS": 635, "SC": 435, "ST": 325 },
+      "2023": { "GEN": 665, "OBC_NCL": 600, "EWS": 625, "SC": 425, "ST": 315 },
+      "2022": { "GEN": 680, "OBC_NCL": 615, "EWS": 640, "SC": 440, "ST": 330 }
+    }
+  },
+  {
+    "institution": "NIT Surathkal",
+    "program": "Signal Processing & Machine Learning",
+    "paper_code": "EC",
+    "round": "Round 3",
+    "cutoffs": { "GEN": 640, "OBC_NCL": 575, "EWS": 600, "SC": 405, "ST": 305 },
+    "historical_scores": {
+      "2024": { "GEN": 640, "OBC_NCL": 575, "EWS": 600, "SC": 405, "ST": 305 },
+      "2023": { "GEN": 630, "OBC_NCL": 565, "EWS": 590, "SC": 395, "ST": 295 },
+      "2022": { "GEN": 645, "OBC_NCL": 580, "EWS": 605, "SC": 410, "ST": 310 }
+    }
+  },
+  {
+    "institution": "NIT Trichy",
+    "program": "Power Systems",
+    "paper_code": "EE",
+    "round": "Round 3",
+    "cutoffs": { "GEN": 645, "OBC_NCL": 580, "EWS": 605, "SC": 410, "ST": 305 },
+    "historical_scores": {
+      "2024": { "GEN": 645, "OBC_NCL": 580, "EWS": 605, "SC": 410, "ST": 305 },
+      "2023": { "GEN": 635, "OBC_NCL": 570, "EWS": 595, "SC": 400, "ST": 295 },
+      "2022": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 }
+    }
+  },
+  {
+    "institution": "NIT Surathkal",
+    "program": "Power & Energy Systems",
+    "paper_code": "EE",
+    "round": "Round 3",
+    "cutoffs": { "GEN": 630, "OBC_NCL": 565, "EWS": 590, "SC": 395, "ST": 295 },
+    "historical_scores": {
+      "2024": { "GEN": 630, "OBC_NCL": 565, "EWS": 590, "SC": 395, "ST": 295 },
+      "2023": { "GEN": 620, "OBC_NCL": 555, "EWS": 580, "SC": 385, "ST": 285 },
+      "2022": { "GEN": 635, "OBC_NCL": 570, "EWS": 595, "SC": 400, "ST": 300 }
+    }
+  },
+  {
+    "institution": "NIT Trichy",
+    "program": "Structural Engineering",
+    "paper_code": "CE",
+    "round": "Round 3",
+    "cutoffs": { "GEN": 625, "OBC_NCL": 560, "EWS": 585, "SC": 390, "ST": 290 },
+    "historical_scores": {
+      "2024": { "GEN": 625, "OBC_NCL": 560, "EWS": 585, "SC": 390, "ST": 290 },
+      "2023": { "GEN": 615, "OBC_NCL": 550, "EWS": 575, "SC": 380, "ST": 280 },
+      "2022": { "GEN": 630, "OBC_NCL": 565, "EWS": 590, "SC": 395, "ST": 295 }
+    }
+  },
+  {
+    "institution": "NIT Warangal",
+    "program": "Geotechnical Engineering",
+    "paper_code": "CE",
+    "round": "Round 3",
+    "cutoffs": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 260 },
+    "historical_scores": {
+      "2024": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 260 },
+      "2023": { "GEN": 575, "OBC_NCL": 510, "EWS": 535, "SC": 345, "ST": 250 },
+      "2022": { "GEN": 590, "OBC_NCL": 525, "EWS": 550, "SC": 360, "ST": 265 }
+    }
+  },
+  {
+    "institution": "NIT Surathkal",
+    "program": "Data Science",
+    "paper_code": "DA",
+    "round": "Round 3",
+    "cutoffs": { "GEN": 655, "OBC_NCL": 590, "EWS": 615, "SC": 415, "ST": 310 },
+    "historical_scores": {
+      "2024": { "GEN": 655, "OBC_NCL": 590, "EWS": 615, "SC": 415, "ST": 310 },
+      "2023": { "GEN": 645, "OBC_NCL": 580, "EWS": 605, "SC": 405, "ST": 300 }
+    }
   }
 ]
