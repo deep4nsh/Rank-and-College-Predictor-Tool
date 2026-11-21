@@ -33,6 +33,23 @@ def load_json(filename: str):
     return []
 
 
+def get_live_sessions_scores(paper_code: str, db: Session) -> dict:
+    """
+    Fetches all active candidate raw scores grouped by shift/session
+    for live dynamic multi-session normalization on exam day.
+    """
+    rows = (
+        db.query(StudentSubmissionModel.session_id, EvaluationResultModel.raw_score_total)
+        .join(EvaluationResultModel, StudentSubmissionModel.submission_id == EvaluationResultModel.submission_id)
+        .filter(StudentSubmissionModel.paper_code == paper_code.upper().strip(), StudentSubmissionModel.is_active == True)
+        .all()
+    )
+    res = {}
+    for s_id, score in rows:
+        res.setdefault(s_id, []).append(score)
+    return res
+
+
 @router.post("")
 def submit_student_exam_paper(
     payload: StudentSubmissionCreateSchema, db: Session = Depends(get_db)
@@ -143,12 +160,16 @@ def submit_student_exam_paper(
     # Evaluate paper
     summary = grade_paper(rules, student_answers)
 
+    # Fetch live session scores from DB to dynamically calculate shift stats
+    live_scores = get_live_sessions_scores(clean_paper, db)
+    live_scores.setdefault(payload.session_id, []).append(summary.total_raw_score)
+
     # Normalization & GATE score calculation
     norm_result = normalize_gate_score(
         paper_code=clean_paper,
         session_id=payload.session_id,
         raw_score=summary.total_raw_score,
-        all_sessions_scores=None,
+        all_sessions_scores=live_scores,
     )
 
     # Predict rank via PCHIP spline

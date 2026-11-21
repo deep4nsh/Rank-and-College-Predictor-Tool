@@ -84,3 +84,28 @@ def test_end_to_end_exam_day_flow():
     wa_data = wa_res.json()
     assert "Aman Sharma" in wa_data["whatsapp_text"]
     assert "PW GATE Academic & Counselling Diagnostic" in wa_data["whatsapp_text"]
+
+    # 5. Later: IIT Releases Official Key v2 (e.g. Q3 NAT accepted range shifts)
+    official_key_payload = {
+        "paper_code": "CS",
+        "version": 2,
+        "key_type": "OFFICIAL_IIT",
+        "author_name": "IIT Official Master Key",
+        "items": [
+            {"question_id": "CS-Q1", "is_mta": False, "valid_options": [["B"]]},
+            {"question_id": "CS-Q2", "is_mta": False, "valid_options": [["A", "C"]]},
+            {"question_id": "CS-Q3", "is_mta": False, "nat_min": 15.0, "nat_max": 15.5},
+            {"question_id": "CS-Q4", "is_mta": True},
+        ],
+    }
+    official_key_res = client.post("/api/v1/keys", json=official_key_payload)
+    assert official_key_res.status_code == 200
+    new_key_id = official_key_res.json()["key_id"]
+
+    # Trigger batch re-evaluation against new official key
+    re_eval_res = client.post(f"/api/v1/keys/{new_key_id}/re-evaluate")
+    assert re_eval_res.status_code == 200
+    re_eval_data = re_eval_res.json()
+    assert re_eval_data["status"] == "success"
+    assert re_eval_data["re_evaluated_count"] == 1
+    assert re_eval_data["key_version"] == 2

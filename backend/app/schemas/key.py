@@ -4,6 +4,11 @@ from pydantic import BaseModel, Field
 
 class KeyItemSchema(BaseModel):
     question_id: str
+    question_number: Optional[int] = 1
+    section: Optional[str] = "CORE"
+    question_type: Optional[str] = "MCQ"
+    marks_correct: Optional[float] = 1.0
+    marks_negative: Optional[float] = 0.3333
     is_mta: bool = False
     valid_options: Optional[List[List[str]]] = None  # e.g., [["A"], ["B"]] or [["A", "C"]]
     nat_min: Optional[float] = None
