@@ -1,21 +1,15 @@
-import json
-from pathlib import Path
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Query
+from backend.app.core.knowledge_base import (
+    get_branch_matrix,
+    get_ccmt_cutoffs,
+    get_coap_cutoffs,
+    get_psu_cutoffs,
+)
 from backend.app.core.matcher import match_options_for_student
 from backend.app.core.rank_spline import MonotonicRankEngine
 
 router = APIRouter(prefix="/predictor", tags=["Predictor"])
-
-DATA_DIR = Path(__file__).resolve().parents[4] / "data"
-
-
-def load_json(filename: str):
-    p = DATA_DIR / filename
-    if p.exists():
-        with open(p, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return []
 
 
 @router.get("/quick-estimate")
@@ -35,10 +29,10 @@ def quick_estimate(
     spline = MonotonicRankEngine(paper_code)
     rank_pred = spline.predict_rank(score)
 
-    coap_data = load_json("cutoffs_coap.json")
-    ccmt_data = load_json("cutoffs_ccmt.json")
-    psu_data = load_json("cutoffs_psu.json")
-    branch_matrix = load_json("branch_matrix.json")
+    coap_data = get_coap_cutoffs()
+    ccmt_data = get_ccmt_cutoffs()
+    psu_data = get_psu_cutoffs()
+    branch_matrix = get_branch_matrix()
 
     # Proxy GATE score approximation
     approx_gate_score = min(1000, max(100, int(350 + (score - 28.5) * 11.5)))
@@ -91,9 +85,9 @@ def filter_colleges(
     Dedicated college prediction filter for counsellors.
     Allows filtering by counselling body (COAP/CCMT), tier, and offer type.
     """
-    coap_data = load_json("cutoffs_coap.json")
-    ccmt_data = load_json("cutoffs_ccmt.json")
-    branch_matrix = load_json("branch_matrix.json")
+    coap_data = get_coap_cutoffs()
+    ccmt_data = get_ccmt_cutoffs()
+    branch_matrix = get_branch_matrix()
 
     summary = match_options_for_student(
         gate_score=gate_score,
@@ -149,7 +143,7 @@ def filter_psus(
     Dedicated PSU recruitment prediction filter for counsellors.
     Evaluates shortlist probability and applies strict eligibility rules.
     """
-    psu_data = load_json("cutoffs_psu.json")
+    psu_data = get_psu_cutoffs()
 
     summary = match_options_for_student(
         gate_score=gate_score,
@@ -183,7 +177,7 @@ def get_cross_discipline_branches(paper_code: str = Query("ME")):
     """
     Returns all eligible M.Tech/MS interdisciplinary specializations for a qualifying GATE paper.
     """
-    matrix = load_json("branch_matrix.json")
+    matrix = get_branch_matrix()
     clean = paper_code.upper().strip()
     specializations = matrix.get(clean, [])
     return {

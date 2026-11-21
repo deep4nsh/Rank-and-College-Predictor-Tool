@@ -8,6 +8,12 @@ from backend.app.core.grader import QuestionRule, StudentAnswer, grade_paper
 from backend.app.core.matcher import match_options_for_student
 from backend.app.core.normalizer import normalize_gate_score
 from backend.app.core.rank_spline import MonotonicRankEngine
+from backend.app.core.knowledge_base import (
+    get_branch_matrix,
+    get_ccmt_cutoffs,
+    get_coap_cutoffs,
+    get_psu_cutoffs,
+)
 from backend.app.db.models import (
     AnswerKeyItemModel,
     AnswerKeyModel,
@@ -21,16 +27,6 @@ from backend.app.db.session import get_db
 from backend.app.schemas.key import AnswerKeyCreateSchema
 
 router = APIRouter(prefix="/keys", tags=["Answer Keys"])
-
-DATA_DIR = Path(__file__).resolve().parents[4] / "data"
-
-
-def load_json(filename: str):
-    p = DATA_DIR / filename
-    if p.exists():
-        with open(p, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return []
 
 
 @router.post("")
@@ -195,9 +191,10 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
         return {"status": "success", "message": "No active student submissions found for this paper", "count": 0}
 
     rank_engine = MonotonicRankEngine(paper_code)
-    coap_data = load_json("cutoffs_coap.json")
-    ccmt_data = load_json("cutoffs_ccmt.json")
-    psu_data = load_json("cutoffs_psu.json")
+    coap_data = get_coap_cutoffs()
+    ccmt_data = get_ccmt_cutoffs()
+    psu_data = get_psu_cutoffs()
+    branch_matrix = get_branch_matrix()
 
     re_evaluated_count = 0
     deltas = []
@@ -241,9 +238,11 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
             btech_percentage=sub.btech_percentage,
             candidate_age=sub.candidate_age,
             has_valid_ncl=sub.has_valid_ncl,
+            include_cross_discipline=True,
             historical_coap_data=coap_data,
             historical_ccmt_data=ccmt_data,
             historical_psu_data=psu_data,
+            branch_matrix_data=branch_matrix,
         )
 
         # Check existing evaluation for score delta calculation

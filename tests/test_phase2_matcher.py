@@ -94,3 +94,52 @@ def test_cross_discipline_api():
     data = res.json()
     assert data["paper_code"] == "CS"
     assert "Artificial Intelligence" in data["eligible_specializations"]
+
+
+def test_pwd_category_horizontal_reservation():
+    # Item only specifies GEN and SC (no explicit PWD key)
+    mock_item = {
+        "cutoffs": {"GEN": 750, "SC": 480}
+    }
+    # PWD should fall back to SC (480), not GEN (750)
+    cutoff = compute_weighted_cutoff(mock_item, "PWD")
+    assert cutoff == 480
+
+
+def test_pwd_psu_age_relaxation():
+    mock_psu = [
+        {
+            "psu_name": "IOCL",
+            "post_name": "GAE",
+            "paper_code": "CS",
+            "min_btech_pct": 65.0,
+            "max_age_general": 26,
+            "cutoffs": {"GEN": 760, "SC": 500},
+        }
+    ]
+    # A 34-year-old PwD candidate with score 550:
+    # 26 + 10 (PwD relaxation) = 36 max age -> Should be eligible!
+    summary = match_options_for_student(
+        gate_score=550,
+        predicted_air=2000,
+        paper_code="CS",
+        category="PWD",
+        btech_percentage=70.0,
+        candidate_age=34,
+        historical_psu_data=mock_psu,
+    )
+    assert len(summary.psu_options) == 1
+    assert summary.psu_options[0].is_eligible is True
+
+
+def test_cached_knowledge_base():
+    from backend.app.core.knowledge_base import (
+        get_branch_matrix,
+        get_ccmt_cutoffs,
+        get_coap_cutoffs,
+        get_psu_cutoffs,
+    )
+    assert len(get_coap_cutoffs()) > 0
+    assert len(get_ccmt_cutoffs()) > 0
+    assert len(get_psu_cutoffs()) > 0
+    assert "CS" in get_branch_matrix()

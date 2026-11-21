@@ -65,6 +65,26 @@ def classify_lead_priority(gate_score: int, air: int) -> str:
         return "NURTURE_REPEATER"
 
 
+def get_cat_score_from_dict(d: Dict, cat: str) -> Optional[int]:
+    """
+    Extracts category cutoff score with proper PwD horizontal reservation handling.
+    PwD cutoff falls back to SC/ST or 0.65 * GEN (never to raw GEN).
+    """
+    if not d:
+        return None
+    if cat in ["PWD", "GEN_PWD", "OBC_PWD", "SC_PWD", "ST_PWD"]:
+        if "PWD" in d:
+            return d["PWD"]
+        if "SC" in d:
+            return d["SC"]
+        if "ST" in d:
+            return d["ST"]
+        if "GEN" in d:
+            return int(round(d["GEN"] * 0.65))
+        return None
+    return d.get(cat, d.get("GEN"))
+
+
 def compute_weighted_cutoff(item: Dict, category: str) -> int:
     """
     Calculates weighted moving average of previous years' cutoffs:
@@ -72,13 +92,13 @@ def compute_weighted_cutoff(item: Dict, category: str) -> int:
     Falls back gracefully if fewer years are recorded.
     """
     hist = item.get("historical_scores")
+    cat = category.upper()
     if hist and isinstance(hist, dict):
         sorted_years = sorted(hist.keys(), reverse=True)
-        cat = category.upper()
         scores = []
         for y in sorted_years:
             yr_dict = hist[y]
-            val = yr_dict.get(cat, yr_dict.get("GEN"))
+            val = get_cat_score_from_dict(yr_dict, cat)
             if val is not None:
                 scores.append(val)
 
@@ -93,7 +113,8 @@ def compute_weighted_cutoff(item: Dict, category: str) -> int:
 
     # Fallback to single cutoffs mapping
     cutoffs = item.get("cutoffs", {})
-    return int(cutoffs.get(category.upper(), cutoffs.get("GEN", 650)))
+    val = get_cat_score_from_dict(cutoffs, cat)
+    return int(val if val is not None else 650)
 
 
 def match_options_for_student(
@@ -125,6 +146,7 @@ def match_options_for_student(
     ccmt_matches: List[CollegeOption] = []
     psu_matches: List[PSUOption] = []
     interdisciplinary_matches: List[CollegeOption] = []
+    seen_college_keys: Set[tuple] = set()
 
     # Get permissible interdisciplinary program keywords
     eligible_specializations: Set[str] = set()
@@ -182,6 +204,11 @@ def match_options_for_student(
             counsellor_note=note,
         )
 
+        ckey = (opt.institution_name, opt.program_name, opt.counselling_body, opt.offer_type)
+        if ckey in seen_college_keys:
+            continue
+        seen_college_keys.add(ckey)
+
         if is_interdisc:
             interdisciplinary_matches.append(opt)
         else:
@@ -235,6 +262,11 @@ def match_options_for_student(
             counsellor_note=note,
         )
 
+        ckey = (opt.institution_name, opt.program_name, opt.counselling_body, opt.offer_type)
+        if ckey in seen_college_keys:
+            continue
+        seen_college_keys.add(ckey)
+
         if is_interdisc:
             interdisciplinary_matches.append(opt)
         else:
@@ -253,6 +285,8 @@ def match_options_for_student(
             max_age += 3
         elif effective_cat in ["SC", "ST"]:
             max_age += 5
+        elif effective_cat in ["PWD", "GEN_PWD", "OBC_PWD", "SC_PWD", "ST_PWD"]:
+            max_age += 10
 
         delta = gate_score - weighted_cutoff
 

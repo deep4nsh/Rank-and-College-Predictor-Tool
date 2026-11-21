@@ -8,6 +8,12 @@ from backend.app.core.grader import QuestionRule, StudentAnswer, grade_paper
 from backend.app.core.matcher import match_options_for_student
 from backend.app.core.normalizer import normalize_gate_score
 from backend.app.core.rank_spline import MonotonicRankEngine
+from backend.app.core.knowledge_base import (
+    get_branch_matrix,
+    get_ccmt_cutoffs,
+    get_coap_cutoffs,
+    get_psu_cutoffs,
+)
 from backend.app.db.models import (
     AnswerKeyItemModel,
     AnswerKeyModel,
@@ -21,16 +27,6 @@ from backend.app.db.session import get_db
 from backend.app.schemas.submission import StudentSubmissionCreateSchema
 
 router = APIRouter(prefix="/submissions", tags=["Student Submissions"])
-
-DATA_DIR = Path(__file__).resolve().parents[4] / "data"
-
-
-def load_json(filename: str):
-    p = DATA_DIR / filename
-    if p.exists():
-        with open(p, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return []
 
 
 def get_live_sessions_scores(paper_code: str, db: Session) -> dict:
@@ -185,10 +181,10 @@ def submit_student_exam_paper(
         btech_percentage=payload.btech_percentage,
         candidate_age=payload.candidate_age,
         has_valid_ncl=payload.has_valid_ncl,
-        historical_coap_data=load_json("cutoffs_coap.json"),
-        historical_ccmt_data=load_json("cutoffs_ccmt.json"),
-        historical_psu_data=load_json("cutoffs_psu.json"),
-        branch_matrix_data=load_json("branch_matrix.json"),
+        historical_coap_data=get_coap_cutoffs(),
+        historical_ccmt_data=get_ccmt_cutoffs(),
+        historical_psu_data=get_psu_cutoffs(),
+        branch_matrix_data=get_branch_matrix(),
     )
 
     # Store Evaluation Result in DB

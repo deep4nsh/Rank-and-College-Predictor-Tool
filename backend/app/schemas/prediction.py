@@ -1,5 +1,5 @@
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class CollegeOptionSchema(BaseModel):
@@ -10,6 +10,7 @@ class CollegeOptionSchema(BaseModel):
     historical_closing_score: int
     match_tier: str
     probability_pct: int
+    is_interdisciplinary: bool = False
     counsellor_note: str
 
 
@@ -40,6 +41,7 @@ class StudentPredictionReportSchema(BaseModel):
     air_range_min: int
     air_range_max: int
     lead_classification: str
-    coap_options: List[CollegeOptionSchema]
-    ccmt_options: List[CollegeOptionSchema]
-    psu_options: List[PSUOptionSchema]
+    coap_options: List[CollegeOptionSchema] = Field(default_factory=list)
+    ccmt_options: List[CollegeOptionSchema] = Field(default_factory=list)
+    psu_options: List[PSUOptionSchema] = Field(default_factory=list)
+    interdisciplinary_options: List[CollegeOptionSchema] = Field(default_factory=list)
