@@ -1,0 +1,50 @@
+[
+  {
+    "psu_name": "IOCL",
+    "post_name": "Graduate Apprentice Engineer (GAE)",
+    "paper_code": "CS",
+    "min_btech_pct": 65.0,
+    "max_age_general": 26,
+    "cutoffs": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 410 }
+  },
+  {
+    "psu_name": "ONGC",
+    "post_name": "Assistant Executive Engineer (AEE - Programming)",
+    "paper_code": "CS",
+    "min_btech_pct": 60.0,
+    "max_age_general": 28,
+    "cutoffs": { "GEN": 780, "OBC_NCL": 710, "EWS": 730, "SC": 530, "ST": 420 }
+  },
+  {
+    "psu_name": "NTPC",
+    "post_name": "Executive Trainee (IT)",
+    "paper_code": "CS",
+    "min_btech_pct": 65.0,
+    "max_age_general": 27,
+    "cutoffs": { "GEN": 730, "OBC_NCL": 660, "EWS": 680, "SC": 480, "ST": 380 }
+  },
+  {
+    "psu_name": "BHEL",
+    "post_name": "Engineer Trainee",
+    "paper_code": "ME",
+    "min_btech_pct": 65.0,
+    "max_age_general": 27,
+    "cutoffs": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 }
+  },
+  {
+    "psu_name": "IOCL",
+    "post_name": "Graduate Apprentice Engineer (Mechanical)",
+    "paper_code": "ME",
+    "min_btech_pct": 65.0,
+    "max_age_general": 26,
+    "cutoffs": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 }
+  },
+  {
+    "psu_name": "BARC",
+    "post_name": "Scientific Officer (OCES/DGFS)",
+    "paper_code": "ME",
+    "min_btech_pct": 60.0,
+    "max_age_general": 26,
+    "cutoffs": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 490, "ST": 380 }
+  }
+]

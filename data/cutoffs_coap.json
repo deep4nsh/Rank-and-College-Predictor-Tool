@@ -1,0 +1,72 @@
+[
+  {
+    "institution": "IIT Bombay",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "offer_type": "DIRECT_OFFER",
+    "cutoffs": { "GEN": 775, "OBC_NCL": 700, "EWS": 725, "SC": 520, "ST": 410 }
+  },
+  {
+    "institution": "IIT Bombay",
+    "program": "Artificial Intelligence & Data Science",
+    "paper_code": "CS",
+    "offer_type": "INTERVIEW_CALL",
+    "cutoffs": { "GEN": 750, "OBC_NCL": 670, "EWS": 700, "SC": 500, "ST": 390 }
+  },
+  {
+    "institution": "IIT Delhi",
+    "program": "Computer Technology",
+    "paper_code": "CS",
+    "offer_type": "DIRECT_OFFER",
+    "cutoffs": { "GEN": 760, "OBC_NCL": 685, "EWS": 710, "SC": 510, "ST": 400 }
+  },
+  {
+    "institution": "IIT Madras",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "offer_type": "DIRECT_OFFER",
+    "cutoffs": { "GEN": 755, "OBC_NCL": 680, "EWS": 705, "SC": 505, "ST": 395 }
+  },
+  {
+    "institution": "IIT Kanpur",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "offer_type": "DIRECT_OFFER",
+    "cutoffs": { "GEN": 745, "OBC_NCL": 670, "EWS": 695, "SC": 490, "ST": 380 }
+  },
+  {
+    "institution": "IIT Roorkee",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "offer_type": "DIRECT_OFFER",
+    "cutoffs": { "GEN": 715, "OBC_NCL": 640, "EWS": 665, "SC": 470, "ST": 360 }
+  },
+  {
+    "institution": "IIT Bombay",
+    "program": "Thermal & Fluids Engineering",
+    "paper_code": "ME",
+    "offer_type": "DIRECT_OFFER",
+    "cutoffs": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 380 }
+  },
+  {
+    "institution": "IIT Delhi",
+    "program": "Mechanical Design",
+    "paper_code": "ME",
+    "offer_type": "DIRECT_OFFER",
+    "cutoffs": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 495, "ST": 370 }
+  },
+  {
+    "institution": "IIT Madras",
+    "program": "Thermal Engineering",
+    "paper_code": "ME",
+    "offer_type": "DIRECT_OFFER",
+    "cutoffs": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 485, "ST": 360 }
+  },
+  {
+    "institution": "IIT Roorkee",
+    "program": "Machine Design",
+    "paper_code": "ME",
+    "offer_type": "DIRECT_OFFER",
+    "cutoffs": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 450, "ST": 340 }
+  }
+]

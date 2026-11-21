@@ -1,194 +1,303 @@
 # Physics Wallah (PW) In-House GATE Rank, College & PSU Predictor
-## Master System Blueprint & Phase-Wise Roadmap
+# Production Technical Specification & System Blueprint (v2.0)
 
 ---
 
-## 1. Executive Summary & Cost Analysis
+## 1. Executive Summary & Cost Philosophy
 
-### Do you need paid subscriptions, paid APIs, or expensive AI?
-**No. The entire system can be built 100% free with zero paid API dependencies and zero monthly software subscriptions.**
-
-* **Data Sourcing (Free):** All official cutoffs for CCMT (NITs/IIITs), COAP (IITs), and public sector undertakings (PSUs) are public record.
-* **Response Sheet Evaluation (Free):** Student response parsing uses open-source HTML/DOM parsers. No OCR or paid parser APIs required.
-* **Hosting & Database (Free / Low Cost):** Can run entirely on in-house PW infrastructure, local machines, or free/open-source stacks (PostgreSQL/SQLite, Python FastAPI, React/Streamlit).
-* **Where AI Fits (Optional & Free):**
-  * **Rule 1 (Golden Rule):** **Never use AI/LLMs for score calculation, normalization, or cutoff matching.** Calculations must be **100% deterministic, mathematical, and unbreachable**.
-  * **Rule 2 (Value-Add AI):** AI can be used optionally for generating qualitative counsellor talking points (e.g., *"Student lost 14 marks in negative marking. Strong in Algorithms, weak in OS. High chance for NIT Trichy CSE; advise applying to IOCL"*). This can be powered by free-tier APIs or local open-weights models (Ollama/Llama 3).
+### The 100% Free, Zero-Subscription Guarantee
+This software requires **zero paid software licenses, zero paid third-party APIs, and zero ongoing cloud subscriptions**:
+* **Deterministic Core:** All scoring, normalization, statistical rank prediction, and cutoff matching algorithms are **100% mathematical, rule-based, and auditable**. No probabilistic LLM hallucinations in the decision pipeline.
+* **Data Independence:** Official cutoffs for CCMT (NITs/IIITs), COAP (IITs), and PSUs are public records. Scraping, standardizing, and embedding them into a local/internal database creates an enduring, proprietary institutional asset for Physics Wallah.
+* **Open-Source Stack:** Python (FastAPI, NumPy, SciPy, Pydantic v2), PostgreSQL/SQLite (with WAL mode), and modern reactive frontends (React / Next.js or Streamlit for ops).
 
 ---
 
-## 2. The Real-World Exam-Day Workflow (The Two-Phase Lifecycle)
-
-This system is specifically architected for the high-stakes **Exam Day (Day 0)** window when student emotions, search traffic, and counselling intent are at their absolute peak:
+## 2. Complete Entity-Relationship Architecture
 
 ```mermaid
-sequenceDiagram
-    autonumber
-    actor Student
-    actor Faculty as PW Faculty / Subject Experts
-    participant WebApp as PW Fillable Exam Portal
-    participant Engine as Deterministic Scoring Engine
-    actor Counsellor as PW Counselling Team
-    actor IIT as Organizing IIT (Official)
+erDiagram
+    PAPERS ||--o{ QUESTIONS : contains
+    PAPERS ||--o{ ANSWER_KEYS : has_versions
+    ANSWER_KEYS ||--o{ ANSWER_KEY_ITEMS : defines
+    QUESTIONS ||--o{ ANSWER_KEY_ITEMS : keyed_by
+    PAPERS ||--o{ STUDENT_SUBMISSIONS : receives
+    STUDENT_SUBMISSIONS ||--o{ STUDENT_RESPONSES : includes
+    QUESTIONS ||--o{ STUDENT_RESPONSES : answers
+    STUDENT_SUBMISSIONS ||--o| EVALUATION_RESULTS : produces
+    EVALUATION_RESULTS ||--o{ PREDICTION_RECORDS : generates
 
-    Note over Student, Counsellor: PHASE 1: EXAM DAY (HOURS 0 TO 24)
-    Student->>WebApp: Opens branch paper (e.g., CS, ME, EE) & submits marked answers
-    Faculty->>WebApp: Solves paper & publishes "PW Faculty Answer Key (v1)"
-    WebApp->>Engine: Evaluates student answers against PW Faculty Key
-    Engine-->>Counsellor: Instant student dashboard with Predicted Score, AIR & College/PSU matches
-    Counsellor->>Student: Reaches out same-day with data-backed guidance & PW batch/counselling road-map
+    PAPERS {
+        string paper_code PK "e.g., CS, ME, CE, EE"
+        int year "e.g., 2025"
+        int session_id "1 or 2 (multi-session)"
+        boolean is_multi_session
+        int total_questions "65"
+        int total_marks "100"
+    }
 
-    Note over Student, IIT: PHASE 2: OFFICIAL RELEASE (1-2 WEEKS LATER)
-    IIT->>WebApp: Releases Official Master Answer Key & Challenge resolutions
-    Faculty->>WebApp: Uploads "Official IIT Key (v2)"
-    WebApp->>Engine: 1-Click batch re-evaluation of all submitted student papers
-    Engine-->>Counsellor: Updates student profile with exact delta (e.g., +2 marks) & revised predictions
+    QUESTIONS {
+        string question_id PK "UUID or slug"
+        string paper_code FK
+        int question_number "1 to 65"
+        string section "APTITUDE or CORE"
+        string question_type "MCQ, MSQ, or NAT"
+        decimal marks_correct "1.0 or 2.0"
+        decimal marks_negative "0.333, 0.667, or 0.0"
+        string subject_tag "e.g., Data Structures"
+    }
+
+    ANSWER_KEYS {
+        string key_id PK "UUID"
+        string paper_code FK
+        int version "1, 2, 3..."
+        string key_type "FACULTY_EXAM_DAY or OFFICIAL_IIT"
+        string author_name "e.g., PW Faculty Panel"
+        string status "ACTIVE, DRAFT, or ARCHIVED"
+        datetime published_at
+    }
+
+    ANSWER_KEY_ITEMS {
+        string item_id PK
+        string key_id FK
+        string question_id FK
+        boolean is_mta "Marks to All"
+        json valid_options "e.g., [['A'], ['B']] or [['A', 'C']]"
+        decimal nat_min "Lower bound"
+        decimal nat_max "Upper bound"
+    }
+
+    STUDENT_SUBMISSIONS {
+        string submission_id PK "UUID"
+        string student_phone "10-digit Indian Mobile"
+        string student_name
+        string student_email
+        string student_category "GEN, OBC_NCL, EWS, SC, ST, PWD"
+        string pw_batch_id "e.g., Parakram_2025"
+        string paper_code FK
+        int session_id
+        datetime submitted_at
+        boolean is_active "Latest submission toggle"
+    }
+
+    STUDENT_RESPONSES {
+        string response_id PK
+        string submission_id FK
+        string question_id FK
+        string status "ATTEMPTED, SKIPPED, MARKED_REVIEW"
+        json student_options "e.g., ['A', 'C']"
+        string student_nat_value "Raw string input"
+    }
+
+    EVALUATION_RESULTS {
+        string eval_id PK
+        string submission_id FK
+        string key_id FK
+        decimal raw_score_total
+        decimal raw_score_aptitude
+        decimal raw_score_core
+        decimal marks_lost_to_negatives
+        int correct_count
+        int incorrect_count
+        int unattempted_count
+        decimal normalized_marks
+        int gate_score "0 to 1000"
+        int estimated_air_min
+        int estimated_air_max
+        datetime evaluated_at
+    }
+
+    PREDICTION_RECORDS {
+        string prediction_id PK
+        string eval_id FK
+        string target_type "IIT_COAP, NIT_CCMT, or PSU"
+        string institution_name
+        string program_or_post
+        string match_tier "AMBITIOUS, TARGET, or SAFE"
+        string offer_type "DIRECT_OFFER or INTERVIEW_CALL"
+        json eligibility_flags "Age, B.Tech %, NCL status"
+    }
 ```
 
 ---
 
-## 3. Core Architectural Components
+## 3. Strict Mathematical Engine Specifications
 
-```mermaid
-flowchart TD
-    subgraph Ingestion ["1. Student Input & Response Capture"]
-        A1["Interactive Web Exam Form<br/>(MCQ / MSQ / NAT)"]
-        A2["TCS iON Response Sheet URL<br/>(Auto Scraper)"]
-        A3["Counsellor Manual Entry<br/>(Fast Walk-in Mode)"]
-    end
+### 3.1 Deterministic Marking Engine (Zero Floating-Point Error)
+To eliminate floating-point drift (such as `1.0 - 0.3333333333333333 = 0.6666666666666667`), calculations use **Rational Fractional Arithmetic** or Python's exact `Decimal`:
 
-    subgraph Evaluation ["2. Deterministic Scoring Engine"]
-        B1["Master Question Paper & Answer Key Store"]
-        B2["Scoring Rules Engine<br/>(+1/-0.33, +2/-0.66, MSQ/NAT zero neg)"]
-        B3["Raw Score & Sectional Breakdown<br/>(Aptitude vs Core)"]
-    end
+$$\text{Thirds}(x) = x \times 3$$
 
-    subgraph Normalization ["3. GATE Statistical Engine"]
-        C1["Session Statistics Accumulator<br/>(Mean, StdDev, Top 0.1%)"]
-        C2["Official Multi-Session Normalization Formula"]
-        C3["GATE Score (out of 1000) & AIR Predictor"]
-    end
+| Type | Correct Evaluation Condition | Correct Marks | Incorrect Penalty | Unattempted / Invalid |
+| :--- | :--- | :--- | :--- | :--- |
+| **1-Mark MCQ** | $O_{\text{student}} \in \text{ValidKeys}$ | $+1.0$ (or $+3/3$) | $-1/3$ (or $-1/3$) | $0.0$ |
+| **2-Mark MCQ** | $O_{\text{student}} \in \text{ValidKeys}$ | $+2.0$ (or $+6/3$) | $-2/3$ (or $-2/3$) | $0.0$ |
+| **1-Mark MSQ** | $\text{Set}(O_{\text{student}}) \in \text{ValidOptionSets}$ | $+1.0$ (or $+3/3$) | $0.0$ (No negative) | $0.0$ |
+| **2-Mark MSQ** | $\text{Set}(O_{\text{student}}) \in \text{ValidOptionSets}$ | $+2.0$ (or $+6/3$) | $0.0$ (No negative) | $0.0$ |
+| **1-Mark NAT** | $\text{NAT}_{\min} - 10^{-5} \le V_{\text{clean}} \le \text{NAT}_{\max} + 10^{-5}$ | $+1.0$ (or $+3/3$) | $0.0$ (No negative) | $0.0$ |
+| **2-Mark NAT** | $\text{NAT}_{\min} - 10^{-5} \le V_{\text{clean}} \le \text{NAT}_{\max} + 10^{-5}$ | $+2.0$ (or $+6/3$) | $0.0$ (No negative) | $0.0$ |
+| **MTA (Any)** | Key has `is_mta == True` | Full Marks ($+1$ or $+2$) | $0.0$ | Full Marks ($+1$ or $+2$) |
 
-    subgraph PredictionEngine ["4. Three-Tier Prediction Engine"]
-        D1["IITs / IISc Engine<br/>(COAP Round 1-5 + Additional Rounds)"]
-        D2["NITs / IIITs / CFTIs Engine<br/>(CCMT Rounds 1-3 + Special + NSR)"]
-        D3["PSU Recruitment Engine<br/>(IOCL, ONGC, NTPC, HPCL, BARC, etc.)"]
-    end
-
-    subgraph OpsPortal ["5. PW Counsellor Operations Dashboard"]
-        E1["Student Lookup & CRM Profile"]
-        E2["Categorized Choice Lists<br/>(Ambitious / Target / Safe)"]
-        E3["1-Click PW Branded PDF / WhatsApp Report"]
-    end
-
-    Ingestion --> Evaluation
-    Evaluation --> Normalization
-    Normalization --> PredictionEngine
-    PredictionEngine --> OpsPortal
-```
+*NAT String Sanitization Pipeline:*
+1. Strip leading/trailing whitespaces: `val.strip()`.
+2. Convert international commas to dots: `val.replace(',', '.')`.
+3. Validate numeric syntax via regex: `^[-+]?(?:\d*\.?\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?$`.
+4. Parse directly into `Decimal(val)`.
 
 ---
 
-## 4. Deep-Dive: Core Subsystems
+### 3.2 Anti-Data Poisoning & Multi-Session Normalization
 
-### Subsystem 1: The Exam & Response Capture Engine
+On Exam Day, open submission portals are vulnerable to troll submissions (e.g., automated bots submitting scores of 100 or 0 to manipulate shift averages). The engine includes **Statistical Outlier Scrubbing**:
 
-The tool handles the exact operational reality of GATE exam season:
-1. **Exam Day Fillable Web Paper (Hour 0 to 24):**
-   * As soon as an exam shift ends, students land on the PW portal.
-   * Student selects their branch (e.g., Computer Science, Mechanical, Civil, Electrical).
-   * They see an interactive 65-question fillable form (matching the GATE pattern: General Aptitude 1-10, Core 11-65).
-   * Supports all 3 question mechanics:
-     * **MCQ (Single Choice):** Options A, B, C, D radio select.
-     * **MSQ (Multi Select):** Options A, B, C, D multi-select checkboxes.
-     * **NAT (Numerical Answer):** Clean virtual numeric input box for numerical values.
-   * Student clicks "Submit Paper & Get My Predicted Colleges".
-2. **Versioned Answer Key Architecture (Faculty vs Official):**
-   * **Stage 1 (Exam Day):** PW Subject Experts/Faculty live-solve the paper and enter the **PW Faculty Key (Version 1)**. The moment a student submits, their paper is immediately graded against this faculty key.
-   * **Stage 2 (Key Revision):** If faculty amends any question based on internal consensus, the system flags it as `Version 1.1` and re-runs grading instantly.
-   * **Stage 3 (Official IIT Key Release):** 1-2 weeks later, the organizing IIT publishes the official answer key. The admin uploads the **Official Master Key (Version 2)**. The engine runs a 1-click batch re-evaluation across all student records, showing the exact score delta (e.g., *"+3 marks gained after official key"*).
-3. **Official Response Sheet (TCS iON) Mode (Post-Release Fallback):**
-   * For students who did not fill out the exam-day form, they can simply paste their official response sheet URL once released. The scraper auto-populates the answers and runs the exact same grading pipeline.
-   * Students can submit responses *before* the answer key is published.
-   * As soon as PW faculty releases the provisional key or IIT publishes the official master key, an automated batch job evaluates thousands of stored responses in under 10 seconds.
+#### Anti-Poisoning Filter:
+* Exclude submissions with duplicate IP + User-Agent within 60 seconds.
+* Compute the **Interquartile Range (IQR)** of shift submissions:
+  $$\text{IQR} = Q_3 - Q_1$$
+* Outliers below $Q_1 - 2.5 \times \text{IQR}$ or above $Q_3 + 2.5 \times \text{IQR}$ are isolated from normalization statistics.
 
-### Subsystem 2: GATE Evaluation & Normalization Engine
+#### Official GATE Multi-Session Normalization Formula:
+For multi-session papers (CS, ME, CE, EE, EC) when shift sample $N_i \ge 100$:
 
-#### 1. Exact Marking Scheme
-* **1-Mark MCQ:** $+1.0$ for correct, $-0.333$ for incorrect.
-* **2-Mark MCQ:** $+2.0$ for correct, $-0.667$ for incorrect.
-* **1-Mark MSQ:** $+1.0$ if and only if exact option set matches; $0$ otherwise (no negative).
-* **2-Mark MSQ:** $+2.0$ if and only if exact option set matches; $0$ otherwise (no negative).
-* **1-Mark NAT:** $+1.0$ if $Value_{min} \le Answer \le Value_{max}$; $0$ otherwise.
-* **2-Mark NAT:** $+2.0$ if $Value_{min} \le Answer \le Value_{max}$; $0$ otherwise.
-
-#### 2. Multi-Session Normalization (For CS, ME, CE, EE)
 $$\hat{M}_{ij} = \frac{\bar{M}_t^g - M_q^g}{\bar{M}_{ti} - M_{iq}} (M_{ij} - M_{iq}) + M_q^g$$
 
-* Using PW's internal student submissions per shift, the system dynamically calculates $\bar{M}_{ti}$ (shift top 0.1% mean) and $M_{iq}$ (shift mean + std dev).
-* Calculates Normalized Marks $\hat{M}$ and maps to **GATE Score ($S$)** out of 1000:
-$$S = S_q + (S_t - S_q) \frac{\hat{M} - M_q}{\bar{M}_t - M_q}$$
-*(Where $S_q = 350$ typically for qualifying marks $M_q$, and $S_t = 900$ for top 0.1% marks $\bar{M}_t$).*
+Where:
+* $M_{ij}$ = Actual raw marks of candidate $j$ in session $i$.
+* $\bar{M}_t^g$ = Average marks of top 0.1% candidates across all sessions combined.
+* $M_q^g$ = $\mu_{\text{all}} + \sigma_{\text{all}}$ (Mean + Standard deviation across all sessions).
+* $\bar{M}_{ti}$ = Average marks of top 0.1% candidates in session $i$.
+* $M_{iq}$ = $\mu_i + \sigma_i$ (Mean + Standard deviation in session $i$).
+
+#### Safety Fallback:
+If $N_i < 100$ or if $\sigma_i < 10^{-4}$ (preventing division-by-zero):
+$$\hat{M}_{ij} = M_{ij} \times \text{HistoricalShiftDifficultyMultiplier}(i)$$
 
 ---
 
-### Subsystem 3: Three-Tier Prediction Engine
+### 3.3 GATE Score & AIR Prediction (PCHIP Spline Model)
 
-#### Tier A: IITs & IISc (COAP Cutoff Engine)
-* Predicts across 23 IITs and IISc Bangalore.
-* Differentiates between:
-  * **Direct Admission Offers** (high GATE scores, no interview).
-  * **Written Test / Interview Shortlist Calls** (e.g., MS by Research, IIT Madras/IIT Delhi interdisciplinary programs).
-* Supports **Interdisciplinary Specializations** (e.g., a Mechanical student eligible for Materials Science, Robotics, or Data Science).
+#### GATE Score Formula (Out of 1000):
+$$S = S_q + (S_t - S_q) \left( \frac{\hat{M} - M_q}{\bar{M}_t - M_q} \right)$$
+* Clamped strictly to integer range $[100, 1000]$.
+* Where $S_q = 350$ (Qualifying threshold score), $S_t = 900$.
 
-#### Tier B: NITs, IIITs & CFTIs (CCMT Cutoff Engine)
-* Comprehensive historical database (last 3-5 years) of Opening and Closing GATE scores.
-* Models round-by-round movement:
-  * **Regular Rounds (Rounds 1, 2, 3)**
-  * **Special Rounds (SR1, SR2)**
-  * **National Spot Round (NSR)**
-* Full reservation category support: **General, EWS, OBC-NCL, SC, ST, PwD**.
-
-#### Tier C: PSU Recruitment Predictor
-* Covers major PSUs recruiting through GATE: **IOCL, ONGC, NTPC, BHEL, GAIL, HPCL, BPCL, PGCIL, BARC, DRDO, NPCIL, BIS, CIL**.
-* Predicts probability of:
-  * **Interview Shortlist Call** (based on historical shortlisting GATE score / rank).
-  * **Final Selection Threshold** (factoring in 70-85% GATE score weightage + 15-30% GD/GT/Interview weightage).
+#### All India Rank (AIR) Engine:
+Using historical anchor points $(Score_k, Rank_k)$ for the target branch, the engine applies **Piecewise Cubic Hermite Interpolating Polynomials (PCHIP)**:
+$$\frac{d(\text{AIR})}{d(\text{Score})} < 0 \quad (\text{Strict Monotonicity Guaranteed})$$
+* **Guarantee:** A candidate with a higher score will **never** receive a worse rank.
+* Output: A calibrated band e.g., $\text{AIR} \in [145, 180]$ to account for faculty key variations.
 
 ---
 
-### Subsystem 4: Counsellor Operations Dashboard
+## 4. Comprehensive 24-Point Edge-Case & Safeguard Matrix
 
-Built specifically for high-velocity internal counseling operations:
-1. **Instant Student Lookup:** Search by Student ID, Phone Number, Email, or Candidate Name.
-2. **Performance Diagnostic:**
-   * Raw Marks, Normalized Marks, GATE Score, Estimated AIR range.
-   * Section breakdown: General Aptitude vs Engineering Mathematics vs Core Technical.
-   * "Marks Lost to Negatives" — a powerful counseling metric showing how many marks were surrendered to negative marking.
-3. **Choice-Filling Recommendation Matrix:**
-   * **Ambitious (Dream):** Cutoff is 15-40 score points higher than student's score (spot round / interview conversion chances).
-   * **Target (Realistic):** Student's score falls within $\pm 15$ points of historical closing score.
-   * **Safe (Backup):** Historical closing score is at least 30+ points below student's score ($>85\%$ admission certainty).
-4. **1-Click Shareable PW Report:**
-   * Clean PDF or formatted WhatsApp message summarizing the student's best options, ready to send before hanging up the call.
+```
+[EXAM MECHANICS]          [MATHEMATICAL CORE]       [COUNSELLING LOGIC]       [OPS & CONCURRENCY]
+A1. Marks to All (MTA)    B1. Float Drift (-1/3)    C1. COAP Direct vs Int.   D1. Concurrency Spike
+A2. Multi-Key MCQ/MSQ     B2. Div-by-Zero (Stats)   C2. Cross-Discipline      D2. Student Re-submit
+A3. NAT Scientific/Zeros  B3. Single-Session Code   C3. PSU Age/B.Tech %      D3. Faculty Key Drift
+A4. MSQ Zero Partial      B4. Bound Clamping [0-100] C4. OBC-NCL Validity      D4. Fake Mobile No.
+A5. Shuffled Sequence     B5. Outlier Spam Defense  C5. Boundary Rank Tie     D5. Offline Fallback
+A6. Dropped Shifts        B6. Negative Total Marks  C6. Sponsored/Self-Fin.   D6. Audit Preserv.
+```
+
+### Deep-Dive on High-Risk Cases:
+
+1. **Case A5: Question Shuffling in CBT:**
+   * *Problem:* Candidate recalls: "My question 12 was a Dijkstra algorithm problem", but the official paper has it as question 34.
+   * *Solution:* Questions are internally addressed by an immutable hash `topic_slug_hash` (e.g., `CS25-ALGO-DIJKSTRA-01`). When the official master question paper is uploaded, questions are linked via this slug, auto-remapping answers without losing student choices.
+
+2. **Case C1: COAP Direct Offer vs. Interview Call Shortlist:**
+   * *Problem:* A student with a 720 score gets excited thinking they got direct IIT Bombay CSE. In reality, IIT Bombay only shortlists for a coding test + interview at that score.
+   * *Solution:* The database separates `admission_mode`:
+     * `DIRECT_OFFER`: Guaranteed or high-probability seat offer.
+     * `INTERVIEW_CALL`: Candidate meets shortlist criteria for written test / interview stage.
+
+3. **Case C3: Non-GATE Disqualifiers in PSUs:**
+   * *Problem:* Predicting PSU selection for a student with AIR 150 who is disqualified due to age or B.Tech marks.
+   * *Solution:* The recommendation query enforces hard eligibility filters:
+     * Check: `btech_percentage >= psu.min_btech_pct` (Default: 65%).
+     * Check: `candidate_age <= psu.max_age_general` (Adjusted for OBC/SC/ST).
+     * If failed, option is flagged as `DISQUALIFIED_BY_CRITERIA` with clear explanation to counsellor.
+
+4. **Case D3: Live Faculty Key Amendments:**
+   * *Problem:* At 2:00 PM, PW faculties publish Key v1.0. At 4:30 PM, they revise Question 42 from B to C.
+   * *Solution:* `AnswerKey` uses immutable versioning. Publishing `v1.1` triggers an asynchronous batch job:
+     ```python
+     @app.post("/api/v1/keys/{key_id}/publish")
+     async def publish_key(key_id: str, background_tasks: BackgroundTasks):
+         background_tasks.add_task(re_evaluate_all_submissions_for_key, key_id)
+     ```
+     This recalculates 10,000 students in under 3 seconds using vectorized NumPy queries.
 
 ---
 
-## 4. Phase-Wise Development Plan
+## 5. Counsellor Decision Engine & Lead Priority Architecture
 
-| Phase | Duration | Core Deliverables | Success Criteria |
+To empower PW counsellors, every evaluated submission is automatically tagged with a **Lead Action Classification**:
+
+| Lead Classification | GATE Score Band | Expected AIR | Operational Counsellor Action |
 | :--- | :--- | :--- | :--- |
-| **Phase 1: Foundations & Core Mathematical Engine** | Week 1–2 | • Database Schema (PostgreSQL/SQLite)<br/>• GATE Evaluation Engine (MCQ, MSQ, NAT)<br/>• Multi-session Normalization & Score Algorithm<br/>• Unit tests covering all edge-case markings | 100% test coverage on scoring edge cases (negative marks, NAT ranges, multi-select MSQs). |
-| **Phase 2: Historical Cutoffs & Prediction Core** | Week 3–4 | • Ingestion pipelines for CCMT (NITs/IIITs) 3-5 yr data<br/>• Ingestion of COAP (IITs) cutoff tables<br/>• Ingestion of PSU shortlisting cutoff scores<br/>• 3-Tier Categorization (Ambitious / Target / Safe) | Accuracy verified against previous year actual allotments with zero missing category filters. |
-| **Phase 3: Student Response Capture & Web Forms** | Week 5–6 | • Online Sample Paper / Response Submission Form<br/>• TCS iON Response Sheet URL Scraper<br/>• Decoupled Answer Key Management Portal<br/>• Instant Batch Re-evaluation worker | 1,000 student response sheets evaluated in $<5$ seconds upon answer key update. |
-| **Phase 4: Counsellor Operations Portal** | Week 7–8 | • Fast Counsellor Search & Student Profile UI<br/>• Interactive Preference Builder (Branch & Location filters)<br/>• 1-Click PDF Report Generator (PW Branded)<br/>• WhatsApp-ready summary generator | Counsellor can pull up student and generate custom list in $< 30$ seconds on a live call. |
-| **Phase 5: Pilot, Stress Testing & Deployment** | Week 9 | • Load testing with simulated 50k student submissions<br/>• Counsellor team training & feedback loop<br/>• Production deployment on PW internal server/cloud | Zero downtime, instant search, zero math hallucinations. |
+| **SUPER_TOPPER** | $820 - 1000$ | Top 100 | • Immediate alert to PW Felicitation / PR Team.<br/>• Direct mentorship connection with top faculty.<br/>• COAP Choice Filling: Direct offers at IITB, IITD, IISc. |
+| **PSU_AND_TOP_IIT** | $700 - 819$ | $101 - 500$ | • Immediate call within 2 hours.<br/>• Provide PSU Shortlist Probability Sheet (IOCL, NTPC, ONGC).<br/>• COAP Strategy: Top 5 IITs Core Branches. |
+| **NIT_PROSPECT** | $550 - 699$ | $501 - 2500$ | • CCMT Choice List: NIT Trichy, Warangal, Surathkal.<br/>• Cross-Disciplinary IIT options (AI, Data Science, Energy). |
+| **NURTURE_REPEATER** | $< 450$ | $> 5000$ | • Empathetic academic diagnosis call.<br/>• Highlight marks lost to negative marking.<br/>• Pathway to PW Dropper / Next-Year Target Batches. |
 
 ---
 
-## 5. Unbreakable System Principles (Safeguards)
+## 6. Target Project Repository Structure
 
-1. **Zero Math Hallucination:** No prediction is generated by an LLM prompt. All predictions are strict SQL queries and mathematical comparisons against verified historical cutoff records.
-2. **Immutable Audit Trail:** When a student's paper is evaluated, both the raw submitted payload and the evaluated score breakdown are timestamped and preserved.
-3. **Graceful Handling of Answer Key Revisions:** GATE answer keys frequently change after objections (e.g., Marks to All (MTA), multiple correct keys for NAT). The system can re-run all student evaluations with a single click without data corruption.
-4. **Zero-Latency Offline Capability:** The core matching engine can run entirely offline or in a lightweight SQLite container without depending on external web services.
+```
+Rank-and-College-Predictor-Tool/
+├── GATE_SYSTEM_BLUEPRINT_AND_ROADMAP.md   # Master Spec Document
+├── README.md
+├── requirements.txt                      # FastAPI, Pydantic, NumPy, SciPy, SQLAlchemy
+├── pytest.ini
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── main.py                       # FastAPI Application entrypoint
+│   │   ├── api/                          # REST API Routes
+│   │   │   ├── v1/
+│   │   │   │   ├── submissions.py        # Student paper submission & retrieval
+│   │   │   │   ├── keys.py               # Faculty & Official Answer Key management
+│   │   │   │   ├── predictor.py          # College & PSU recommendation endpoints
+│   │   │   │   └── counsellor.py         # Ops dashboard search & export APIs
+│   │   ├── core/                         # Pure Mathematical & Grader Engine
+│   │   │   ├── grader.py                 # Deterministic MCQ, MSQ, NAT scoring
+│   │   │   ├── normalizer.py             # GATE multi-session formula & outlier scrub
+│   │   │   ├── rank_spline.py            # PCHIP monotonic score-to-rank engine
+│   │   │   └── matcher.py                # 3-tier Ambitious/Target/Safe classifier
+│   │   ├── db/                           # Persistence Layer
+│   │   │   ├── session.py                # SQLite (WAL mode) / PostgreSQL connection
+│   │   │   └── models.py                 # SQLAlchemy declarative schema
+│   │   ├── schemas/                      # Pydantic v2 validation contracts
+│   │   │   ├── submission.py
+│   │   │   ├── key.py
+│   │   │   └── prediction.py
+│   │   └── services/                     # Business Logic & Scrapers
+│   │       ├── response_sheet_parser.py  # TCS iON response sheet HTML scraper
+│   │       └── report_generator.py       # Branded PW 1-page PDF / WhatsApp summary
+├── data/                                 # Seed & Historical Knowledge Base
+│   ├── cutoffs_ccmt.json                 # NITs/IIITs cutoffs (3-5 years)
+│   ├── cutoffs_coap.json                 # IITs cutoffs & admission modes
+│   ├── cutoffs_psu.json                  # PSU historical shortlisting scores
+│   └── branch_matrix.json                # Interdisciplinary cross-branch rules
+└── tests/                                # Military-Grade Test Suite
+    ├── test_grader.py                    # Edge cases: MTA, multi-key, NAT formats
+    ├── test_normalizer.py                # Shift normalization, outlier suppression
+    ├── test_rank_spline.py               # Monotonicity & boundary tests
+    └── test_matcher.py                   # COAP/CCMT category & quota tests
+```
+
+---
+
+## 7. Concrete Phase-Wise Roadmap
+
+| Phase | Milestone | Deliverables | Verification Metric |
+| :--- | :--- | :--- | :--- |
+| **Phase 1** | **Deterministic Math Core** | `grader.py`, `normalizer.py`, `models.py`, `schemas/` | 100% pass on 40+ unit test edge cases (MCQ, MSQ, NAT, MTA). |
+| **Phase 2** | **Historical Cutoff Database & 3-Tier Matcher** | Ingestion of CCMT, COAP, and PSU datasets + `matcher.py` | Verified against actual 2023/2024 allotments with zero category errors. |
+| **Phase 3** | **Interactive Web Exam Paper & Key Management** | Exam Day fillable form + Versioned Answer Key admin portal | Student paper submission and grading roundtrip in $< 200\text{ ms}$. |
+| **Phase 4** | **Counsellor Operations Dashboard & Reports** | Search, Lead Priority Badging, 1-Click PDF Report | Counsellor can generate a customized report in $< 20\text{ seconds}$ on a live call. |
+| **Phase 5** | **Stress Testing & Deployment** | 10,000 concurrent submissions simulation, WAL mode tuning | Zero database locks, zero floating-point rounding errors. |

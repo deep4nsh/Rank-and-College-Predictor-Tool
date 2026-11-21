@@ -1,0 +1,50 @@
+[
+  {
+    "institution": "NIT Trichy",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "cutoffs": { "GEN": 680, "OBC_NCL": 615, "EWS": 640, "SC": 440, "ST": 330 }
+  },
+  {
+    "institution": "NIT Surathkal",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "cutoffs": { "GEN": 665, "OBC_NCL": 600, "EWS": 625, "SC": 425, "ST": 320 }
+  },
+  {
+    "institution": "NIT Warangal",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "cutoffs": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 }
+  },
+  {
+    "institution": "NIT Rourkela",
+    "program": "Computer Science",
+    "paper_code": "CS",
+    "cutoffs": { "GEN": 615, "OBC_NCL": 550, "EWS": 575, "SC": 385, "ST": 290 }
+  },
+  {
+    "institution": "NIT Calicut",
+    "program": "Computer Science & Engineering",
+    "paper_code": "CS",
+    "cutoffs": { "GEN": 595, "OBC_NCL": 530, "EWS": 555, "SC": 365, "ST": 275 }
+  },
+  {
+    "institution": "NIT Trichy",
+    "program": "Thermal Power Engineering",
+    "paper_code": "ME",
+    "cutoffs": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 }
+  },
+  {
+    "institution": "NIT Surathkal",
+    "program": "Design & Precision Engineering",
+    "paper_code": "ME",
+    "cutoffs": { "GEN": 635, "OBC_NCL": 570, "EWS": 595, "SC": 400, "ST": 300 }
+  },
+  {
+    "institution": "NIT Warangal",
+    "program": "Manufacturing Engineering",
+    "paper_code": "ME",
+    "cutoffs": { "GEN": 605, "OBC_NCL": 540, "EWS": 565, "SC": 375, "ST": 280 }
+  }
+]
