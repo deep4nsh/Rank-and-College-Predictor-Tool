@@ -98,6 +98,10 @@ def process_bulk_import(file_content: str, db: Session) -> BulkImportResult:
     psu_data = get_psu_cutoffs()
     branch_matrix = get_branch_matrix()
 
+    # In-memory caches for batch performance
+    rank_engines: Dict[str, MonotonicRankEngine] = {}
+    rules_cache: Dict[str, Optional[tuple]] = {}
+
     for idx, row in enumerate(raw_rows, start=2):  # start=2 considering header line
         phone = row.get("student_phone", row.get("phone", "")).strip()
         name = row.get("student_name", row.get("name", "")).strip()
@@ -156,7 +160,9 @@ def process_bulk_import(file_content: str, db: Session) -> BulkImportResult:
         db.add(sub)
         db.flush()
 
-        rank_engine = MonotonicRankEngine(paper_code)
+        if paper_code not in rank_engines:
+            rank_engines[paper_code] = MonotonicRankEngine(paper_code)
+        rank_engine = rank_engines[paper_code]
 
         # Mode 1: Check if direct score columns exist (raw_score or gate_score)
         raw_score_str = row.get("raw_score", row.get("score", ""))
@@ -211,19 +217,63 @@ def process_bulk_import(file_content: str, db: Session) -> BulkImportResult:
                 lead_dist[rec.lead_classification] = lead_dist.get(rec.lead_classification, 0) + 1
                 continue
             except Exception as e:
+                db.delete(sub)
                 fail_count += 1
                 errors.append({"row_number": idx, "student_phone": phone, "error": f"Direct score parsing error: {str(e)}"})
                 continue
 
         # Mode 2: Detailed response evaluation via active answer key
-        active_key = (
-            db.query(AnswerKeyModel)
-            .filter(AnswerKeyModel.paper_code == paper_code, AnswerKeyModel.status == "ACTIVE")
-            .order_by(AnswerKeyModel.version.desc())
-            .first()
-        )
+        if paper_code not in rules_cache:
+            active_key = (
+                db.query(AnswerKeyModel)
+                .filter(AnswerKeyModel.paper_code == paper_code, AnswerKeyModel.status == "ACTIVE")
+                .order_by(AnswerKeyModel.version.desc())
+                .first()
+            )
 
-        if not active_key:
+            if not active_key:
+                rules_cache[paper_code] = None
+            else:
+                key_items = db.query(AnswerKeyItemModel).filter(AnswerKeyItemModel.key_id == active_key.key_id).all()
+                q_map = {q.question_id: q for q in db.query(QuestionModel).filter(QuestionModel.paper_code == paper_code).all()}
+
+                p_rules = []
+                for item in key_items:
+                    q_meta = q_map.get(item.question_id)
+                    q_type = q_meta.question_type if q_meta else "MCQ"
+                    section = q_meta.section if q_meta else "CORE"
+                    marks_corr = Fraction(2, 1) if (q_meta and q_meta.marks_correct == 2.0) else Fraction(1, 1)
+                    marks_neg = Fraction(2, 3) if marks_corr == 2 else Fraction(1, 3)
+
+                    valid_mcq = []
+                    valid_msq = []
+                    if item.valid_options_json:
+                        parsed = json.loads(item.valid_options_json)
+                        if q_type == "MCQ":
+                            valid_mcq = [opt[0] for opt in parsed if opt]
+                        elif q_type == "MSQ":
+                            valid_msq = [{str(o) for o in opt_set} for opt_set in parsed]
+
+                    p_rules.append(
+                        QuestionRule(
+                            question_id=item.question_id,
+                            question_number=q_meta.question_number if q_meta else 1,
+                            question_type=q_type,
+                            section=section,
+                            marks_correct=marks_corr,
+                            marks_negative=Fraction(0, 1) if q_type in ["MSQ", "NAT"] else marks_neg,
+                            is_mta=item.is_mta,
+                            valid_mcq_options=valid_mcq,
+                            valid_msq_sets=valid_msq,
+                            nat_min=Decimal(str(item.nat_min)) if item.nat_min is not None else None,
+                            nat_max=Decimal(str(item.nat_max)) if item.nat_max is not None else None,
+                        )
+                    )
+                rules_cache[paper_code] = (active_key, p_rules)
+
+        cached_entry = rules_cache.get(paper_code)
+        if not cached_entry:
+            db.delete(sub)
             fail_count += 1
             errors.append({
                 "row_number": idx,
@@ -232,42 +282,7 @@ def process_bulk_import(file_content: str, db: Session) -> BulkImportResult:
             })
             continue
 
-        # Load key items & question rules
-        key_items = db.query(AnswerKeyItemModel).filter(AnswerKeyItemModel.key_id == active_key.key_id).all()
-        q_map = {q.question_id: q for q in db.query(QuestionModel).filter(QuestionModel.paper_code == paper_code).all()}
-
-        rules = []
-        for item in key_items:
-            q_meta = q_map.get(item.question_id)
-            q_type = q_meta.question_type if q_meta else "MCQ"
-            section = q_meta.section if q_meta else "CORE"
-            marks_corr = Fraction(2, 1) if (q_meta and q_meta.marks_correct == 2.0) else Fraction(1, 1)
-            marks_neg = Fraction(2, 3) if marks_corr == 2 else Fraction(1, 3)
-
-            valid_mcq = []
-            valid_msq = []
-            if item.valid_options_json:
-                parsed = json.loads(item.valid_options_json)
-                if q_type == "MCQ":
-                    valid_mcq = [opt[0] for opt in parsed if opt]
-                elif q_type == "MSQ":
-                    valid_msq = [{str(o) for o in opt_set} for opt_set in parsed]
-
-            rules.append(
-                QuestionRule(
-                    question_id=item.question_id,
-                    question_number=q_meta.question_number if q_meta else 1,
-                    question_type=q_type,
-                    section=section,
-                    marks_correct=marks_corr,
-                    marks_negative=Fraction(0, 1) if q_type in ["MSQ", "NAT"] else marks_neg,
-                    is_mta=item.is_mta,
-                    valid_mcq_options=valid_mcq,
-                    valid_msq_sets=valid_msq,
-                    nat_min=Decimal(str(item.nat_min)) if item.nat_min is not None else None,
-                    nat_max=Decimal(str(item.nat_max)) if item.nat_max is not None else None,
-                )
-            )
+        active_key, rules = cached_entry
 
         # Extract student answers from Q1..Q65 columns
         student_answers = []

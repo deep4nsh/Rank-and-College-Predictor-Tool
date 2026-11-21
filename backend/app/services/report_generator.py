@@ -4,6 +4,7 @@ Generates a 1-page high-density academic and counselling diagnostic scorecard
 using ReportLab, ready for instant student delivery or counsellor calls.
 """
 
+import html
 import io
 from typing import Any, Dict, List, Optional
 from reportlab.lib.colors import HexColor
@@ -127,16 +128,23 @@ def generate_student_diagnostic_pdf(
     story.append(Spacer(1, 8))
 
     # 2. Candidate Demographics Card
+    c_name = html.escape(str(student_info.get("name", "N/A")))
+    c_phone = html.escape(str(student_info.get("phone", "N/A")))
+    c_cat = html.escape(str(student_info.get("category", "GEN")))
+    c_paper = html.escape(str(student_info.get("paper_code", "CS")))
+    c_batch = html.escape(str(student_info.get("batch", "PW Student")))
+    c_ncl = "Valid" if student_info.get("has_valid_ncl", True) else "General"
+
     cand_data = [
         [
-            Paragraph("<b>Candidate:</b> " + str(student_info.get("name", "N/A")), body_style),
-            Paragraph("<b>Mobile:</b> " + str(student_info.get("phone", "N/A")), body_style),
-            Paragraph("<b>Category:</b> " + str(student_info.get("category", "GEN")), body_style),
+            Paragraph(f"<b>Candidate:</b> {c_name}", body_style),
+            Paragraph(f"<b>Mobile:</b> {c_phone}", body_style),
+            Paragraph(f"<b>Category:</b> {c_cat}", body_style),
         ],
         [
-            Paragraph("<b>Paper:</b> GATE " + str(student_info.get("paper_code", "CS")), body_style),
-            Paragraph("<b>Batch:</b> " + str(student_info.get("batch", "PW Student")), body_style),
-            Paragraph("<b>NCL / PwD Status:</b> " + ("Valid" if student_info.get("has_valid_ncl", True) else "General"), body_style),
+            Paragraph(f"<b>Paper:</b> GATE {c_paper}", body_style),
+            Paragraph(f"<b>Batch:</b> {c_batch}", body_style),
+            Paragraph(f"<b>NCL / PwD Status:</b> {c_ncl}", body_style),
         ],
     ]
     cand_table = Table(cand_data, colWidths=[180, 180, 180])

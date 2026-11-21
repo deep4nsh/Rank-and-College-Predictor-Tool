@@ -93,6 +93,12 @@ async def submit_response_sheet_endpoint(
     else:
         raise HTTPException(status_code=400, detail="Either 'url' or 'html_content' must be provided.")
 
+    if not parsed.questions:
+        raise HTTPException(
+            status_code=400,
+            detail="No question panels found in response sheet HTML. Ensure it is a valid TCS iON response sheet.",
+        )
+
     paper_code = parsed.paper_code
 
     # Check active answer key for this paper
@@ -109,17 +115,20 @@ async def submit_response_sheet_endpoint(
             detail=f"No active answer key found for paper {paper_code}. Faculty must publish key v1.",
         )
 
-    # Fetch active key questions to map questions accurately
+    # Fetch active key questions and question models in batch to map questions accurately
     key_items = (
         db.query(AnswerKeyItemModel)
         .filter(AnswerKeyItemModel.key_id == active_key.key_id)
         .all()
     )
     key_qids = {item.question_id: item for item in key_items}
+    q_meta_map = {
+        q.question_id: q
+        for q in db.query(QuestionModel).filter(QuestionModel.paper_code == paper_code).all()
+    }
 
     # Map parsed responses to question IDs in key
     response_items = []
-    # If question IDs from Digialm match key question IDs:
     parsed_by_qid = {q.question_id: q for q in parsed.questions}
 
     for item in key_items:
@@ -128,8 +137,7 @@ async def submit_response_sheet_endpoint(
 
         # If not matched by QID, fallback to matching by sequential index
         if not parsed_q:
-            # Try finding question with matching number
-            q_meta = db.query(QuestionModel).filter(QuestionModel.question_id == qid).first()
+            q_meta = q_meta_map.get(qid)
             if q_meta and 1 <= q_meta.question_number <= len(parsed.questions):
                 parsed_q = parsed.questions[q_meta.question_number - 1]
 

@@ -804,8 +804,9 @@
       const btech = parseFloat(document.getElementById('meta-btech').value);
       const age = parseInt(document.getElementById('meta-age').value);
 
-      if (!phone || phone.length !== 10) {
-        showToast("Please enter a valid 10-digit Indian Mobile Number", "red");
+      const phoneRegex = /^[6-9]\d{9}$/;
+      if (!phoneRegex.test(phone)) {
+        showToast("Please enter a valid 10-digit Indian Mobile Number starting with 6, 7, 8, or 9", "red");
         document.getElementById('meta-phone').focus();
         return;
       }
@@ -969,8 +970,9 @@
         showToast("Please enter a valid Digialm URL", "red");
         return;
       }
-      if (!phone || phone.length !== 10) {
-        showToast("Please enter candidate 10-digit mobile number", "red");
+      const phoneRegex = /^[6-9]\d{9}$/;
+      if (!phoneRegex.test(phone)) {
+        showToast("Please enter candidate 10-digit mobile number starting with 6, 7, 8, or 9", "red");
         return;
       }
 
@@ -1009,8 +1011,9 @@
         showToast("Please paste HTML content", "red");
         return;
       }
-      if (!phone || phone.length !== 10) {
-        showToast("Please enter candidate mobile number", "red");
+      const phoneRegex = /^[6-9]\d{9}$/;
+      if (!phoneRegex.test(phone)) {
+        showToast("Please enter candidate 10-digit mobile number starting with 6, 7, 8, or 9", "red");
         return;
       }
 

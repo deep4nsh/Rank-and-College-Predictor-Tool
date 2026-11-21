@@ -107,3 +107,17 @@ def test_digialm_html_parsing_and_submission_pipeline():
     assert res_pdf.status_code == 200
     assert res_pdf.headers["content-type"] == "application/pdf"
     assert res_pdf.content.startswith(b"%PDF")
+
+
+def test_empty_or_invalid_html_rejection():
+    """
+    Edge case: Blank or non-exam HTML should be rejected with HTTP 400.
+    """
+    submit_payload = {
+        "html_content": "<html><body><h1>Random Blog Post Without Exam Questions</h1></body></html>",
+        "student_phone": "9898123457",
+        "student_category": "GEN",
+    }
+    res = client.post("/api/v1/ingest/response-sheet/submit", json=submit_payload)
+    assert res.status_code == 400
+    assert "No question panels found" in res.json()["detail"]
