@@ -17,7 +17,37 @@
 
 ---
 
-## 2. Core Architectural Components
+## 2. The Real-World Exam-Day Workflow (The Two-Phase Lifecycle)
+
+This system is specifically architected for the high-stakes **Exam Day (Day 0)** window when student emotions, search traffic, and counselling intent are at their absolute peak:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Student
+    actor Faculty as PW Faculty / Subject Experts
+    participant WebApp as PW Fillable Exam Portal
+    participant Engine as Deterministic Scoring Engine
+    actor Counsellor as PW Counselling Team
+    actor IIT as Organizing IIT (Official)
+
+    Note over Student, Counsellor: PHASE 1: EXAM DAY (HOURS 0 TO 24)
+    Student->>WebApp: Opens branch paper (e.g., CS, ME, EE) & submits marked answers
+    Faculty->>WebApp: Solves paper & publishes "PW Faculty Answer Key (v1)"
+    WebApp->>Engine: Evaluates student answers against PW Faculty Key
+    Engine-->>Counsellor: Instant student dashboard with Predicted Score, AIR & College/PSU matches
+    Counsellor->>Student: Reaches out same-day with data-backed guidance & PW batch/counselling road-map
+
+    Note over Student, IIT: PHASE 2: OFFICIAL RELEASE (1-2 WEEKS LATER)
+    IIT->>WebApp: Releases Official Master Answer Key & Challenge resolutions
+    Faculty->>WebApp: Uploads "Official IIT Key (v2)"
+    WebApp->>Engine: 1-Click batch re-evaluation of all submitted student papers
+    Engine-->>Counsellor: Updates student profile with exact delta (e.g., +2 marks) & revised predictions
+```
+
+---
+
+## 3. Core Architectural Components
 
 ```mermaid
 flowchart TD
@@ -59,25 +89,26 @@ flowchart TD
 
 ---
 
-## 3. Deep-Dive: Core Subsystems
+## 4. Deep-Dive: Core Subsystems
 
 ### Subsystem 1: The Exam & Response Capture Engine
 
-The tool must handle two operational modes:
-1. **Pre-Exam / Mock Exam Mode (Interactive Paper Form):**
-   * Students access a clean, distraction-free web interface mimicking the real GATE CBT layout.
-   * Supports all three GATE question types:
-     * **MCQ (Multiple Choice Questions):** Single radio button selection.
-     * **MSQ (Multiple Select Questions):** Checkboxes. Zero partial marking (all correct options must be selected, no wrong options).
-     * **NAT (Numerical Answer Type):** Virtual numeric keypad input storing floating-point values.
-   * Responses are stored in the database tied to the `Student ID` or `Phone Number`.
-2. **Post-Official Exam Mode (TCS iON URL Parser):**
-   * Student pastes their official candidate response sheet URL (`https://cdn.digialm.com/...`).
-   * Automated headless parser extracts:
-     * Question ID, Question Type (MCQ/MSQ/NAT).
-     * Marked Option / Entered Value.
-     * Status (Answered / Not Answered / Marked for Review).
-3. **Decoupled Answer Key Architecture:**
+The tool handles the exact operational reality of GATE exam season:
+1. **Exam Day Fillable Web Paper (Hour 0 to 24):**
+   * As soon as an exam shift ends, students land on the PW portal.
+   * Student selects their branch (e.g., Computer Science, Mechanical, Civil, Electrical).
+   * They see an interactive 65-question fillable form (matching the GATE pattern: General Aptitude 1-10, Core 11-65).
+   * Supports all 3 question mechanics:
+     * **MCQ (Single Choice):** Options A, B, C, D radio select.
+     * **MSQ (Multi Select):** Options A, B, C, D multi-select checkboxes.
+     * **NAT (Numerical Answer):** Clean virtual numeric input box for numerical values.
+   * Student clicks "Submit Paper & Get My Predicted Colleges".
+2. **Versioned Answer Key Architecture (Faculty vs Official):**
+   * **Stage 1 (Exam Day):** PW Subject Experts/Faculty live-solve the paper and enter the **PW Faculty Key (Version 1)**. The moment a student submits, their paper is immediately graded against this faculty key.
+   * **Stage 2 (Key Revision):** If faculty amends any question based on internal consensus, the system flags it as `Version 1.1` and re-runs grading instantly.
+   * **Stage 3 (Official IIT Key Release):** 1-2 weeks later, the organizing IIT publishes the official answer key. The admin uploads the **Official Master Key (Version 2)**. The engine runs a 1-click batch re-evaluation across all student records, showing the exact score delta (e.g., *"+3 marks gained after official key"*).
+3. **Official Response Sheet (TCS iON) Mode (Post-Release Fallback):**
+   * For students who did not fill out the exam-day form, they can simply paste their official response sheet URL once released. The scraper auto-populates the answers and runs the exact same grading pipeline.
    * Students can submit responses *before* the answer key is published.
    * As soon as PW faculty releases the provisional key or IIT publishes the official master key, an automated batch job evaluates thousands of stored responses in under 10 seconds.
 
