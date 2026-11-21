@@ -126,7 +126,7 @@ class EvaluationResultModel(Base):
 
     eval_id = Column(String(64), primary_key=True, default=generate_uuid)
     submission_id = Column(String(64), ForeignKey("student_submissions.submission_id"), nullable=False, unique=True)
-    key_id = Column(String(64), ForeignKey("answer_keys.key_id"), nullable=False)
+    key_id = Column(String(64), ForeignKey("answer_keys.key_id"), nullable=True)
     raw_score_total = Column(Float, nullable=False)
     raw_score_aptitude = Column(Float, nullable=False)
     raw_score_core = Column(Float, nullable=False)

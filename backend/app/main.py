@@ -1,6 +1,11 @@
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+
 from backend.app.api.v1.counsellor import router as counsellor_router
+from backend.app.api.v1.ingest import router as ingest_router
 from backend.app.api.v1.keys import router as keys_router
 from backend.app.api.v1.predictor import router as predictor_router
 from backend.app.api.v1.submissions import router as submissions_router
@@ -24,13 +29,35 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Register REST Routers
 app.include_router(predictor_router, prefix="/api/v1")
 app.include_router(keys_router, prefix="/api/v1")
 app.include_router(submissions_router, prefix="/api/v1")
 app.include_router(counsellor_router, prefix="/api/v1")
+app.include_router(ingest_router, prefix="/api/v1")
+
+# Static Assets and Web Application
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+if STATIC_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 
 @app.get("/")
+def serve_index_app():
+    """
+    Serves the Physics Wallah GATE Predictor & CBT Exam Form web application.
+    """
+    index_file = STATIC_DIR / "index.html"
+    if index_file.exists():
+        return FileResponse(str(index_file))
+    return {
+        "status": "healthy",
+        "system": "PW GATE Predictor & In-House Ops Engine",
+        "version": "1.0.0",
+    }
+
+
+@app.get("/api/health")
 def health_check():
     return {
         "status": "healthy",

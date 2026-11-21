@@ -1,5 +1,6 @@
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from backend.app.core.knowledge_base import (
     get_branch_matrix,
@@ -10,6 +11,7 @@ from backend.app.core.knowledge_base import (
 from backend.app.core.matcher import match_options_for_student
 from backend.app.db.models import EvaluationResultModel, StudentSubmissionModel
 from backend.app.db.session import get_db
+from backend.app.services.report_generator import generate_student_diagnostic_pdf
 
 router = APIRouter(prefix="/counsellor", tags=["Counsellor Operations"])
 
@@ -207,3 +209,73 @@ def generate_whatsapp_summary(phone: str, db: Session = Depends(get_db)):
     msg += "\n_Powered by Physics Wallah In-House Counselling Operations Engine_"
 
     return {"phone": sub.student_phone, "whatsapp_text": msg}
+
+
+@router.get("/students/{phone}/pdf")
+def download_student_diagnostic_pdf(phone: str, db: Session = Depends(get_db)):
+    """
+    Generates and streams a 1-page PW-branded Student Diagnostic PDF scorecard
+    for counselling sessions and direct candidate delivery.
+    """
+    row = (
+        db.query(StudentSubmissionModel, EvaluationResultModel)
+        .join(EvaluationResultModel, StudentSubmissionModel.submission_id == EvaluationResultModel.submission_id)
+        .filter(StudentSubmissionModel.student_phone == phone.strip(), StudentSubmissionModel.is_active == True)
+        .first()
+    )
+
+    if not row:
+        raise HTTPException(status_code=404, detail="Student submission not found")
+
+    sub, ev = row
+
+    summary = match_options_for_student(
+        gate_score=ev.gate_score,
+        predicted_air=ev.predicted_air,
+        paper_code=sub.paper_code,
+        category=sub.student_category,
+        btech_percentage=sub.btech_percentage or 70.0,
+        candidate_age=sub.candidate_age or 23,
+        has_valid_ncl=sub.has_valid_ncl,
+        include_cross_discipline=True,
+        historical_coap_data=get_coap_cutoffs(),
+        historical_ccmt_data=get_ccmt_cutoffs(),
+        historical_psu_data=get_psu_cutoffs(),
+        branch_matrix_data=get_branch_matrix(),
+    )
+
+    student_dict = {
+        "name": sub.student_name,
+        "phone": sub.student_phone,
+        "email": sub.student_email,
+        "category": sub.student_category,
+        "paper_code": sub.paper_code,
+        "batch": sub.pw_batch_id or "PW Student",
+        "has_valid_ncl": sub.has_valid_ncl,
+    }
+
+    eval_dict = {
+        "raw_score_total": ev.raw_score_total,
+        "raw_score_aptitude": ev.raw_score_aptitude,
+        "raw_score_core": ev.raw_score_core,
+        "marks_lost_to_negatives": ev.marks_lost_to_negatives,
+        "gate_score": ev.gate_score,
+        "predicted_air": ev.predicted_air,
+        "air_range": f"{ev.air_range_min} - {ev.air_range_max}",
+        "lead_classification": ev.lead_classification,
+    }
+
+    matches_dict = {
+        "coap_options": [o.__dict__ for o in summary.coap_options],
+        "ccmt_options": [o.__dict__ for o in summary.ccmt_options],
+        "psu_options": [o.__dict__ for o in summary.psu_options],
+        "interdisciplinary_options": [o.__dict__ for o in summary.interdisciplinary_options],
+    }
+
+    pdf_buffer = generate_student_diagnostic_pdf(student_dict, eval_dict, matches_dict)
+
+    return StreamingResponse(
+        pdf_buffer,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f"attachment; filename=PW_GATE_Diagnostic_{phone}.pdf"},
+    )
