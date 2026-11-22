@@ -117,3 +117,37 @@ def test_export_leads_csv():
     assert "Rohan Mehra" in csv_text
     assert "9876500001" in csv_text
     assert "INTERESTED_IN_BATCH" in csv_text
+
+
+def test_counsellor_contact_card_popup_replaces_tel_dialing():
+    """
+    Verifies that counsellor laptop workstation mode strictly forbids
+    OS-level tel: call initiation and instead opens an interactive Contact Details Card
+    with copy buttons and WhatsApp Web links.
+    """
+    # 1. Verify students list includes student_email for contact card
+    res_students = client.get("/api/v1/counsellor/students?search=9876500001")
+    assert res_students.status_code == 200
+    data = res_students.json()
+    assert data["total"] >= 1
+    student = data["students"][0]
+    assert "student_email" in student
+    assert student["student_email"] == "rohan@example.com"
+
+    # 2. Verify frontend index.html has zero tel: links and provides contact modal
+    res_html = client.get("/")
+    assert res_html.status_code == 200
+    html_content = res_html.text
+
+    # Must NOT contain tel: link or direct dial button
+    assert 'href="tel:' not in html_content
+    assert "modal-tel-btn" not in html_content
+    assert "Dial Tel" not in html_content
+
+    # Must contain contact card popup components
+    assert "openContactModal" in html_content
+    assert "modal-phone-display" in html_content
+    assert "copyModalPhone" in html_content
+    assert "Copy Number" in html_content
+    assert "Laptop Workstation Mode:" in html_content
+    assert "WhatsApp Web" in html_content

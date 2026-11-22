@@ -85,6 +85,7 @@ def list_students(
                 "submission_id": sub.submission_id,
                 "student_phone": sub.student_phone,
                 "student_name": sub.student_name,
+                "student_email": sub.student_email,
                 "paper_code": sub.paper_code,
                 "category": sub.student_category,
                 "pw_batch_id": sub.pw_batch_id,

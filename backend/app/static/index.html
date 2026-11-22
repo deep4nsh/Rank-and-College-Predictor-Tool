@@ -498,41 +498,99 @@
       </div>
     </section>
 
-    <!-- CALL LOG & CRM MODAL -->
+    <!-- CANDIDATE CONTACT DETAILS & CALL LOG MODAL -->
     <div id="call-log-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
       <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden transform transition-all">
         <!-- Modal Header -->
         <div class="bg-pw-blue text-white p-4 flex items-center justify-between">
           <div class="flex items-center space-x-2.5">
-            <i class="fa-solid fa-headset text-lg text-blue-200"></i>
+            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-200">
+              <i class="fa-solid fa-id-card text-base"></i>
+            </div>
             <div>
-              <h3 id="modal-student-name" class="font-bold text-sm">Log Counsellor Call</h3>
-              <p id="modal-student-meta" class="text-[11px] text-blue-200">Phone: 9876543210 | GATE CS</p>
+              <div class="flex items-center space-x-2">
+                <h3 id="modal-student-name" class="font-bold text-sm">Candidate Contact Details</h3>
+                <span id="modal-priority-badge" class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-slate-900">PRIORITY</span>
+              </div>
+              <p id="modal-student-meta" class="text-[11px] text-blue-200">GATE CS | General | Score: 64.33</p>
             </div>
           </div>
-          <button onclick="closeCallLogModal()" class="text-white/80 hover:text-white text-lg">
+          <button onclick="closeCallLogModal()" class="text-white/80 hover:text-white text-lg p-1 transition" title="Close">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
 
-        <!-- Modal Body Form -->
-        <div class="p-5 space-y-3.5 text-xs">
-          <!-- Quick Call Strip -->
-          <div class="bg-slate-50 p-2.5 rounded-lg border flex items-center justify-between">
-            <span class="text-slate-600 font-semibold">Click to Call Candidate:</span>
-            <div class="flex space-x-2">
-              <a id="modal-tel-btn" href="#" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold flex items-center space-x-1">
-                <i class="fa-solid fa-phone"></i>
-                <span>Dial Tel</span>
-              </a>
-              <a id="modal-wa-btn" href="#" target="_blank" class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded font-bold flex items-center space-x-1">
-                <i class="fa-brands fa-whatsapp"></i>
-                <span>WhatsApp</span>
-              </a>
+        <!-- Modal Body Content -->
+        <div class="p-5 space-y-3.5 text-xs max-h-[85vh] overflow-y-auto">
+
+          <!-- Notice: Laptop Mode / No Direct Calling -->
+          <div class="bg-blue-50/80 border border-blue-200/90 rounded-lg p-2.5 flex items-start space-x-2.5 text-slate-700">
+            <i class="fa-solid fa-laptop text-pw-blue text-sm mt-0.5"></i>
+            <div class="text-[11px] leading-tight">
+              <span class="font-bold text-pw-blue">Laptop Workstation Mode:</span>
+              <span>Direct telephony calling is disabled on laptop systems. Copy the phone number below to paste into your phone/dialer, or start a chat via WhatsApp Web.</span>
             </div>
           </div>
 
-          <form id="call-log-form" onsubmit="submitCallLog(event)">
+          <!-- Contact Details Card -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2.5">
+            <!-- Mobile Number Row with Copy & WhatsApp Web -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+              <div>
+                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Candidate Mobile Number</span>
+                <div class="flex items-center space-x-2 mt-0.5">
+                  <i class="fa-solid fa-phone text-pw-blue text-sm"></i>
+                  <span id="modal-phone-display" class="font-mono text-base font-extrabold text-slate-900 tracking-wide">+91 98765 43210</span>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <button type="button" id="btn-copy-phone" onclick="copyModalPhone()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded font-bold text-xs flex items-center space-x-1.5 transition">
+                  <i class="fa-regular fa-copy"></i>
+                  <span id="copy-phone-text">Copy Number</span>
+                </button>
+                <a id="modal-wa-btn" href="#" target="_blank" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-xs flex items-center space-x-1.5 shadow-sm transition">
+                  <i class="fa-brands fa-whatsapp text-sm"></i>
+                  <span>WhatsApp Web</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Email Address Row -->
+            <div id="modal-email-row" class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200 text-[11px]">
+              <div class="flex items-center space-x-2 truncate mr-2">
+                <i class="fa-regular fa-envelope text-slate-400"></i>
+                <span class="text-slate-500 font-medium">Email:</span>
+                <span id="modal-email-display" class="font-semibold text-slate-800 truncate">student@example.com</span>
+              </div>
+              <button type="button" id="btn-copy-email" onclick="copyModalEmail()" class="text-pw-blue hover:text-blue-800 font-bold text-[11px] flex items-center space-x-1 px-1.5 py-0.5 rounded hover:bg-blue-50 transition">
+                <i class="fa-regular fa-copy"></i>
+                <span id="copy-email-text">Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Academic Score Snapshot -->
+          <div class="grid grid-cols-4 gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-center">
+            <div>
+              <span class="text-[10px] text-slate-500 font-semibold block">Raw Marks</span>
+              <span id="modal-raw-score" class="font-extrabold text-slate-800 text-xs">-- / 100</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 font-semibold block">Neg. Lost</span>
+              <span id="modal-neg-lost" class="font-extrabold text-rose-600 text-xs">-0.00</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 font-semibold block">GATE Score</span>
+              <span id="modal-gate-score" class="font-extrabold text-emerald-600 text-xs">-- / 1000</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 font-semibold block">Est. AIR</span>
+              <span id="modal-air-range" class="font-extrabold text-pw-blue text-xs">--</span>
+            </div>
+          </div>
+
+          <!-- Call Logging & Disposition Form -->
+          <form id="call-log-form" onsubmit="submitCallLog(event)" class="pt-1">
             <input type="hidden" id="modal-phone-input">
             <div class="grid grid-cols-2 gap-3 mb-3">
               <div>
@@ -560,7 +618,7 @@
 
             <div class="mb-3">
               <label class="block font-bold text-slate-700 mb-1">Call Notes & Action Plan</label>
-              <textarea id="modal-notes-input" rows="3" placeholder="Discussed negative marks and COAP choice sequence..." class="w-full border rounded p-2.5 focus:ring-2 focus:ring-pw-accent outline-none"></textarea>
+              <textarea id="modal-notes-input" rows="2" placeholder="Discussed negative marks and COAP choice sequence..." class="w-full border rounded p-2.5 focus:ring-2 focus:ring-pw-accent outline-none"></textarea>
             </div>
 
             <button type="submit" id="btn-save-call-log" class="w-full py-2 bg-pw-blue hover:bg-blue-900 text-white font-bold rounded-lg shadow text-xs transition">
@@ -569,9 +627,12 @@
           </form>
 
           <!-- Prior Call History Timeline -->
-          <div class="pt-3 border-t">
-            <h4 class="font-bold text-slate-700 mb-2">Past Call History</h4>
-            <div id="modal-history-list" class="max-h-36 overflow-y-auto space-y-2 text-[11px]">
+          <div class="pt-2 border-t">
+            <h4 class="font-bold text-slate-700 mb-2 flex items-center justify-between">
+              <span>Past Call History</span>
+              <span class="text-[10px] text-slate-400 font-normal">Audit Trail</span>
+            </h4>
+            <div id="modal-history-list" class="max-h-32 overflow-y-auto space-y-2 text-[11px]">
               <!-- Injected via JS -->
             </div>
           </div>
@@ -1210,7 +1271,14 @@
           tr.className = "hover:bg-slate-50 transition";
           tr.innerHTML = `
             <td class="py-2.5 px-3 font-bold text-slate-900">${s.student_name}</td>
-            <td class="py-2.5 px-3 font-mono">${s.student_phone}</td>
+            <td class="py-2.5 px-3">
+              <button onclick="openContactModal('${s.student_phone}', '${s.student_name.replace(/'/g, "\\'")}', '${s.paper_code}', ${s.raw_score}, '${s.air_range}', '${s.category}', '${s.lead_classification}', '${s.call_disposition || 'PENDING'}', ${s.marks_lost_to_negatives || 0}, ${s.gate_score || 0}, '${(s.student_email || '').replace(/'/g, "\\'")}')"
+                class="font-mono text-pw-blue hover:text-blue-800 font-bold hover:underline inline-flex items-center space-x-1 text-left"
+                title="View Candidate Contact Details Card">
+                <span>${s.student_phone}</span>
+                <i class="fa-regular fa-address-card text-slate-400 text-xs ml-1"></i>
+              </button>
+            </td>
             <td class="py-2.5 px-3 font-bold text-pw-blue">${s.paper_code}</td>
             <td class="py-2.5 px-3">${s.category}</td>
             <td class="py-2.5 px-3 font-bold">${Number(s.raw_score).toFixed(2)}</td>
@@ -1228,14 +1296,12 @@
               </span>
             </td>
             <td class="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">
-              <a href="tel:+91${s.student_phone}" title="Direct Phone Call" class="inline-block px-2 py-1 bg-blue-50 text-pw-blue hover:bg-blue-100 rounded text-xs">
-                <i class="fa-solid fa-phone"></i>
-              </a>
+              <button onclick="openContactModal('${s.student_phone}', '${s.student_name.replace(/'/g, "\\'")}', '${s.paper_code}', ${s.raw_score}, '${s.air_range}', '${s.category}', '${s.lead_classification}', '${s.call_disposition || 'PENDING'}', ${s.marks_lost_to_negatives || 0}, ${s.gate_score || 0}, '${(s.student_email || '').replace(/'/g, "\\'")}')"
+                title="View Contact Details Card & Log Call" class="inline-block px-2 py-1 bg-blue-50 text-pw-blue hover:bg-blue-100 rounded text-xs font-bold">
+                <i class="fa-regular fa-id-card mr-1"></i>Contact
+              </button>
               <button onclick="copyStudentWhatsApp('${s.student_phone}')" title="Copy WhatsApp Text" class="px-2 py-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded text-xs">
                 <i class="fa-brands fa-whatsapp"></i>
-              </button>
-              <button onclick="openCallLogModal('${s.student_phone}', '${s.student_name.replace(/'/g, "\\'")}', '${s.paper_code}', ${s.raw_score}, '${s.air_range}', '${s.call_disposition || 'PENDING'}')" title="Log Counsellor Call" class="px-2 py-1 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded text-xs font-bold">
-                <i class="fa-solid fa-headset mr-0.5"></i> Log
               </button>
               <button onclick="downloadStudentPdf('${s.student_phone}')" title="Download Diagnostic PDF" class="px-2 py-1 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded text-xs">
                 <i class="fa-solid fa-file-pdf"></i>
@@ -1278,21 +1344,55 @@
       window.open(url, '_blank');
     }
 
-    // Call Log Modal Functions
-    async function openCallLogModal(phone, name, branch, rawScore, airRange, currentDisp) {
+    // Contact Card & Call Log Modal Functions
+    let currentModalPhone = "";
+    let currentModalEmail = "";
+
+    async function openContactModal(phone, name, branch, rawScore, airRange, category, leadCls, currentDisp, negLost, gateScore, email) {
+      currentModalPhone = phone;
+      currentModalEmail = email || "";
+
       document.getElementById('modal-phone-input').value = phone;
-      document.getElementById('modal-student-name').innerText = `Log Call: ${name}`;
-      document.getElementById('modal-student-meta').innerText = `Phone: ${phone} | GATE ${branch} | Score: ${Number(rawScore).toFixed(2)} | AIR: ${airRange}`;
+      document.getElementById('modal-student-name').innerText = name || "Candidate Details";
+      document.getElementById('modal-student-meta').innerText = `GATE ${branch || ''} | ${category || 'General'} | Raw: ${Number(rawScore || 0).toFixed(2)}`;
+
+      const priorityBadge = document.getElementById('modal-priority-badge');
+      if (priorityBadge) {
+        priorityBadge.innerText = (leadCls || 'LEAD').replace(/_/g, ' ');
+        priorityBadge.className = `px-1.5 py-0.5 rounded text-[10px] font-bold ${getBadgeStyle(leadCls || '')}`;
+      }
+
+      // Display formatted phone: +91 XXXXX XXXXX if 10 digits
+      const digits = (phone || "").replace(/\D/g, '');
+      const formattedPhone = digits.length === 10 ? `+91 ${digits.slice(0, 5)} ${digits.slice(5)}` : (phone.startsWith('+') ? phone : `+91 ${phone}`);
+      document.getElementById('modal-phone-display').innerText = formattedPhone;
+
+      // Email display
+      const emailDisplay = document.getElementById('modal-email-display');
+      if (email && email.trim()) {
+        emailDisplay.innerText = email.trim();
+      } else {
+        emailDisplay.innerText = 'Not provided';
+      }
+
+      // Academic metrics
+      document.getElementById('modal-raw-score').innerText = `${Number(rawScore || 0).toFixed(2)} / 100`;
+      document.getElementById('modal-neg-lost').innerText = `-${Number(negLost || 0).toFixed(2)}`;
+      document.getElementById('modal-gate-score').innerText = `${gateScore || '--'} / 1000`;
+      document.getElementById('modal-air-range').innerText = airRange || '--';
+
+      // Disposition & notes
       document.getElementById('modal-disposition-select').value = currentDisp || 'INTERESTED_IN_BATCH';
       document.getElementById('modal-notes-input').value = '';
       document.getElementById('modal-followup-date').value = '';
 
-      // Telephony deep links
+      resetCopyButtons();
+
+      // Telephony links (WhatsApp Web link only - no direct calls)
       try {
         const resp = await fetch(`/api/v1/counsellor/students/${phone}/telephony-link`);
         if (resp.ok) {
           const links = await resp.json();
-          document.getElementById('modal-tel-btn').href = links.tel_uri;
           document.getElementById('modal-wa-btn').href = links.wa_web_link;
         }
       } catch (e) {}
@@ -1301,6 +1401,65 @@
       await loadCallHistoryForModal(phone);
 
       document.getElementById('call-log-modal').classList.remove('hidden');
+    }
+
+    // Retain openCallLogModal for backward compatibility
+    function openCallLogModal(phone, name, branch, rawScore, airRange, currentDisp) {
+      openContactModal(phone, name, branch, rawScore, airRange, 'General', 'LEAD', currentDisp, 0, 0, '');
+    }
+
+    function resetCopyButtons() {
+      const copyPhoneText = document.getElementById('copy-phone-text');
+      if (copyPhoneText) copyPhoneText.innerText = 'Copy Number';
+      const copyEmailText = document.getElementById('copy-email-text');
+      if (copyEmailText) copyEmailText.innerText = 'Copy';
+    }
+
+    async function copyModalPhone() {
+      if (!currentModalPhone) return;
+      try {
+        await navigator.clipboard.writeText(currentModalPhone);
+      } catch (err) {
+        const temp = document.createElement("input");
+        temp.value = currentModalPhone;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+      }
+      const textSpan = document.getElementById('copy-phone-text');
+      if (textSpan) {
+        textSpan.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-check mr-1"></i>Copied!</span>';
+        setTimeout(() => {
+          textSpan.innerText = 'Copy Number';
+        }, 2000);
+      }
+      showToast(`Phone ${currentModalPhone} copied to clipboard!`, "green");
+    }
+
+    async function copyModalEmail() {
+      if (!currentModalEmail) {
+        showToast("No email address provided for candidate", "amber");
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(currentModalEmail);
+      } catch (err) {
+        const temp = document.createElement("input");
+        temp.value = currentModalEmail;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+      }
+      const textSpan = document.getElementById('copy-email-text');
+      if (textSpan) {
+        textSpan.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-check mr-1"></i>Copied!</span>';
+        setTimeout(() => {
+          textSpan.innerText = 'Copy';
+        }, 2000);
+      }
+      showToast(`Email ${currentModalEmail} copied to clipboard!`, "green");
     }
 
     function closeCallLogModal() {
