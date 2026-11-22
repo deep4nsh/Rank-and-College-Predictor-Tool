@@ -94,11 +94,16 @@ def submit_student_exam_paper(
     db.add(submission)
     db.flush()
 
-    # Store individual student responses
+    # Deduplicate student responses by question_id (preserving latest)
+    deduped_responses = {}
     for resp in payload.responses:
+        deduped_responses[resp.question_id] = resp
+
+    # Store individual student responses
+    for qid, resp in deduped_responses.items():
         r_model = StudentResponseModel(
             submission_id=submission.submission_id,
-            question_id=resp.question_id,
+            question_id=qid,
             status=resp.status,
             student_options_json=json.dumps(resp.marked_options) if resp.marked_options else None,
             student_nat_value=resp.nat_value,
@@ -150,7 +155,7 @@ def submit_student_exam_paper(
             marked_options=r.marked_options,
             nat_value=r.nat_value,
         )
-        for r in payload.responses
+        for r in deduped_responses.values()
     ]
 
     # Evaluate paper

@@ -203,11 +203,26 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
     graded_candidates = []
     session_scores_map = {}
     for sub in active_subs:
+        existing_eval = (
+            db.query(EvaluationResultModel)
+            .filter(EvaluationResultModel.submission_id == sub.submission_id)
+            .first()
+        )
+
         responses = (
             db.query(StudentResponseModel)
             .filter(StudentResponseModel.submission_id == sub.submission_id)
             .all()
         )
+
+        if not responses:
+            # Direct score import without individual question choices
+            # Preserve existing raw scores intact while updating normalization!
+            raw_sc = existing_eval.raw_score_total if existing_eval else 0.0
+            graded_candidates.append((sub, None, raw_sc))
+            session_scores_map.setdefault(sub.session_id, []).append(raw_sc)
+            continue
+
         student_answers = [
             StudentAnswer(
                 question_id=r.question_id,
@@ -218,15 +233,15 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
             for r in responses
         ]
         summary = grade_paper(rules, student_answers)
-        graded_candidates.append((sub, summary))
+        graded_candidates.append((sub, summary, summary.total_raw_score))
         session_scores_map.setdefault(sub.session_id, []).append(summary.total_raw_score)
 
     # Pass 2: Normalize with updated shift distributions, predict rank, and match options
-    for sub, summary in graded_candidates:
+    for sub, summary, raw_score in graded_candidates:
         norm_result = normalize_gate_score(
             paper_code=paper_code,
             session_id=sub.session_id,
-            raw_score=summary.total_raw_score,
+            raw_score=raw_score,
             all_sessions_scores=session_scores_map,
         )
 
@@ -256,19 +271,20 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
             .first()
         )
 
-        old_score = existing_eval.raw_score_total if existing_eval else summary.total_raw_score
-        delta = summary.total_raw_score - old_score
+        old_score = existing_eval.raw_score_total if existing_eval else raw_score
+        delta = raw_score - old_score
         deltas.append(delta)
 
         if existing_eval:
-            existing_eval.key_id = key_id
-            existing_eval.raw_score_total = summary.total_raw_score
-            existing_eval.raw_score_aptitude = summary.aptitude_score
-            existing_eval.raw_score_core = summary.core_score
-            existing_eval.marks_lost_to_negatives = summary.marks_lost_to_negatives
-            existing_eval.correct_count = summary.correct_count
-            existing_eval.incorrect_count = summary.incorrect_count
-            existing_eval.unattempted_count = summary.unattempted_count
+            if summary is not None:
+                existing_eval.key_id = key_id
+                existing_eval.raw_score_total = summary.total_raw_score
+                existing_eval.raw_score_aptitude = summary.aptitude_score
+                existing_eval.raw_score_core = summary.core_score
+                existing_eval.marks_lost_to_negatives = summary.marks_lost_to_negatives
+                existing_eval.correct_count = summary.correct_count
+                existing_eval.incorrect_count = summary.incorrect_count
+                existing_eval.unattempted_count = summary.unattempted_count
             existing_eval.normalized_marks = norm_result.normalized_marks
             existing_eval.gate_score = norm_result.gate_score
             existing_eval.predicted_air = rank_pred.predicted_air
@@ -278,14 +294,14 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
         else:
             new_eval = EvaluationResultModel(
                 submission_id=sub.submission_id,
-                key_id=key_id,
-                raw_score_total=summary.total_raw_score,
-                raw_score_aptitude=summary.aptitude_score,
-                raw_score_core=summary.core_score,
-                marks_lost_to_negatives=summary.marks_lost_to_negatives,
-                correct_count=summary.correct_count,
-                incorrect_count=summary.incorrect_count,
-                unattempted_count=summary.unattempted_count,
+                key_id=key_id if summary is not None else None,
+                raw_score_total=summary.total_raw_score if summary is not None else raw_score,
+                raw_score_aptitude=summary.aptitude_score if summary is not None else 0.0,
+                raw_score_core=summary.core_score if summary is not None else 0.0,
+                marks_lost_to_negatives=summary.marks_lost_to_negatives if summary is not None else 0.0,
+                correct_count=summary.correct_count if summary is not None else 0,
+                incorrect_count=summary.incorrect_count if summary is not None else 0,
+                unattempted_count=summary.unattempted_count if summary is not None else 0,
                 normalized_marks=norm_result.normalized_marks,
                 gate_score=norm_result.gate_score,
                 predicted_air=rank_pred.predicted_air,
