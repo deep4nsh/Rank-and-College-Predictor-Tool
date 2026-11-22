@@ -11,10 +11,16 @@ from backend.app.api.v1.keys import router as keys_router
 from backend.app.api.v1.predictor import router as predictor_router
 from backend.app.api.v1.submissions import router as submissions_router
 from backend.app.db.models import Base
-from backend.app.db.session import engine
+from backend.app.db.seed import seed_database
+from backend.app.db.session import engine, SessionLocal
 
-# Initialize Database Schema
+# Initialize Database Schema & Auto-Seed Sample Data if empty
 Base.metadata.create_all(bind=engine)
+try:
+    with SessionLocal() as _db:
+        seed_database(_db)
+except Exception as _e:
+    pass
 
 app = FastAPI(
     title="Physics Wallah (PW) In-House GATE Rank, College & PSU Predictor",

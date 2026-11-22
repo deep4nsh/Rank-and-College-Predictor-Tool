@@ -81,6 +81,19 @@ def verify_session(_auth: str = Depends(verify_counsellor_access)):
     return {"status": "authenticated", "valid": True}
 
 
+@router.post("/seed-data")
+def seed_demo_leads(
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
+):
+    """
+    Populates sample student leads, evaluations, and past call logs.
+    """
+    from backend.app.db.seed import seed_database
+    count = seed_database(db, force=True)
+    return {"status": "success", "message": f"Successfully populated {count} sample student leads", "count": count}
+
+
 @router.get("/students")
 def list_students(
     search: Optional[str] = Query(None, description="Search by phone, name, or email"),
