@@ -22,6 +22,10 @@ if _env_path.exists():
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./gate_predictor.db")
 
+# Normalize cloud Postgres URLs (Render/Heroku sometimes use postgres:// which SQLAlchemy 2.0 rejects)
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 connect_args = {}
 engine_kwargs = {}
 
@@ -39,6 +43,13 @@ if DATABASE_URL.startswith("sqlite"):
         engine_kwargs["pool_timeout"] = 30.0
         engine_kwargs["pool_recycle"] = 1800
         engine_kwargs["pool_pre_ping"] = True
+else:
+    # Production Cloud PostgreSQL connection pooling
+    engine_kwargs["pool_size"] = 10
+    engine_kwargs["max_overflow"] = 20
+    engine_kwargs["pool_timeout"] = 30.0
+    engine_kwargs["pool_recycle"] = 1800
+    engine_kwargs["pool_pre_ping"] = True
 
 engine = create_engine(DATABASE_URL, connect_args=connect_args, **engine_kwargs)
 
