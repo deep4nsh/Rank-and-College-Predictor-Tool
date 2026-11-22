@@ -91,7 +91,7 @@
 
       <!-- Navigation Tabs & Session Controls -->
       <div class="flex items-center space-x-2 sm:space-x-4 mt-2 sm:mt-0 text-sm font-medium">
-        <nav class="flex space-x-1">
+        <nav class="flex items-center space-x-1.5">
           <button onclick="switchTab('counsellor-tab')" id="nav-counsellor" class="px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition">
             <i class="fa-solid fa-headset"></i>
             <span>Lead Triage</span>
@@ -99,6 +99,10 @@
           <button onclick="switchTab('admin-tab')" id="nav-admin" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
             <i class="fa-solid fa-key"></i>
             <span>Answer Keys</span>
+          </button>
+          <button onclick="triggerSeedSampleData()" class="px-3 py-1.5 rounded-md bg-amber-400 hover:bg-amber-300 text-slate-900 flex items-center space-x-1.5 transition text-xs font-black shadow" title="Populate 15 Realistic Sample Student Leads">
+            <i class="fa-solid fa-database"></i>
+            <span>Seed Demo Leads</span>
           </button>
         </nav>
 
@@ -637,7 +641,25 @@
         const tbody = document.getElementById('counsellor-table-body');
 
         if (!data.students || data.students.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="11" class="py-8 text-center text-slate-400 font-semibold">No student leads found matching filter criteria.</td></tr>`;
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="11" class="py-12 text-center bg-slate-50/50">
+                <div class="flex flex-col items-center justify-center space-y-3">
+                  <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-xl shadow-sm">
+                    <i class="fa-solid fa-users"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-800 text-sm">No Student Leads Found</h4>
+                    <p class="text-xs text-slate-500 mt-0.5">Click below to immediately load 15 realistic sample leads across GATE branches.</p>
+                  </div>
+                  <button type="button" onclick="triggerSeedSampleData()" class="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-900 rounded-lg text-xs font-black shadow-md transition flex items-center space-x-2">
+                    <i class="fa-solid fa-database"></i>
+                    <span>Seed 15 Demo Student Leads Now</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
           return;
         }
 
