@@ -190,6 +190,26 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
     if not active_subs:
         return {"status": "success", "message": "No active student submissions found for this paper", "count": 0}
 
+    sub_ids = [s.submission_id for s in active_subs]
+
+    # Pre-fetch existing evaluations in 1 bulk query
+    eval_map = {
+        ev.submission_id: ev
+        for ev in db.query(EvaluationResultModel)
+        .filter(EvaluationResultModel.submission_id.in_(sub_ids))
+        .all()
+    }
+
+    # Pre-fetch all responses in 1 bulk query and group by submission_id
+    all_responses = (
+        db.query(StudentResponseModel)
+        .filter(StudentResponseModel.submission_id.in_(sub_ids))
+        .all()
+    )
+    responses_by_sub = {}
+    for r in all_responses:
+        responses_by_sub.setdefault(r.submission_id, []).append(r)
+
     rank_engine = MonotonicRankEngine(paper_code)
     coap_data = get_coap_cutoffs()
     ccmt_data = get_ccmt_cutoffs()
@@ -203,17 +223,8 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
     graded_candidates = []
     session_scores_map = {}
     for sub in active_subs:
-        existing_eval = (
-            db.query(EvaluationResultModel)
-            .filter(EvaluationResultModel.submission_id == sub.submission_id)
-            .first()
-        )
-
-        responses = (
-            db.query(StudentResponseModel)
-            .filter(StudentResponseModel.submission_id == sub.submission_id)
-            .all()
-        )
+        existing_eval = eval_map.get(sub.submission_id)
+        responses = responses_by_sub.get(sub.submission_id, [])
 
         if not responses:
             # Direct score import without individual question choices
@@ -265,11 +276,7 @@ def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
         )
 
         # Check existing evaluation for score delta calculation
-        existing_eval = (
-            db.query(EvaluationResultModel)
-            .filter(EvaluationResultModel.submission_id == sub.submission_id)
-            .first()
-        )
+        existing_eval = eval_map.get(sub.submission_id)
 
         old_score = existing_eval.raw_score_total if existing_eval else raw_score
         delta = raw_score - old_score
