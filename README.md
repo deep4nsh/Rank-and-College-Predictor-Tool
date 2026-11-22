@@ -36,7 +36,7 @@ The **Physics Wallah (PW) GATE Rank, College & PSU Predictor** is an in-house in
 * **HTML Scraping:** BeautifulSoup4, lxml
 * **Frontend:** Responsive vanilla HTML5, Tailwind CSS, FontAwesome 6 (zero build step, zero npm dependency)
 * **Testing:** Pytest (56 comprehensive unit, integration, and concurrency stress tests)
-* **Containerization:** Docker multi-stage build, Docker Compose
+* **Cloud Ready:** Native Python cloud configuration (`Procfile`, `render.yaml`, `railway.json`)
 
 ---
 
@@ -72,16 +72,15 @@ Open your browser at `http://localhost:8000`.
 
 ## 4. Production Deployment
 
-### Option A: Docker Compose (Recommended)
-Self-contained, production-hardened container with persistent database volumes and automated health checks:
-```bash
-docker compose up -d --build
-```
-* Access Web UI & API at `http://localhost:8000`
-* Check container status: `docker compose ps`
-* View logs: `docker compose logs -f`
+### Option A: 1-Click Cloud Platform (Render / Railway - 100% Cloud, Zero Local Load)
+Deploy with zero container overhead directly from GitHub:
+1. Push this repository to your GitHub account.
+2. Sign in to **[Render.com](https://render.com)** or **[Railway.app](https://railway.app)**.
+3. Select **New Web Service** $\to$ connect this repository.
+4. It automatically detects native Python via `requirements.txt`, `Procfile`, and `render.yaml`.
+5. Click **Deploy** to receive a live public HTTPS URL (e.g. `https://pw-gate-predictor.onrender.com`).
 
-### Option B: Bare-Metal / Cloud VM Multi-Worker Startup
+### Option B: Bare-Metal / Cloud VM Multi-Worker Startup (AWS EC2 / DigitalOcean)
 ```bash
 chmod +x scripts/*.sh
 ./scripts/run_production.sh
