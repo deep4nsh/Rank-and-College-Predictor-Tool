@@ -2,6 +2,7 @@
 """
 Stand-Alone High-Volume Load & Stress Benchmark Tool for PW GATE Predictor.
 Simulates burst exam-day submissions and measures throughput and p50/p95/p99 latencies.
+Zero extra dependencies: uses httpx or Python standard library.
 
 Usage:
     python scripts/benchmark_stress_test.py --total 200 --workers 10
@@ -12,7 +13,13 @@ import concurrent.futures
 import json
 import statistics
 import time
-import requests
+
+try:
+    import httpx
+    USE_HTTPX = True
+except ImportError:
+    import urllib.request
+    USE_HTTPX = False
 
 DEFAULT_URL = "http://127.0.0.1:8000"
 
@@ -24,10 +31,13 @@ def run_benchmark(base_url: str, total_requests: int, max_workers: int):
     print(f"Target URL:         {base_url}")
     print(f"Total Requests:     {total_requests}")
     print(f"Concurrent Workers: {max_workers}")
+    print(f"Client Engine:      {'HTTPX Client' if USE_HTTPX else 'Standard urllib'}")
     print(f"Starting benchmark...")
 
     latencies = []
     status_codes = {}
+
+    client = httpx.Client(timeout=15.0) if USE_HTTPX else None
 
     def submit_one(idx: int):
         phone = f"887766{idx:04d}"
@@ -50,9 +60,21 @@ def run_benchmark(base_url: str, total_requests: int, max_workers: int):
 
         t0 = time.perf_counter()
         try:
-            resp = requests.post(f"{base_url}/api/v1/submissions", json=payload, timeout=10.0)
-            elapsed_ms = (time.perf_counter() - t0) * 1000.0
-            return resp.status_code, elapsed_ms, None
+            if USE_HTTPX:
+                resp = client.post(f"{base_url}/api/v1/submissions", json=payload)
+                elapsed_ms = (time.perf_counter() - t0) * 1000.0
+                return resp.status_code, elapsed_ms, None
+            else:
+                req_data = json.dumps(payload).encode('utf-8')
+                req = urllib.request.Request(
+                    f"{base_url}/api/v1/submissions",
+                    data=req_data,
+                    headers={'Content-Type': 'application/json'},
+                    method='POST'
+                )
+                with urllib.request.urlopen(req, timeout=15.0) as resp:
+                    elapsed_ms = (time.perf_counter() - t0) * 1000.0
+                    return resp.status, elapsed_ms, None
         except Exception as e:
             elapsed_ms = (time.perf_counter() - t0) * 1000.0
             return 500, elapsed_ms, str(e)
