@@ -4,10 +4,16 @@ import urllib.parse
 from datetime import datetime, timezone
 from typing import Dict, List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
+from pydantic import BaseModel
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
+from backend.app.core.auth import (
+    COUNSELLOR_PASSWORD,
+    generate_session_token,
+    verify_counsellor_access,
+)
 from backend.app.core.knowledge_base import (
     get_branch_matrix,
     get_ccmt_cutoffs,
@@ -31,6 +37,50 @@ from backend.app.services.report_generator import generate_student_diagnostic_pd
 router = APIRouter(prefix="/counsellor", tags=["Counsellor Operations"])
 
 
+class CounsellorLoginSchema(BaseModel):
+    passcode: str
+    counsellor_name: Optional[str] = "PW Counsellor"
+
+
+@router.post("/auth/login")
+def counsellor_login(payload: CounsellorLoginSchema):
+    """
+    Authenticates counsellor with passcode (default: 'Councellor@123')
+    and returns a signed session token.
+    """
+    if payload.passcode.strip() != COUNSELLOR_PASSWORD:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid counsellor passcode. Access denied.",
+        )
+    name = (payload.counsellor_name or "PW Counsellor").strip()
+    token = generate_session_token(name)
+    response = JSONResponse(
+        content={
+            "status": "authenticated",
+            "access_token": token,
+            "token_type": "bearer",
+            "counsellor_name": name,
+        }
+    )
+    response.set_cookie(
+        key="counsellor_token",
+        value=token,
+        max_age=86400 * 7,
+        httponly=False,
+        samesite="lax",
+    )
+    return response
+
+
+@router.get("/auth/verify")
+def verify_session(_auth: str = Depends(verify_counsellor_access)):
+    """
+    Verifies that the current counsellor session token or passcode is valid.
+    """
+    return {"status": "authenticated", "valid": True}
+
+
 @router.get("/students")
 def list_students(
     search: Optional[str] = Query(None, description="Search by phone, name, or email"),
@@ -41,6 +91,7 @@ def list_students(
     max_air: Optional[int] = Query(None, description="Filter candidates with predicted AIR <= max_air"),
     limit: int = Query(50, ge=1, le=500),
     db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
 ):
     """
     Counsellor operations list with live lead prioritization, negative marking,
@@ -105,7 +156,11 @@ def list_students(
 
 
 @router.get("/students/{phone}")
-def get_student_counselling_profile(phone: str, db: Session = Depends(get_db)):
+def get_student_counselling_profile(
+    phone: str,
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
+):
     """
     Full Counsellor Diagnostic Profile:
     Returns student details, marks breakdown, complete choice lists
@@ -191,7 +246,10 @@ def get_student_counselling_profile(phone: str, db: Session = Depends(get_db)):
 
 @router.post("/students/{phone}/call-log", response_model=CallLogResponseSchema)
 def log_student_call(
-    phone: str, payload: CallLogCreateSchema, db: Session = Depends(get_db)
+    phone: str,
+    payload: CallLogCreateSchema,
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
 ):
     """
     Records a counsellor phone call, updates lead disposition, and sets follow-up reminders.
@@ -240,7 +298,11 @@ def log_student_call(
 
 
 @router.get("/students/{phone}/call-history", response_model=List[CallLogResponseSchema])
-def get_student_call_history(phone: str, db: Session = Depends(get_db)):
+def get_student_call_history(
+    phone: str,
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
+):
     """
     Returns chronological call logs for a specific candidate phone number.
     """
@@ -268,7 +330,11 @@ def get_student_call_history(phone: str, db: Session = Depends(get_db)):
 
 
 @router.get("/students/{phone}/telephony-link")
-def get_telephony_links(phone: str, db: Session = Depends(get_db)):
+def get_telephony_links(
+    phone: str,
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
+):
     """
     Generates standard click-to-call deep links (tel:, SIP, and WhatsApp)
     with pre-filled diagnostic report text for instant communication.
@@ -313,7 +379,10 @@ def get_telephony_links(phone: str, db: Session = Depends(get_db)):
 
 
 @router.get("/analytics/lead-summary", response_model=LeadSummaryAnalyticsSchema)
-def get_lead_summary_analytics(db: Session = Depends(get_db)):
+def get_lead_summary_analytics(
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
+):
     """
     Real-time operational dashboard analytics:
     Lead priority counts, disposition status distribution, and negative marks analysis.
@@ -379,6 +448,7 @@ def export_students_csv(
     min_negative_lost: Optional[float] = Query(None),
     max_air: Optional[int] = Query(None),
     db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
 ):
     """
     Exports filtered candidate leads to a formatted CSV file for offline calling teams.
@@ -456,7 +526,11 @@ def export_students_csv(
 
 
 @router.get("/students/{phone}/whatsapp-summary")
-def generate_whatsapp_summary(phone: str, db: Session = Depends(get_db)):
+def generate_whatsapp_summary(
+    phone: str,
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
+):
     """
     Generates a 1-click dynamic summary for counsellors to share via WhatsApp,
     featuring candidate diagnostic metrics and their specific Safe/Target colleges.
@@ -530,7 +604,11 @@ def generate_whatsapp_summary(phone: str, db: Session = Depends(get_db)):
 
 
 @router.get("/students/{phone}/pdf")
-def download_student_diagnostic_pdf(phone: str, db: Session = Depends(get_db)):
+def download_student_diagnostic_pdf(
+    phone: str,
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
+):
     """
     Generates and streams a 1-page PW-branded Student Diagnostic PDF scorecard
     for counselling sessions and direct candidate delivery.

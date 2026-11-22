@@ -1,5 +1,6 @@
+import os
 from pathlib import Path
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -41,14 +42,33 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
+PORTAL_MODE = os.getenv("PORTAL_MODE", "both").lower().strip()
+
 
 @app.get("/")
+def serve_root():
+    """
+    Dynamically routes root URL '/' based on PORTAL_MODE:
+    - 'student': serves Student Exam Portal
+    - 'counsellor': serves Counsellor Operations Station
+    - 'both': defaults to Student Portal with counsellor reachable at /counsellor
+    """
+    if PORTAL_MODE == "counsellor":
+        return serve_counsellor_portal()
+    return serve_student_portal()
+
+
 @app.get("/student")
 def serve_student_portal():
     """
     Serves the Student Exam Portal: personal info, CBT response form,
     TCS Digialm response parser, scorecards, and admission forecasts.
     """
+    if PORTAL_MODE == "counsellor":
+        raise HTTPException(
+            status_code=404,
+            detail="Student portal is not enabled on this service. Please visit the Student Portal URL.",
+        )
     student_file = STATIC_DIR / "student.html"
     if student_file.exists():
         return FileResponse(str(student_file))
@@ -69,6 +89,11 @@ def serve_counsellor_portal():
     Serves the Counsellor Operations & Admissions Portal:
     KPI triage, candidate lead table, laptop contact details card, and key publisher.
     """
+    if PORTAL_MODE == "student":
+        raise HTTPException(
+            status_code=404,
+            detail="Counsellor station is not enabled on this service. Please visit the Counsellor Station URL.",
+        )
     counsellor_file = STATIC_DIR / "counsellor.html"
     if counsellor_file.exists():
         return FileResponse(str(counsellor_file))

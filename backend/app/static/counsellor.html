@@ -36,6 +36,41 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
 
+  <!-- PASSWORD LOGIN MODAL OVERLAY -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-sm w-full overflow-hidden p-6 text-slate-800">
+      <div class="text-center mb-5">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-pw-blue text-amber-400 font-black flex items-center justify-center text-2xl shadow-lg mb-3">
+          PW
+        </div>
+        <h2 class="text-base font-bold text-slate-900">PW Counsellor Station</h2>
+        <p class="text-xs text-slate-500 mt-1">Restricted internal portal. Enter counsellor passcode to unlock.</p>
+      </div>
+
+      <form id="auth-form" onsubmit="handleCounsellorLogin(event)" class="space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Counsellor / Mentor Name</label>
+          <input type="text" id="auth-counsellor-name" value="PW Admissions Mentor" required class="w-full border rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-pw-accent outline-none">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Passcode *</label>
+          <div class="relative">
+            <input type="password" id="auth-passcode" required placeholder="Enter passcode..." class="w-full border rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-pw-accent outline-none font-mono">
+            <button type="button" onclick="togglePasscodeVisibility()" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
+              <i id="passcode-eye-icon" class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <p id="auth-error-msg" class="text-rose-600 text-[11px] font-semibold mt-1 hidden"></p>
+        </div>
+
+        <button type="submit" id="btn-auth-submit" class="w-full py-2.5 bg-pw-blue hover:bg-blue-900 text-white font-bold rounded-lg shadow text-xs transition flex items-center justify-center space-x-1.5 mt-2">
+          <i class="fa-solid fa-lock-open text-xs"></i>
+          <span>Unlock Counsellor Station</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- Top Header for Counsellor Portal -->
   <header class="bg-pw-blue text-white shadow-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 flex flex-wrap justify-between items-center">
@@ -54,7 +89,7 @@
         </div>
       </div>
 
-      <!-- Navigation Tabs & Student Portal Link -->
+      <!-- Navigation Tabs & Session Controls -->
       <div class="flex items-center space-x-2 sm:space-x-4 mt-2 sm:mt-0 text-sm font-medium">
         <nav class="flex space-x-1">
           <button onclick="switchTab('counsellor-tab')" id="nav-counsellor" class="px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition">
@@ -66,6 +101,17 @@
             <span>Answer Keys</span>
           </button>
         </nav>
+
+        <!-- Logged In Counsellor Badge & Logout -->
+        <div id="counsellor-user-badge" class="flex items-center space-x-2 text-xs">
+          <span class="bg-blue-800/80 text-blue-100 px-2.5 py-1 rounded-md font-semibold border border-blue-600 flex items-center space-x-1.5">
+            <i class="fa-solid fa-user-tie text-amber-400"></i>
+            <span id="header-counsellor-name">PW Counsellor</span>
+          </span>
+          <button onclick="handleCounsellorLogout()" class="px-2.5 py-1 text-xs bg-rose-600/80 hover:bg-rose-600 text-white rounded-md transition font-semibold" title="Lock & Logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
 
         <!-- Access back to Student Exam Portal -->
         <a href="/" class="px-3 py-1.5 text-xs bg-slate-700/80 hover:bg-slate-700 text-white border border-slate-500/50 rounded-md transition flex items-center space-x-1.5 font-semibold" title="Open Student Exam CBT Portal">
@@ -395,6 +441,125 @@
 
   <!-- JavaScript Application Logic -->
   <script>
+    // Authentication State Management
+    let authToken = sessionStorage.getItem('counsellor_token') || localStorage.getItem('counsellor_token') || '';
+    let loggedInCounsellor = sessionStorage.getItem('counsellor_name') || localStorage.getItem('counsellor_name') || 'PW Admissions Mentor';
+
+    function getAuthHeaders() {
+      const headers = { 'Content-Type': 'application/json' };
+      if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+        headers['X-Counsellor-Passcode'] = authToken;
+      }
+      return headers;
+    }
+
+    function togglePasscodeVisibility() {
+      const input = document.getElementById('auth-passcode');
+      const icon = document.getElementById('passcode-eye-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-regular fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-regular fa-eye';
+      }
+    }
+
+    function showAuthModal(errMsg = '') {
+      const modal = document.getElementById('auth-modal');
+      const errP = document.getElementById('auth-error-msg');
+      if (errMsg) {
+        errP.innerText = errMsg;
+        errP.classList.remove('hidden');
+      } else {
+        errP.classList.add('hidden');
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function hideAuthModal() {
+      document.getElementById('auth-modal').classList.add('hidden');
+      document.getElementById('header-counsellor-name').innerText = loggedInCounsellor;
+      document.getElementById('modal-counsellor-name').value = loggedInCounsellor;
+    }
+
+    async function handleCounsellorLogin(e) {
+      e.preventDefault();
+      const name = document.getElementById('auth-counsellor-name').value.trim() || 'PW Admissions Mentor';
+      const passcode = document.getElementById('auth-passcode').value.trim();
+      const btn = document.getElementById('btn-auth-submit');
+      const errP = document.getElementById('auth-error-msg');
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Authenticating...`;
+      errP.classList.add('hidden');
+
+      try {
+        const resp = await fetch('/api/v1/counsellor/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: passcode, counsellor_name: name })
+        });
+
+        if (!resp.ok) {
+          const errData = await resp.json().catch(() => ({}));
+          throw new Error(errData.detail || "Invalid passcode. Please try again.");
+        }
+
+        const data = await resp.json();
+        authToken = data.access_token;
+        loggedInCounsellor = data.counsellor_name || name;
+
+        sessionStorage.setItem('counsellor_token', authToken);
+        sessionStorage.setItem('counsellor_name', loggedInCounsellor);
+        localStorage.setItem('counsellor_token', authToken);
+        localStorage.setItem('counsellor_name', loggedInCounsellor);
+
+        hideAuthModal();
+        showToast(`Welcome, ${loggedInCounsellor}! Station unlocked.`, "green");
+        loadCounsellorStudents();
+        loadCounsellorAnalytics();
+      } catch (err) {
+        errP.innerText = err.message;
+        errP.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-lock-open text-xs mr-1"></i> Unlock Counsellor Station`;
+      }
+    }
+
+    function handleCounsellorLogout() {
+      sessionStorage.removeItem('counsellor_token');
+      sessionStorage.removeItem('counsellor_name');
+      localStorage.removeItem('counsellor_token');
+      localStorage.removeItem('counsellor_name');
+      authToken = '';
+      showAuthModal("Session ended. Enter passcode to access.");
+    }
+
+    async function checkAuthSession() {
+      if (!authToken) {
+        showAuthModal();
+        return false;
+      }
+      try {
+        const resp = await fetch('/api/v1/counsellor/auth/verify', {
+          headers: getAuthHeaders()
+        });
+        if (resp.ok) {
+          hideAuthModal();
+          return true;
+        } else {
+          showAuthModal("Session expired or invalid. Please re-enter passcode.");
+          return false;
+        }
+      } catch (err) {
+        showAuthModal();
+        return false;
+      }
+    }
+
     // Tab Switching
     function switchTab(tabId) {
       document.getElementById('counsellor-tab').classList.add('hidden');
@@ -413,7 +578,7 @@
         }
       });
 
-      if (tabId === 'counsellor-tab') {
+      if (tabId === 'counsellor-tab' && authToken) {
         loadCounsellorStudents();
         loadCounsellorAnalytics();
       }
@@ -422,7 +587,13 @@
     // Counsellor Operations Functions
     async function loadCounsellorAnalytics() {
       try {
-        const resp = await fetch('/api/v1/counsellor/analytics/lead-summary');
+        const resp = await fetch('/api/v1/counsellor/analytics/lead-summary', {
+          headers: getAuthHeaders()
+        });
+        if (resp.status === 401) {
+          showAuthModal("Authentication expired. Please log in.");
+          return;
+        }
         if (!resp.ok) return;
         const data = await resp.json();
 
@@ -451,7 +622,13 @@
       if (highNeg) params.append('high_negatives_only', 'true');
 
       try {
-        const resp = await fetch(`/api/v1/counsellor/students?${params.toString()}`);
+        const resp = await fetch(`/api/v1/counsellor/students?${params.toString()}`, {
+          headers: getAuthHeaders()
+        });
+        if (resp.status === 401) {
+          showAuthModal("Authentication expired. Please log in.");
+          return;
+        }
         const data = await resp.json();
         const tbody = document.getElementById('counsellor-table-body');
 
@@ -530,6 +707,7 @@
       if (disp) params.append('call_disposition', disp);
       if (paper) params.append('paper_code', paper);
       if (highNeg) params.append('high_negatives_only', 'true');
+      if (authToken) params.append('token', authToken);
 
       window.open(`/api/v1/counsellor/export/csv?${params.toString()}`, '_blank');
     }
@@ -653,7 +831,9 @@
       const histDiv = document.getElementById('modal-history-list');
       histDiv.innerHTML = '<div class="text-slate-400 italic">Loading past logs...</div>';
       try {
-        const resp = await fetch(`/api/v1/counsellor/students/${phone}/call-history`);
+        const resp = await fetch(`/api/v1/counsellor/students/${phone}/call-history`, {
+          headers: getAuthHeaders()
+        });
         const logs = await resp.json();
         if (!logs.length) {
           histDiv.innerHTML = '<div class="text-slate-400 italic">No previous calls logged yet.</div>';
@@ -689,7 +869,7 @@
       try {
         const resp = await fetch(`/api/v1/counsellor/students/${phone}/call-log`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: getAuthHeaders(),
           body: JSON.stringify({
             counsellor_name: counsellor,
             call_disposition: disp,
@@ -717,7 +897,9 @@
 
     async function copyStudentWhatsApp(phone) {
       try {
-        const resp = await fetch(`/api/v1/counsellor/students/${phone}/whatsapp-summary`);
+        const resp = await fetch(`/api/v1/counsellor/students/${phone}/whatsapp-summary`, {
+          headers: getAuthHeaders()
+        });
         const data = await resp.json();
         await navigator.clipboard.writeText(data.whatsapp_text);
         showToast(`WhatsApp report copied for ${phone}!`, "green");
@@ -727,7 +909,10 @@
     }
 
     function downloadStudentPdf(phone) {
-      window.open(`/api/v1/counsellor/students/${phone}/pdf`, '_blank');
+      const url = authToken
+        ? `/api/v1/counsellor/students/${phone}/pdf?token=${encodeURIComponent(authToken)}`
+        : `/api/v1/counsellor/students/${phone}/pdf`;
+      window.open(url, '_blank');
     }
 
     // Admin / Key Management
@@ -756,7 +941,7 @@
       try {
         const resp = await fetch('/api/v1/keys', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: getAuthHeaders(),
           body: JSON.stringify({
             paper_code: paper,
             version: ver,
@@ -780,11 +965,16 @@
       btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Re-evaluating All Students...`;
 
       try {
-        const activeResp = await fetch(`/api/v1/keys/${paper}/active`);
+        const activeResp = await fetch(`/api/v1/keys/${paper}/active`, {
+          headers: getAuthHeaders()
+        });
         if (!activeResp.ok) throw new Error(`No active key found for ${paper}`);
         const activeKey = await activeResp.json();
 
-        const reevalResp = await fetch(`/api/v1/keys/${activeKey.key_id}/re-evaluate`, { method: 'POST' });
+        const reevalResp = await fetch(`/api/v1/keys/${activeKey.key_id}/re-evaluate`, {
+          method: 'POST',
+          headers: getAuthHeaders()
+        });
         const reevalData = await reevalResp.json();
         showToast(`Batch Re-evaluation Complete! ${reevalData.re_evaluated_count || 0} students updated.`, "green");
       } catch (err) {
@@ -815,9 +1005,12 @@
     }
 
     // Initialize application on load
-    window.addEventListener('DOMContentLoaded', () => {
-      loadCounsellorStudents();
-      loadCounsellorAnalytics();
+    window.addEventListener('DOMContentLoaded', async () => {
+      const isAuthenticated = await checkAuthSession();
+      if (isAuthenticated) {
+        loadCounsellorStudents();
+        loadCounsellorAnalytics();
+      }
     });
   </script>
 </body>

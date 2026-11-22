@@ -23,6 +23,7 @@ from backend.app.db.models import (
     StudentResponseModel,
     StudentSubmissionModel,
 )
+from backend.app.core.auth import verify_counsellor_access
 from backend.app.db.session import get_db
 from backend.app.schemas.key import AnswerKeyCreateSchema
 
@@ -30,7 +31,11 @@ router = APIRouter(prefix="/keys", tags=["Answer Keys"])
 
 
 @router.post("")
-def create_answer_key(payload: AnswerKeyCreateSchema, db: Session = Depends(get_db)):
+def create_answer_key(
+    payload: AnswerKeyCreateSchema,
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
+):
     """
     Creates and publishes an answer key (PW Faculty or Official IIT).
     Auto-provisions QuestionModel records if not already in DB.
@@ -131,7 +136,11 @@ def get_active_key(paper_code: str, db: Session = Depends(get_db)):
 
 
 @router.post("/{key_id}/re-evaluate")
-def re_evaluate_submissions(key_id: str, db: Session = Depends(get_db)):
+def re_evaluate_submissions(
+    key_id: str,
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
+):
     """
     Batch Re-Evaluation Worker:
     When an answer key is updated (e.g. Official IIT Key released or Faculty Key revised),
