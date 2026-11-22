@@ -1,0 +1,27 @@
+name: Keep Render Services Alive 24/7
+
+on:
+  schedule:
+    # Runs every 10 minutes (Render free tier sleeps after 15 minutes of inactivity)
+    - cron: "*/10 * * * *"
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  ping-render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Student Portal & Counsellor Station
+        run: |
+          echo "Pinging Render instances to prevent cold sleep..."
+
+          # Student Portal Health Check
+          STUDENT_URL="${{ secrets.STUDENT_RENDER_URL || 'https://pw-gate-student.onrender.com/api/health' }}"
+          echo "Checking Student Portal: $STUDENT_URL"
+          curl -s -m 30 -o /dev/null -w "Student Portal HTTP Status: %{http_code}\n" "$STUDENT_URL" || true
+
+          # Counsellor Station Health Check
+          COUNSELLOR_URL="${{ secrets.COUNSELLOR_RENDER_URL || 'https://pw-gate-counsellor.onrender.com/api/health' }}"
+          echo "Checking Counsellor Station: $COUNSELLOR_URL"
+          curl -s -m 30 -o /dev/null -w "Counsellor Station HTTP Status: %{http_code}\n" "$COUNSELLOR_URL" || true
+
+          echo "Ping cycle completed successfully."
