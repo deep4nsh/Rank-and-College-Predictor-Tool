@@ -398,24 +398,58 @@
 
     <!-- TAB 3: COUNSELLOR OPERATIONS DASHBOARD -->
     <section id="counsellor-tab" class="hidden">
+      <!-- Operational KPI Analytics Bar -->
+      <div id="analytics-kpi-bar" class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-5">
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-center">
+          <div id="kpi-total" class="text-xl font-black text-pw-blue">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">Total Submissions</div>
+        </div>
+        <div class="bg-purple-50 border border-purple-200 rounded-xl p-3 text-center">
+          <div id="kpi-topper" class="text-xl font-black text-purple-700">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">Super Toppers (Top 100)</div>
+        </div>
+        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-center">
+          <div id="kpi-psu" class="text-xl font-black text-indigo-700">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">PSU & Top IIT</div>
+        </div>
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-center">
+          <div id="kpi-high-neg" class="text-xl font-black text-amber-700">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">High Negatives (>8)</div>
+        </div>
+        <div class="bg-rose-50 border border-rose-200 rounded-xl p-3 text-center">
+          <div id="kpi-pending" class="text-xl font-black text-rose-700">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">Pending Calls</div>
+        </div>
+      </div>
+
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <div class="flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-5">
           <div>
             <h2 class="text-base font-bold text-slate-800">Counsellor Lead Management & Diagnostics</h2>
-            <p class="text-xs text-slate-500">Prioritized triage by GATE Score, AIR band, and negative marking analysis.</p>
+            <p class="text-xs text-slate-500">Prioritized triage by GATE Score, AIR band, call dispositions, and negative marks.</p>
           </div>
 
           <!-- Filters -->
           <div class="flex flex-wrap items-center gap-2">
-            <input type="text" id="counsellor-search" oninput="loadCounsellorStudents()" placeholder="Search phone, name..." class="border rounded px-3 py-1.5 text-xs focus:ring-2 focus:ring-pw-accent outline-none w-44">
-            <select id="counsellor-filter-lead" onchange="loadCounsellorStudents()" class="border rounded px-2.5 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-pw-accent outline-none">
+            <input type="text" id="counsellor-search" oninput="loadCounsellorStudents()" placeholder="Search phone, name..." class="border rounded px-3 py-1.5 text-xs focus:ring-2 focus:ring-pw-accent outline-none w-36">
+            <select id="counsellor-filter-lead" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-pw-accent outline-none">
               <option value="">All Priorities</option>
               <option value="SUPER_TOPPER">SUPER_TOPPER (AIR < 100)</option>
               <option value="PSU_AND_TOP_IIT">PSU_AND_TOP_IIT (AIR 100-500)</option>
               <option value="NIT_PROSPECT">NIT_PROSPECT (AIR 500-2500)</option>
               <option value="NURTURE_REPEATER">NURTURE_REPEATER (AIR > 5000)</option>
             </select>
-            <select id="counsellor-filter-paper" onchange="loadCounsellorStudents()" class="border rounded px-2.5 py-1.5 text-xs focus:ring-2 focus:ring-pw-accent outline-none">
+            <select id="counsellor-filter-disp" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="">All Dispositions</option>
+              <option value="PENDING">Pending Call</option>
+              <option value="INTERESTED_IN_BATCH">Interested in Batch</option>
+              <option value="COAP_COUNSELLING_BOOKED">COAP Booked</option>
+              <option value="PSU_GDPI_BOOKED">PSU GD/PI Booked</option>
+              <option value="CONNECTED_FOLLOW_UP">Follow Up</option>
+              <option value="NOT_REACHABLE">Not Reachable</option>
+              <option value="NOT_INTERESTED">Not Interested</option>
+            </select>
+            <select id="counsellor-filter-paper" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs focus:ring-2 focus:ring-pw-accent outline-none">
               <option value="">All Branches</option>
               <option value="CS">CS</option>
               <option value="DA">DA</option>
@@ -424,7 +458,15 @@
               <option value="EE">EE</option>
               <option value="EC">EC</option>
             </select>
-            <button onclick="loadCounsellorStudents()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-xs font-semibold transition">
+            <label class="flex items-center space-x-1.5 text-xs font-bold text-amber-700 bg-amber-50 px-2 py-1.5 rounded border border-amber-200 cursor-pointer">
+              <input type="checkbox" id="counsellor-high-neg" onchange="loadCounsellorStudents()" class="rounded text-amber-600">
+              <span>Neg > 8</span>
+            </label>
+            <button onclick="exportLeadsCsv()" title="Export Filtered Leads to CSV" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold transition flex items-center space-x-1">
+              <i class="fa-solid fa-file-excel"></i>
+              <span>Export CSV</span>
+            </button>
+            <button onclick="loadCounsellorStudents(); loadCounsellorAnalytics();" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-xs font-semibold transition">
               <i class="fa-solid fa-rotate"></i>
             </button>
           </div>
@@ -444,6 +486,7 @@
                 <th class="py-2.5 px-3">GATE Score</th>
                 <th class="py-2.5 px-3">AIR Band</th>
                 <th class="py-2.5 px-3">Priority</th>
+                <th class="py-2.5 px-3">Disposition</th>
                 <th class="py-2.5 px-3 text-right">Actions</th>
               </tr>
             </thead>
@@ -454,6 +497,87 @@
         </div>
       </div>
     </section>
+
+    <!-- CALL LOG & CRM MODAL -->
+    <div id="call-log-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden transform transition-all">
+        <!-- Modal Header -->
+        <div class="bg-pw-blue text-white p-4 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <i class="fa-solid fa-headset text-lg text-blue-200"></i>
+            <div>
+              <h3 id="modal-student-name" class="font-bold text-sm">Log Counsellor Call</h3>
+              <p id="modal-student-meta" class="text-[11px] text-blue-200">Phone: 9876543210 | GATE CS</p>
+            </div>
+          </div>
+          <button onclick="closeCallLogModal()" class="text-white/80 hover:text-white text-lg">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Modal Body Form -->
+        <div class="p-5 space-y-3.5 text-xs">
+          <!-- Quick Call Strip -->
+          <div class="bg-slate-50 p-2.5 rounded-lg border flex items-center justify-between">
+            <span class="text-slate-600 font-semibold">Click to Call Candidate:</span>
+            <div class="flex space-x-2">
+              <a id="modal-tel-btn" href="#" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold flex items-center space-x-1">
+                <i class="fa-solid fa-phone"></i>
+                <span>Dial Tel</span>
+              </a>
+              <a id="modal-wa-btn" href="#" target="_blank" class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded font-bold flex items-center space-x-1">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>WhatsApp</span>
+              </a>
+            </div>
+          </div>
+
+          <form id="call-log-form" onsubmit="submitCallLog(event)">
+            <input type="hidden" id="modal-phone-input">
+            <div class="grid grid-cols-2 gap-3 mb-3">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Counsellor Name</label>
+                <input type="text" id="modal-counsellor-name" value="PW Admissions Mentor" required class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Call Disposition *</label>
+                <select id="modal-disposition-select" required class="w-full border rounded px-2.5 py-1.5 font-bold text-pw-blue focus:ring-2 focus:ring-pw-accent outline-none">
+                  <option value="INTERESTED_IN_BATCH">Interested in Batch</option>
+                  <option value="COAP_COUNSELLING_BOOKED">COAP Counselling Booked</option>
+                  <option value="PSU_GDPI_BOOKED">PSU GD/PI Guidance Booked</option>
+                  <option value="CONNECTED_FOLLOW_UP">Connected - Follow Up</option>
+                  <option value="NOT_REACHABLE">Not Reachable</option>
+                  <option value="WRONG_NUMBER">Wrong Number</option>
+                  <option value="NOT_INTERESTED">Not Interested</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="block font-bold text-slate-700 mb-1">Follow-Up Date (Optional)</label>
+              <input type="date" id="modal-followup-date" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+            </div>
+
+            <div class="mb-3">
+              <label class="block font-bold text-slate-700 mb-1">Call Notes & Action Plan</label>
+              <textarea id="modal-notes-input" rows="3" placeholder="Discussed negative marks and COAP choice sequence..." class="w-full border rounded p-2.5 focus:ring-2 focus:ring-pw-accent outline-none"></textarea>
+            </div>
+
+            <button type="submit" id="btn-save-call-log" class="w-full py-2 bg-pw-blue hover:bg-blue-900 text-white font-bold rounded-lg shadow text-xs transition">
+              Save Call Record & Update Lead
+            </button>
+          </form>
+
+          <!-- Prior Call History Timeline -->
+          <div class="pt-3 border-t">
+            <h4 class="font-bold text-slate-700 mb-2">Past Call History</h4>
+            <div id="modal-history-list" class="max-h-36 overflow-y-auto space-y-2 text-[11px]">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- TAB 4: ANSWER KEY MANAGEMENT -->
     <section id="admin-tab" class="hidden">
@@ -549,7 +673,10 @@
       const activeNav = document.getElementById(`nav-${tabId.split('-')[0]}`);
       if (activeNav) activeNav.className = "px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition";
 
-      if (tabId === 'counsellor-tab') loadCounsellorStudents();
+      if (tabId === 'counsellor-tab') {
+        loadCounsellorStudents();
+        loadCounsellorAnalytics();
+      }
     }
 
     // Load Exam Paper Blueprint
@@ -1037,15 +1164,35 @@
     }
 
     // Counsellor Ops Dashboard
+    async function loadCounsellorAnalytics() {
+      try {
+        const resp = await fetch('/api/v1/counsellor/analytics/lead-summary');
+        if (!resp.ok) return;
+        const data = await resp.json();
+        document.getElementById('kpi-total').innerText = data.total_submissions;
+        document.getElementById('kpi-topper').innerText = data.super_topper_count;
+        document.getElementById('kpi-psu').innerText = data.psu_and_top_iit_count;
+        document.getElementById('kpi-high-neg').innerText = data.high_negative_marks_count;
+        const pendingCount = (data.disposition_counts && data.disposition_counts['PENDING']) || 0;
+        document.getElementById('kpi-pending').innerText = pendingCount;
+      } catch (err) {
+        console.error("Analytics load error:", err);
+      }
+    }
+
     async function loadCounsellorStudents() {
       const search = document.getElementById('counsellor-search').value.trim();
       const lead = document.getElementById('counsellor-filter-lead').value;
+      const disp = document.getElementById('counsellor-filter-disp').value;
       const paper = document.getElementById('counsellor-filter-paper').value;
+      const highNeg = document.getElementById('counsellor-high-neg').checked;
 
-      let url = `/api/v1/counsellor/students?limit=50`;
+      let url = `/api/v1/counsellor/students?limit=100`;
       if (search) url += `&search=${encodeURIComponent(search)}`;
       if (lead) url += `&lead_classification=${encodeURIComponent(lead)}`;
+      if (disp) url += `&call_disposition=${encodeURIComponent(disp)}`;
       if (paper) url += `&paper_code=${encodeURIComponent(paper)}`;
+      if (highNeg) url += `&min_negative_lost=8.0`;
 
       try {
         const resp = await fetch(url);
@@ -1054,7 +1201,7 @@
         tbody.innerHTML = '';
 
         if (!data.students || !data.students.length) {
-          tbody.innerHTML = `<tr><td colspan="10" class="text-center py-6 text-slate-400">No student submissions match query.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="11" class="text-center py-6 text-slate-400">No student submissions match query.</td></tr>`;
           return;
         }
 
@@ -1067,7 +1214,7 @@
             <td class="py-2.5 px-3 font-bold text-pw-blue">${s.paper_code}</td>
             <td class="py-2.5 px-3">${s.category}</td>
             <td class="py-2.5 px-3 font-bold">${Number(s.raw_score).toFixed(2)}</td>
-            <td class="py-2.5 px-3 text-rose-600">-${Number(s.marks_lost_to_negatives).toFixed(2)}</td>
+            <td class="py-2.5 px-3 text-rose-600 font-semibold">-${Number(s.marks_lost_to_negatives).toFixed(2)}</td>
             <td class="py-2.5 px-3 font-bold text-emerald-600">${s.gate_score}</td>
             <td class="py-2.5 px-3 font-semibold">${s.air_range}</td>
             <td class="py-2.5 px-3">
@@ -1075,11 +1222,22 @@
                 ${s.lead_classification}
               </span>
             </td>
-            <td class="py-2.5 px-3 text-right space-x-1">
+            <td class="py-2.5 px-3">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${getDispBadgeStyle(s.call_disposition)}">
+                ${(s.call_disposition || 'PENDING').replace(/_/g, ' ')}
+              </span>
+            </td>
+            <td class="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">
+              <a href="tel:+91${s.student_phone}" title="Direct Phone Call" class="inline-block px-2 py-1 bg-blue-50 text-pw-blue hover:bg-blue-100 rounded text-xs">
+                <i class="fa-solid fa-phone"></i>
+              </a>
               <button onclick="copyStudentWhatsApp('${s.student_phone}')" title="Copy WhatsApp Text" class="px-2 py-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded text-xs">
                 <i class="fa-brands fa-whatsapp"></i>
               </button>
-              <button onclick="downloadStudentPdf('${s.student_phone}')" title="Download PDF" class="px-2 py-1 bg-blue-50 text-pw-blue hover:bg-blue-100 rounded text-xs">
+              <button onclick="openCallLogModal('${s.student_phone}', '${s.student_name.replace(/'/g, "\\'")}', '${s.paper_code}', ${s.raw_score}, '${s.air_range}', '${s.call_disposition || 'PENDING'}')" title="Log Counsellor Call" class="px-2 py-1 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded text-xs font-bold">
+                <i class="fa-solid fa-headset mr-0.5"></i> Log
+              </button>
+              <button onclick="downloadStudentPdf('${s.student_phone}')" title="Download Diagnostic PDF" class="px-2 py-1 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded text-xs">
                 <i class="fa-solid fa-file-pdf"></i>
               </button>
             </td>
@@ -1096,6 +1254,123 @@
       if (cls === 'PSU_AND_TOP_IIT') return 'bg-blue-100 text-blue-900';
       if (cls === 'NIT_PROSPECT') return 'bg-emerald-100 text-emerald-900';
       return 'bg-amber-100 text-amber-900';
+    }
+
+    function getDispBadgeStyle(disp) {
+      if (!disp || disp === 'PENDING') return 'bg-slate-100 text-slate-700 border border-slate-200';
+      if (disp.includes('INTERESTED') || disp.includes('BOOKED')) return 'bg-emerald-100 text-emerald-800';
+      if (disp === 'CONNECTED_FOLLOW_UP') return 'bg-amber-100 text-amber-800';
+      return 'bg-rose-100 text-rose-800';
+    }
+
+    function exportLeadsCsv() {
+      const lead = document.getElementById('counsellor-filter-lead').value;
+      const disp = document.getElementById('counsellor-filter-disp').value;
+      const paper = document.getElementById('counsellor-filter-paper').value;
+      const highNeg = document.getElementById('counsellor-high-neg').checked;
+
+      let url = `/api/v1/counsellor/export/csv?`;
+      if (lead) url += `lead_classification=${encodeURIComponent(lead)}&`;
+      if (disp) url += `call_disposition=${encodeURIComponent(disp)}&`;
+      if (paper) url += `paper_code=${encodeURIComponent(paper)}&`;
+      if (highNeg) url += `min_negative_lost=8.0&`;
+
+      window.open(url, '_blank');
+    }
+
+    // Call Log Modal Functions
+    async function openCallLogModal(phone, name, branch, rawScore, airRange, currentDisp) {
+      document.getElementById('modal-phone-input').value = phone;
+      document.getElementById('modal-student-name').innerText = `Log Call: ${name}`;
+      document.getElementById('modal-student-meta').innerText = `Phone: ${phone} | GATE ${branch} | Score: ${Number(rawScore).toFixed(2)} | AIR: ${airRange}`;
+      document.getElementById('modal-disposition-select').value = currentDisp || 'INTERESTED_IN_BATCH';
+      document.getElementById('modal-notes-input').value = '';
+      document.getElementById('modal-followup-date').value = '';
+
+      // Telephony deep links
+      try {
+        const resp = await fetch(`/api/v1/counsellor/students/${phone}/telephony-link`);
+        if (resp.ok) {
+          const links = await resp.json();
+          document.getElementById('modal-tel-btn').href = links.tel_uri;
+          document.getElementById('modal-wa-btn').href = links.wa_web_link;
+        }
+      } catch (e) {}
+
+      // Load past history
+      await loadCallHistoryForModal(phone);
+
+      document.getElementById('call-log-modal').classList.remove('hidden');
+    }
+
+    function closeCallLogModal() {
+      document.getElementById('call-log-modal').classList.add('hidden');
+    }
+
+    async function loadCallHistoryForModal(phone) {
+      const histDiv = document.getElementById('modal-history-list');
+      histDiv.innerHTML = '<div class="text-slate-400 italic">Loading past logs...</div>';
+      try {
+        const resp = await fetch(`/api/v1/counsellor/students/${phone}/call-history`);
+        const logs = await resp.json();
+        if (!logs.length) {
+          histDiv.innerHTML = '<div class="text-slate-400 italic">No previous calls logged yet.</div>';
+          return;
+        }
+        histDiv.innerHTML = logs.map(l => `
+          <div class="bg-slate-50 p-2 rounded border border-slate-200">
+            <div class="flex items-center justify-between font-bold text-slate-700">
+              <span>${l.counsellor_name} (${l.call_disposition.replace(/_/g, ' ')})</span>
+              <span class="text-[10px] text-slate-400 font-normal">${new Date(l.logged_at).toLocaleString()}</span>
+            </div>
+            ${l.notes ? `<p class="text-slate-600 mt-1">${l.notes}</p>` : ''}
+            ${l.follow_up_date ? `<div class="text-[10px] text-amber-700 font-bold mt-1">Reminder: Follow up on ${l.follow_up_date}</div>` : ''}
+          </div>
+        `).join('');
+      } catch (err) {
+        histDiv.innerHTML = '<div class="text-rose-500">Failed to load history</div>';
+      }
+    }
+
+    async function submitCallLog(e) {
+      e.preventDefault();
+      const phone = document.getElementById('modal-phone-input').value;
+      const counsellor = document.getElementById('modal-counsellor-name').value.trim();
+      const disp = document.getElementById('modal-disposition-select').value;
+      const notes = document.getElementById('modal-notes-input').value.trim();
+      const followup = document.getElementById('modal-followup-date').value || null;
+
+      const btn = document.getElementById('btn-save-call-log');
+      btn.disabled = true;
+      btn.innerText = "Saving Call Log...";
+
+      try {
+        const resp = await fetch(`/api/v1/counsellor/students/${phone}/call-log`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            counsellor_name: counsellor,
+            call_disposition: disp,
+            notes: notes,
+            follow_up_date: followup
+          })
+        });
+
+        if (!resp.ok) {
+          const errData = await resp.json();
+          throw new Error(errData.detail || "Failed to save call log");
+        }
+
+        showToast("Call log saved successfully!", "green");
+        closeCallLogModal();
+        loadCounsellorStudents();
+        loadCounsellorAnalytics();
+      } catch (err) {
+        showToast("Error saving call: " + err.message, "red");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Save Call Record & Update Lead";
+      }
     }
 
     async function copyStudentWhatsApp(phone) {

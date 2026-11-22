@@ -101,11 +101,14 @@ class StudentSubmissionModel(Base):
     paper_code = Column(String(10), ForeignKey("papers.paper_code"), nullable=False)
     session_id = Column(Integer, default=1)
     is_active = Column(Boolean, default=True)
+    call_disposition = Column(String(32), default="PENDING")
+    last_contacted_at = Column(DateTime, nullable=True)
     submitted_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     paper = relationship("PaperModel", back_populates="submissions")
     responses = relationship("StudentResponseModel", back_populates="submission", cascade="all, delete-orphan")
     evaluation = relationship("EvaluationResultModel", back_populates="submission", uselist=False, cascade="all, delete-orphan")
+    call_logs = relationship("CounsellorCallLogModel", back_populates="submission", cascade="all, delete-orphan")
 
 
 class StudentResponseModel(Base):
@@ -144,3 +147,18 @@ class EvaluationResultModel(Base):
 
     submission = relationship("StudentSubmissionModel", back_populates="evaluation")
     answer_key = relationship("AnswerKeyModel", back_populates="evaluations")
+
+
+class CounsellorCallLogModel(Base):
+    __tablename__ = "counsellor_call_logs"
+
+    log_id = Column(String(64), primary_key=True, default=generate_uuid)
+    submission_id = Column(String(64), ForeignKey("student_submissions.submission_id"), nullable=False, index=True)
+    student_phone = Column(String(15), nullable=False, index=True)
+    counsellor_name = Column(String(64), nullable=False, default="PW Counsellor")
+    call_disposition = Column(String(32), nullable=False)
+    notes = Column(Text, nullable=True)
+    follow_up_date = Column(String(32), nullable=True)
+    logged_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    submission = relationship("StudentSubmissionModel", back_populates="call_logs")
