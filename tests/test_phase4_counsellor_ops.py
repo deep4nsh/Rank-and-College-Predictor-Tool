@@ -134,20 +134,32 @@ def test_counsellor_contact_card_popup_replaces_tel_dialing():
     assert "student_email" in student
     assert student["student_email"] == "rohan@example.com"
 
-    # 2. Verify frontend index.html has zero tel: links and provides contact modal
-    res_html = client.get("/")
-    assert res_html.status_code == 200
-    html_content = res_html.text
+    # 2. Verify /counsellor portal has zero tel: links and provides contact modal
+    res_counsellor = client.get("/counsellor")
+    assert res_counsellor.status_code == 200
+    counsellor_html = res_counsellor.text
 
     # Must NOT contain tel: link or direct dial button
-    assert 'href="tel:' not in html_content
-    assert "modal-tel-btn" not in html_content
-    assert "Dial Tel" not in html_content
+    assert 'href="tel:' not in counsellor_html
+    assert "modal-tel-btn" not in counsellor_html
+    assert "Dial Tel" not in counsellor_html
 
     # Must contain contact card popup components
-    assert "openContactModal" in html_content
-    assert "modal-phone-display" in html_content
-    assert "copyModalPhone" in html_content
-    assert "Copy Number" in html_content
-    assert "Laptop Workstation Mode:" in html_content
-    assert "WhatsApp Web" in html_content
+    assert "openContactModal" in counsellor_html
+    assert "modal-phone-display" in counsellor_html
+    assert "copyModalPhone" in counsellor_html
+    assert "Copy Number" in counsellor_html
+    assert "Laptop Workstation Mode:" in counsellor_html
+    assert "WhatsApp Web" in counsellor_html
+
+    # 3. Verify student exam portal at / and /student is clean and has NO counsellor CRM lead table
+    res_student = client.get("/")
+    assert res_student.status_code == 200
+    student_html = res_student.text
+    assert "Student Personal & Academic Details" in student_html
+    assert "meta-phone" in student_html
+    assert "counsellor-table-body" not in student_html
+    assert "analytics-kpi-bar" not in student_html
+
+    res_student2 = client.get("/student")
+    assert res_student2.status_code == 200

@@ -3,77 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Physics Wallah | GATE Rank, College & PSU Predictor</title>
+  <title>Physics Wallah | GATE Score & College Predictor</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            pw: {
-              blue: '#1E3A8A',
-              lightBlue: '#3B82F6',
-              accent: '#2563EB',
-              dark: '#0F172A',
-              card: '#1E293B',
-              amber: '#F59E0B',
-              green: '#10B981',
-              red: '#EF4444'
-            }
+            'pw-blue': '#1b2a4a',
+            'pw-accent': '#2563eb',
+            'pw-yellow': '#f59e0b',
           }
         }
       }
     }
   </script>
   <style>
-    .numpad-btn {
-      @apply bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-2 px-3 rounded shadow text-sm transition;
-    }
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
-      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
       background: #cbd5e1;
-      border-radius: 4px;
+      border-radius: 3px;
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
 
-  <!-- Top Navigation Bar -->
-  <header class="bg-pw-blue text-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
+  <!-- Student Portal Top Header -->
+  <header class="bg-pw-blue text-white shadow-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 flex flex-wrap justify-between items-center">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-pw-blue font-extrabold text-xl shadow">
+        <div class="w-10 h-10 rounded-lg bg-white text-pw-blue font-black flex items-center justify-center text-xl shadow">
           PW
         </div>
         <div>
           <h1 class="text-lg font-bold tracking-tight">Physics Wallah | GATE Predictor</h1>
-          <p class="text-xs text-blue-200">Admissions, Cutoffs & PSU Counselling Engine</p>
+          <p class="text-xs text-blue-200">Official Student Exam Scoring, Cutoffs & Placement Forecasting</p>
         </div>
       </div>
 
-      <!-- Navigation Tabs -->
-      <nav class="flex space-x-1 sm:space-x-2 mt-2 sm:mt-0 text-sm font-medium">
-        <button onclick="switchTab('exam-tab')" id="nav-exam" class="px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition">
-          <i class="fa-solid fa-pen-to-square"></i>
-          <span>Exam Form</span>
-        </button>
-        <button onclick="switchTab('digialm-tab')" id="nav-digialm" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
-          <i class="fa-solid fa-link"></i>
-          <span>Response Sheet</span>
-        </button>
-        <button onclick="switchTab('counsellor-tab')" id="nav-counsellor" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
-          <i class="fa-solid fa-users"></i>
-          <span>Counsellor Ops</span>
-        </button>
-        <button onclick="switchTab('admin-tab')" id="nav-admin" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
-          <i class="fa-solid fa-key"></i>
-          <span>Answer Keys</span>
-        </button>
-      </nav>
+      <!-- Navigation Tabs & Counsellor Link -->
+      <div class="flex items-center space-x-2 sm:space-x-4 mt-2 sm:mt-0 text-sm font-medium">
+        <nav class="flex space-x-1">
+          <button onclick="switchTab('exam-tab')" id="nav-exam" class="px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Exam CBT Form</span>
+          </button>
+          <button onclick="switchTab('digialm-tab')" id="nav-digialm" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-link"></i>
+            <span>TCS Response Sheet</span>
+          </button>
+        </nav>
+
+        <!-- Access to Counsellor Portal -->
+        <a href="/counsellor" class="px-3 py-1.5 text-xs bg-blue-700/60 hover:bg-blue-700 text-white border border-blue-400/40 rounded-md transition flex items-center space-x-1.5 font-semibold" title="Access Counsellor Mentorship Portal">
+          <i class="fa-solid fa-lock text-[11px]"></i>
+          <span>Counsellor Portal</span>
+        </a>
+      </div>
     </div>
   </header>
 
@@ -87,10 +81,10 @@
         <div class="flex items-center justify-between border-b pb-3 mb-3">
           <div class="flex items-center space-x-2">
             <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
-            <h2 class="text-md font-bold text-slate-800">Exam-Day Student Response Capture</h2>
+            <h2 class="text-md font-bold text-slate-800">Student Personal & Academic Details</h2>
           </div>
           <span class="text-xs font-semibold px-2.5 py-1 bg-blue-50 text-pw-accent rounded-full border border-blue-200">
-            GATE CBT Interface
+            Official GATE CBT Interface
           </span>
         </div>
 
@@ -248,134 +242,105 @@
           <div>
             <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-xs font-semibold tracking-wide uppercase">Physics Wallah Diagnostic Scorecard</span>
             <h2 id="res-student-name" class="text-2xl font-black mt-1">Rahul Sharma</h2>
-            <p id="res-meta-line" class="text-xs text-blue-200">GATE CS | Session 1 | General Category</p>
+            <p id="res-paper-category" class="text-xs text-blue-200 mt-0.5">GATE CS (Session 1) | Category: General | Scorecard ID: #EVAL-2025-01</p>
           </div>
           <div class="flex items-center space-x-3">
-            <button onclick="downloadPdfReport()" class="px-4 py-2 bg-white text-pw-blue hover:bg-blue-50 font-bold rounded-lg text-xs shadow flex items-center space-x-2 transition">
-              <i class="fa-solid fa-file-pdf text-rose-600"></i>
-              <span>Download PDF Scorecard</span>
-            </button>
-            <button onclick="copyWhatsAppFromCard()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg text-xs shadow flex items-center space-x-2 transition">
-              <i class="fa-brands fa-whatsapp"></i>
-              <span>Copy WhatsApp Report</span>
+            <button onclick="downloadStudentPdfDirect()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg text-xs shadow flex items-center space-x-2 transition">
+              <i class="fa-solid fa-file-pdf"></i>
+              <span>Download 1-Page PDF</span>
             </button>
           </div>
         </div>
 
-        <!-- Metrics Strip -->
-        <div class="grid grid-cols-2 sm:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x border-b border-slate-200 bg-slate-50 text-center p-4">
-          <div class="p-2">
-            <div id="res-raw-score" class="text-2xl font-black text-pw-blue">0.00</div>
-            <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Raw Score (/100)</div>
+        <!-- 4-Stat Metric Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x border-b bg-slate-50 text-center py-4">
+          <div class="p-3">
+            <span class="text-xs text-slate-500 font-semibold uppercase">Total Raw Score</span>
+            <div id="res-raw-score" class="text-2xl font-black text-slate-900 mt-1">68.33 / 100</div>
+            <span class="text-[11px] text-slate-400">Exact rational calculation</span>
           </div>
-          <div class="p-2">
-            <div id="res-neg-lost" class="text-2xl font-black text-rose-600">-0.00</div>
-            <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Negative Marks Lost</div>
+          <div class="p-3">
+            <span class="text-xs text-slate-500 font-semibold uppercase">Marks Lost to Negatives</span>
+            <div id="res-neg-marks" class="text-2xl font-black text-rose-600 mt-1">-8.67</div>
+            <span class="text-[11px] text-rose-500 font-medium">Wrong MCQ penalties</span>
           </div>
-          <div class="p-2">
-            <div id="res-gate-score" class="text-2xl font-black text-emerald-600">0</div>
-            <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Predicted GATE Score</div>
+          <div class="p-3">
+            <span class="text-xs text-slate-500 font-semibold uppercase">Normalized Score</span>
+            <div id="res-gate-score" class="text-2xl font-black text-emerald-600 mt-1">742 / 1000</div>
+            <span class="text-[11px] text-emerald-600 font-medium">Multi-session normalized</span>
           </div>
-          <div class="p-2">
-            <div id="res-air-band" class="text-2xl font-black text-pw-blue">0 - 0</div>
-            <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Estimated AIR Band</div>
-          </div>
-          <div class="p-2 col-span-2 sm:col-span-1">
-            <div id="res-lead-badge" class="inline-block px-3 py-1 rounded-full text-xs font-extrabold bg-blue-100 text-blue-900 mt-1">SUPER_TOPPER</div>
-            <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mt-1">Counsellor Priority</div>
+          <div class="p-3">
+            <span class="text-xs text-slate-500 font-semibold uppercase">Predicted AIR Range</span>
+            <div id="res-air-range" class="text-2xl font-black text-pw-blue mt-1">280 - 450</div>
+            <span class="text-[11px] text-slate-400">PCHIP Monotonic Model</span>
           </div>
         </div>
 
-        <!-- Matching Choices Grid -->
-        <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <!-- IITs / COAP -->
-          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-            <div class="flex items-center justify-between mb-3">
-              <h4 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
-                <i class="fa-solid fa-graduation-cap text-pw-accent"></i>
-                <span>IITs (COAP Portal)</span>
-              </h4>
-              <span id="coap-badge-count" class="text-[10px] font-bold bg-blue-200 text-blue-900 px-2 py-0.5 rounded">0 Matches</span>
-            </div>
-            <div id="coap-results-list" class="space-y-2 text-xs">
-              <!-- Injected via JS -->
-            </div>
-          </div>
+        <!-- Matcher Recommendations (3 Columns: Ambitious, Target, Safe) -->
+        <div class="p-6">
+          <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center space-x-2">
+            <i class="fa-solid fa-building-columns text-pw-accent"></i>
+            <span>Institutional Allotment Forecast (COAP, CCMT & PSUs)</span>
+          </h3>
 
-          <!-- NITs / CCMT -->
-          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-            <div class="flex items-center justify-between mb-3">
-              <h4 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
-                <i class="fa-solid fa-building-columns text-slate-700"></i>
-                <span>NITs (CCMT Portal)</span>
-              </h4>
-              <span id="ccmt-badge-count" class="text-[10px] font-bold bg-slate-200 text-slate-800 px-2 py-0.5 rounded">0 Matches</span>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Ambitious -->
+            <div class="border rounded-xl p-4 bg-purple-50/50 border-purple-200">
+              <div class="flex items-center space-x-2 mb-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+                <h4 class="font-bold text-xs uppercase tracking-wide text-purple-900">Ambitious Reach (Top Choices)</h4>
+              </div>
+              <ul id="list-ambitious" class="space-y-2 text-xs">
+                <!-- Injected via JS -->
+              </ul>
             </div>
-            <div id="ccmt-results-list" class="space-y-2 text-xs">
-              <!-- Injected via JS -->
-            </div>
-          </div>
 
-          <!-- PSUs Placement -->
-          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-            <div class="flex items-center justify-between mb-3">
-              <h4 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
-                <i class="fa-solid fa-briefcase text-emerald-600"></i>
-                <span>PSU Recruitment</span>
-              </h4>
-              <span id="psu-badge-count" class="text-[10px] font-bold bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded">0 Matches</span>
+            <!-- Target -->
+            <div class="border rounded-xl p-4 bg-blue-50/50 border-blue-200">
+              <div class="flex items-center space-x-2 mb-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-pw-blue"></span>
+                <h4 class="font-bold text-xs uppercase tracking-wide text-blue-900">Target Allotments (High Prob.)</h4>
+              </div>
+              <ul id="list-target" class="space-y-2 text-xs">
+                <!-- Injected via JS -->
+              </ul>
             </div>
-            <div id="psu-results-list" class="space-y-2 text-xs">
-              <!-- Injected via JS -->
+
+            <!-- Safe -->
+            <div class="border rounded-xl p-4 bg-emerald-50/50 border-emerald-200">
+              <div class="flex items-center space-x-2 mb-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                <h4 class="font-bold text-xs uppercase tracking-wide text-emerald-900">Safe Backup (Guaranteed)</h4>
+              </div>
+              <ul id="list-safe" class="space-y-2 text-xs">
+                <!-- Injected via JS -->
+              </ul>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- TAB 2: DIGIALM RESPONSE SHEET INGESTION -->
+    <!-- TAB 2: DIGIALM SCRAPER -->
     <section id="digialm-tab" class="hidden">
-      <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div class="flex items-center space-x-3 border-b pb-4 mb-5">
-          <div class="w-10 h-10 rounded-lg bg-blue-50 text-pw-accent flex items-center justify-center font-bold text-lg">
-            <i class="fa-solid fa-cloud-arrow-down"></i>
+      <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div class="text-center mb-6">
+          <div class="w-12 h-12 bg-blue-50 text-pw-accent rounded-full flex items-center justify-center mx-auto mb-2 text-xl">
+            <i class="fa-solid fa-file-code"></i>
           </div>
-          <div>
-            <h2 class="text-base font-bold text-slate-800">TCS iON Digialm Response Sheet Ingestion</h2>
-            <p class="text-xs text-slate-500">Auto-extract questions, chosen options, and evaluate against faculty keys in 1 click.</p>
-          </div>
+          <h2 class="text-lg font-bold text-slate-800">TCS iON Digialm Response Sheet Ingestion</h2>
+          <p class="text-xs text-slate-500 mt-1">Paste your official TCS candidate response sheet URL or raw HTML for automated answer grading.</p>
         </div>
 
         <div class="space-y-4">
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">Digialm Response Sheet URL *</label>
-            <input type="url" id="digialm-url-input" placeholder="https://cdn.digialm.com//per/g01/pub/..." class="w-full border rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-pw-accent outline-none">
-            <p class="text-[11px] text-slate-400 mt-1">Copy and paste the URL from your candidate login after official response release.</p>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-            <div>
-              <label class="block font-semibold text-slate-600 mb-1">Student Mobile *</label>
-              <input type="tel" id="digialm-phone" placeholder="9876543210" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+            <label class="block text-xs font-bold text-slate-700 mb-1">Digialm Candidate URL</label>
+            <div class="flex space-x-2">
+              <input type="url" id="digialm-url-input" placeholder="https://cdn.digialm.com//per/g01/pub/.../response.html" class="flex-1 border rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-pw-accent outline-none">
+              <button onclick="processDigialmUrl()" class="px-4 py-2 bg-pw-blue hover:bg-blue-900 text-white font-semibold rounded-lg text-xs transition">
+                Fetch & Grade
+              </button>
             </div>
-            <div>
-              <label class="block font-semibold text-slate-600 mb-1">Category</label>
-              <select id="digialm-category" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
-                <option value="GEN">General (GEN)</option>
-                <option value="OBC_NCL">OBC-NCL</option>
-                <option value="EWS">GEN-EWS</option>
-                <option value="SC">SC</option>
-                <option value="ST">ST</option>
-                <option value="PWD">PwD</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="pt-2 flex space-x-3">
-            <button onclick="processDigialmUrl()" id="btn-digialm-fetch" class="flex-1 py-2.5 bg-pw-blue hover:bg-blue-900 text-white font-bold rounded-lg shadow text-xs transition flex items-center justify-center space-x-2">
-              <i class="fa-solid fa-bolt"></i>
-              <span>Fetch & Auto-Grade Immediately</span>
-            </button>
           </div>
 
           <div class="relative flex py-2 items-center">
@@ -386,320 +351,11 @@
 
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Raw HTML Response Sheet Content</label>
-            <textarea id="digialm-html-input" rows="4" placeholder="If URL is password protected or CDN unreachable, paste page source here..." class="w-full border rounded-lg p-2.5 text-xs font-mono focus:ring-2 focus:ring-pw-accent outline-none"></textarea>
+            <textarea id="digialm-html-input" rows="5" placeholder="If URL is password protected or CDN unreachable, paste page source here..." class="w-full border rounded-lg p-2.5 text-xs font-mono focus:ring-2 focus:ring-pw-accent outline-none"></textarea>
           </div>
 
-          <button onclick="processDigialmHtml()" class="w-full py-2 bg-slate-700 hover:bg-slate-800 text-white font-semibold rounded-lg text-xs transition">
+          <button onclick="processDigialmHtml()" class="w-full py-2.5 bg-slate-700 hover:bg-slate-800 text-white font-semibold rounded-lg text-xs transition">
             Parse & Grade Pasted HTML
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 3: COUNSELLOR OPERATIONS DASHBOARD -->
-    <section id="counsellor-tab" class="hidden">
-      <!-- Operational KPI Analytics Bar -->
-      <div id="analytics-kpi-bar" class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-5">
-        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-center">
-          <div id="kpi-total" class="text-xl font-black text-pw-blue">0</div>
-          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">Total Submissions</div>
-        </div>
-        <div class="bg-purple-50 border border-purple-200 rounded-xl p-3 text-center">
-          <div id="kpi-topper" class="text-xl font-black text-purple-700">0</div>
-          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">Super Toppers (Top 100)</div>
-        </div>
-        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-center">
-          <div id="kpi-psu" class="text-xl font-black text-indigo-700">0</div>
-          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">PSU & Top IIT</div>
-        </div>
-        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-center">
-          <div id="kpi-high-neg" class="text-xl font-black text-amber-700">0</div>
-          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">High Negatives (>8)</div>
-        </div>
-        <div class="bg-rose-50 border border-rose-200 rounded-xl p-3 text-center">
-          <div id="kpi-pending" class="text-xl font-black text-rose-700">0</div>
-          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">Pending Calls</div>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-5">
-          <div>
-            <h2 class="text-base font-bold text-slate-800">Counsellor Lead Management & Diagnostics</h2>
-            <p class="text-xs text-slate-500">Prioritized triage by GATE Score, AIR band, call dispositions, and negative marks.</p>
-          </div>
-
-          <!-- Filters -->
-          <div class="flex flex-wrap items-center gap-2">
-            <input type="text" id="counsellor-search" oninput="loadCounsellorStudents()" placeholder="Search phone, name..." class="border rounded px-3 py-1.5 text-xs focus:ring-2 focus:ring-pw-accent outline-none w-36">
-            <select id="counsellor-filter-lead" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-pw-accent outline-none">
-              <option value="">All Priorities</option>
-              <option value="SUPER_TOPPER">SUPER_TOPPER (AIR < 100)</option>
-              <option value="PSU_AND_TOP_IIT">PSU_AND_TOP_IIT (AIR 100-500)</option>
-              <option value="NIT_PROSPECT">NIT_PROSPECT (AIR 500-2500)</option>
-              <option value="NURTURE_REPEATER">NURTURE_REPEATER (AIR > 5000)</option>
-            </select>
-            <select id="counsellor-filter-disp" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-pw-accent outline-none">
-              <option value="">All Dispositions</option>
-              <option value="PENDING">Pending Call</option>
-              <option value="INTERESTED_IN_BATCH">Interested in Batch</option>
-              <option value="COAP_COUNSELLING_BOOKED">COAP Booked</option>
-              <option value="PSU_GDPI_BOOKED">PSU GD/PI Booked</option>
-              <option value="CONNECTED_FOLLOW_UP">Follow Up</option>
-              <option value="NOT_REACHABLE">Not Reachable</option>
-              <option value="NOT_INTERESTED">Not Interested</option>
-            </select>
-            <select id="counsellor-filter-paper" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs focus:ring-2 focus:ring-pw-accent outline-none">
-              <option value="">All Branches</option>
-              <option value="CS">CS</option>
-              <option value="DA">DA</option>
-              <option value="ME">ME</option>
-              <option value="CE">CE</option>
-              <option value="EE">EE</option>
-              <option value="EC">EC</option>
-            </select>
-            <label class="flex items-center space-x-1.5 text-xs font-bold text-amber-700 bg-amber-50 px-2 py-1.5 rounded border border-amber-200 cursor-pointer">
-              <input type="checkbox" id="counsellor-high-neg" onchange="loadCounsellorStudents()" class="rounded text-amber-600">
-              <span>Neg > 8</span>
-            </label>
-            <button onclick="exportLeadsCsv()" title="Export Filtered Leads to CSV" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold transition flex items-center space-x-1">
-              <i class="fa-solid fa-file-excel"></i>
-              <span>Export CSV</span>
-            </button>
-            <button onclick="loadCounsellorStudents(); loadCounsellorAnalytics();" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-xs font-semibold transition">
-              <i class="fa-solid fa-rotate"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Student Leads Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-50 text-slate-600 font-bold border-b">
-              <tr>
-                <th class="py-2.5 px-3">Student Name</th>
-                <th class="py-2.5 px-3">Mobile No.</th>
-                <th class="py-2.5 px-3">Branch</th>
-                <th class="py-2.5 px-3">Category</th>
-                <th class="py-2.5 px-3">Raw Score</th>
-                <th class="py-2.5 px-3">Neg. Lost</th>
-                <th class="py-2.5 px-3">GATE Score</th>
-                <th class="py-2.5 px-3">AIR Band</th>
-                <th class="py-2.5 px-3">Priority</th>
-                <th class="py-2.5 px-3">Disposition</th>
-                <th class="py-2.5 px-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="counsellor-table-body" class="divide-y text-slate-700">
-              <!-- Rendered via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- CANDIDATE CONTACT DETAILS & CALL LOG MODAL -->
-    <div id="call-log-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden transform transition-all">
-        <!-- Modal Header -->
-        <div class="bg-pw-blue text-white p-4 flex items-center justify-between">
-          <div class="flex items-center space-x-2.5">
-            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-200">
-              <i class="fa-solid fa-id-card text-base"></i>
-            </div>
-            <div>
-              <div class="flex items-center space-x-2">
-                <h3 id="modal-student-name" class="font-bold text-sm">Candidate Contact Details</h3>
-                <span id="modal-priority-badge" class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-slate-900">PRIORITY</span>
-              </div>
-              <p id="modal-student-meta" class="text-[11px] text-blue-200">GATE CS | General | Score: 64.33</p>
-            </div>
-          </div>
-          <button onclick="closeCallLogModal()" class="text-white/80 hover:text-white text-lg p-1 transition" title="Close">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-
-        <!-- Modal Body Content -->
-        <div class="p-5 space-y-3.5 text-xs max-h-[85vh] overflow-y-auto">
-
-          <!-- Notice: Laptop Mode / No Direct Calling -->
-          <div class="bg-blue-50/80 border border-blue-200/90 rounded-lg p-2.5 flex items-start space-x-2.5 text-slate-700">
-            <i class="fa-solid fa-laptop text-pw-blue text-sm mt-0.5"></i>
-            <div class="text-[11px] leading-tight">
-              <span class="font-bold text-pw-blue">Laptop Workstation Mode:</span>
-              <span>Direct telephony calling is disabled on laptop systems. Copy the phone number below to paste into your phone/dialer, or start a chat via WhatsApp Web.</span>
-            </div>
-          </div>
-
-          <!-- Contact Details Card -->
-          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2.5">
-            <!-- Mobile Number Row with Copy & WhatsApp Web -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
-              <div>
-                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Candidate Mobile Number</span>
-                <div class="flex items-center space-x-2 mt-0.5">
-                  <i class="fa-solid fa-phone text-pw-blue text-sm"></i>
-                  <span id="modal-phone-display" class="font-mono text-base font-extrabold text-slate-900 tracking-wide">+91 98765 43210</span>
-                </div>
-              </div>
-              <div class="flex items-center space-x-2">
-                <button type="button" id="btn-copy-phone" onclick="copyModalPhone()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded font-bold text-xs flex items-center space-x-1.5 transition">
-                  <i class="fa-regular fa-copy"></i>
-                  <span id="copy-phone-text">Copy Number</span>
-                </button>
-                <a id="modal-wa-btn" href="#" target="_blank" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-xs flex items-center space-x-1.5 shadow-sm transition">
-                  <i class="fa-brands fa-whatsapp text-sm"></i>
-                  <span>WhatsApp Web</span>
-                </a>
-              </div>
-            </div>
-
-            <!-- Email Address Row -->
-            <div id="modal-email-row" class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200 text-[11px]">
-              <div class="flex items-center space-x-2 truncate mr-2">
-                <i class="fa-regular fa-envelope text-slate-400"></i>
-                <span class="text-slate-500 font-medium">Email:</span>
-                <span id="modal-email-display" class="font-semibold text-slate-800 truncate">student@example.com</span>
-              </div>
-              <button type="button" id="btn-copy-email" onclick="copyModalEmail()" class="text-pw-blue hover:text-blue-800 font-bold text-[11px] flex items-center space-x-1 px-1.5 py-0.5 rounded hover:bg-blue-50 transition">
-                <i class="fa-regular fa-copy"></i>
-                <span id="copy-email-text">Copy</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Academic Score Snapshot -->
-          <div class="grid grid-cols-4 gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-center">
-            <div>
-              <span class="text-[10px] text-slate-500 font-semibold block">Raw Marks</span>
-              <span id="modal-raw-score" class="font-extrabold text-slate-800 text-xs">-- / 100</span>
-            </div>
-            <div>
-              <span class="text-[10px] text-slate-500 font-semibold block">Neg. Lost</span>
-              <span id="modal-neg-lost" class="font-extrabold text-rose-600 text-xs">-0.00</span>
-            </div>
-            <div>
-              <span class="text-[10px] text-slate-500 font-semibold block">GATE Score</span>
-              <span id="modal-gate-score" class="font-extrabold text-emerald-600 text-xs">-- / 1000</span>
-            </div>
-            <div>
-              <span class="text-[10px] text-slate-500 font-semibold block">Est. AIR</span>
-              <span id="modal-air-range" class="font-extrabold text-pw-blue text-xs">--</span>
-            </div>
-          </div>
-
-          <!-- Call Logging & Disposition Form -->
-          <form id="call-log-form" onsubmit="submitCallLog(event)" class="pt-1">
-            <input type="hidden" id="modal-phone-input">
-            <div class="grid grid-cols-2 gap-3 mb-3">
-              <div>
-                <label class="block font-bold text-slate-700 mb-1">Counsellor Name</label>
-                <input type="text" id="modal-counsellor-name" value="PW Admissions Mentor" required class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
-              </div>
-              <div>
-                <label class="block font-bold text-slate-700 mb-1">Call Disposition *</label>
-                <select id="modal-disposition-select" required class="w-full border rounded px-2.5 py-1.5 font-bold text-pw-blue focus:ring-2 focus:ring-pw-accent outline-none">
-                  <option value="INTERESTED_IN_BATCH">Interested in Batch</option>
-                  <option value="COAP_COUNSELLING_BOOKED">COAP Counselling Booked</option>
-                  <option value="PSU_GDPI_BOOKED">PSU GD/PI Guidance Booked</option>
-                  <option value="CONNECTED_FOLLOW_UP">Connected - Follow Up</option>
-                  <option value="NOT_REACHABLE">Not Reachable</option>
-                  <option value="WRONG_NUMBER">Wrong Number</option>
-                  <option value="NOT_INTERESTED">Not Interested</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label class="block font-bold text-slate-700 mb-1">Follow-Up Date (Optional)</label>
-              <input type="date" id="modal-followup-date" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
-            </div>
-
-            <div class="mb-3">
-              <label class="block font-bold text-slate-700 mb-1">Call Notes & Action Plan</label>
-              <textarea id="modal-notes-input" rows="2" placeholder="Discussed negative marks and COAP choice sequence..." class="w-full border rounded p-2.5 focus:ring-2 focus:ring-pw-accent outline-none"></textarea>
-            </div>
-
-            <button type="submit" id="btn-save-call-log" class="w-full py-2 bg-pw-blue hover:bg-blue-900 text-white font-bold rounded-lg shadow text-xs transition">
-              Save Call Record & Update Lead
-            </button>
-          </form>
-
-          <!-- Prior Call History Timeline -->
-          <div class="pt-2 border-t">
-            <h4 class="font-bold text-slate-700 mb-2 flex items-center justify-between">
-              <span>Past Call History</span>
-              <span class="text-[10px] text-slate-400 font-normal">Audit Trail</span>
-            </h4>
-            <div id="modal-history-list" class="max-h-32 overflow-y-auto space-y-2 text-[11px]">
-              <!-- Injected via JS -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 4: ANSWER KEY MANAGEMENT -->
-    <section id="admin-tab" class="hidden">
-      <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div class="flex items-center justify-between border-b pb-4 mb-5">
-          <div>
-            <h2 class="text-base font-bold text-slate-800">Faculty & Official Answer Key Portal</h2>
-            <p class="text-xs text-slate-500">Publish provisional faculty keys on exam day, then revise with official IIT keys for 1-click batch re-evaluation.</p>
-          </div>
-          <span class="text-xs font-semibold px-2.5 py-1 bg-amber-50 text-amber-800 rounded-full border border-amber-200">
-            Immutable Key Versioning
-          </span>
-        </div>
-
-        <!-- Create Key Form -->
-        <div class="bg-slate-50 p-4 rounded-xl border mb-6 text-xs space-y-3">
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div>
-              <label class="block font-semibold text-slate-600 mb-1">Paper Code</label>
-              <select id="key-paper" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
-                <option value="CS">CS</option>
-                <option value="DA">DA</option>
-                <option value="ME">ME</option>
-                <option value="CE">CE</option>
-                <option value="EE">EE</option>
-                <option value="EC">EC</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-semibold text-slate-600 mb-1">Version</label>
-              <input type="number" id="key-version" value="1" min="1" max="10" class="w-full border rounded px-2.5 py-1.5">
-            </div>
-            <div>
-              <label class="block font-semibold text-slate-600 mb-1">Key Type</label>
-              <select id="key-type" class="w-full border rounded px-2.5 py-1.5">
-                <option value="FACULTY_EXAM_DAY">FACULTY_EXAM_DAY (Provisional v1)</option>
-                <option value="OFFICIAL_IIT">OFFICIAL_IIT (Final Key v2)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-semibold text-slate-600 mb-1">Author / Faculty Panel</label>
-              <input type="text" id="key-author" value="PW GATE Faculty Panel" class="w-full border rounded px-2.5 py-1.5">
-            </div>
-          </div>
-
-          <div class="flex justify-end pt-2">
-            <button onclick="publishSampleFacultyKey()" class="px-4 py-2 bg-pw-blue hover:bg-blue-900 text-white font-bold rounded shadow transition">
-              Publish & Auto-Provision Key
-            </button>
-          </div>
-        </div>
-
-        <!-- 1-Click Batch Re-Evaluation Section -->
-        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h4 class="font-bold text-pw-blue text-sm">1-Click Batch Re-Evaluation Engine</h4>
-            <p class="text-xs text-blue-900/80">Recalculates all registered candidates against the active key in under 1 second.</p>
-          </div>
-          <button onclick="triggerBatchReevaluation()" id="btn-batch-reeval" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow text-xs transition flex items-center space-x-1.5">
-            <i class="fa-solid fa-arrows-rotate"></i>
-            <span>Run Batch Re-Evaluation</span>
           </button>
         </div>
       </div>
@@ -707,340 +363,337 @@
 
   </main>
 
-  <!-- Notification Toast Container -->
-  <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2"></div>
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div id="toast-body" class="bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl flex items-center space-x-2">
+      <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+      <span id="toast-msg">Success</span>
+    </div>
+  </div>
 
-  <!-- Client-Side Application Logic -->
+  <!-- Student Portal Logic -->
   <script>
-    // State Management
-    let currentPaper = "CS";
+    // State
+    let currentPaperCode = "CS";
     let questionsList = [];
-    let currentIndex = 0;
-    let studentResponses = {}; // { q_id: { status: 'ATTEMPTED'|'SKIPPED'|'REVIEW', marked_options: [], nat_value: '' } }
+    let currentQIndex = 0;
+    let studentResponses = {};
     let lastEvaluatedPhone = "";
 
-    // Tab Switching
     function switchTab(tabId) {
-      ['exam-tab', 'digialm-tab', 'counsellor-tab', 'admin-tab'].forEach(id => {
-        document.getElementById(id).classList.add('hidden');
-      });
+      document.getElementById('exam-tab').classList.add('hidden');
+      document.getElementById('digialm-tab').classList.add('hidden');
+
+      document.getElementById('nav-exam').className = "px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition";
+      document.getElementById('nav-digialm').className = "px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition";
+
       document.getElementById(tabId).classList.remove('hidden');
 
-      // Update Nav styles
-      ['exam', 'digialm', 'counsellor', 'admin'].forEach(name => {
-        const btn = document.getElementById(`nav-${name}`);
-        btn.className = "px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition";
-      });
-      const activeNav = document.getElementById(`nav-${tabId.split('-')[0]}`);
-      if (activeNav) activeNav.className = "px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition";
-
-      if (tabId === 'counsellor-tab') {
-        loadCounsellorStudents();
-        loadCounsellorAnalytics();
+      if (tabId === 'exam-tab') {
+        document.getElementById('nav-exam').className = "px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition";
+      } else if (tabId === 'digialm-tab') {
+        document.getElementById('nav-digialm').className = "px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition";
       }
+    }
+
+    function showToast(msg, type = "green") {
+      const toast = document.getElementById('toast');
+      const body = document.getElementById('toast-body');
+      const icon = document.getElementById('toast-icon');
+      document.getElementById('toast-msg').innerText = msg;
+
+      if (type === "green") {
+        icon.className = "fa-solid fa-circle-check text-emerald-400";
+        body.className = "bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl flex items-center space-x-2 border-l-4 border-emerald-500";
+      } else if (type === "red") {
+        icon.className = "fa-solid fa-circle-exclamation text-rose-400";
+        body.className = "bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl flex items-center space-x-2 border-l-4 border-rose-500";
+      } else {
+        icon.className = "fa-solid fa-circle-info text-amber-400";
+        body.className = "bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl flex items-center space-x-2 border-l-4 border-amber-500";
+      }
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
     }
 
     // Load Exam Paper Blueprint
     async function loadExamPaper(paperCode) {
-      currentPaper = paperCode;
+      currentPaperCode = paperCode;
       try {
         const resp = await fetch(`/api/v1/ingest/sample-paper/${paperCode}`);
+        if (!resp.ok) throw new Error("Failed to load blueprint");
         const data = await resp.json();
-        questionsList = data.questions || [];
-        currentIndex = 0;
+        questionsList = data.questions;
+
+        // Reset response state
         studentResponses = {};
+        for (let q of questionsList) {
+          studentResponses[q.question_id] = {
+            status: "NOT_ATTEMPTED",
+            marked_options: [],
+            nat_value: null
+          };
+        }
+
         renderPalette();
-        renderCurrentQuestion();
+        renderQuestion(0);
+        updateCounters();
       } catch (err) {
-        showToast("Error loading paper structure: " + err.message, "red");
+        showToast("Error loading paper questions: " + err.message, "red");
       }
     }
 
-    // Render 65-Question Palette
+    // Render Question Palette
     function renderPalette() {
-      const aptContainer = document.getElementById('palette-aptitude');
-      const coreContainer = document.getElementById('palette-core');
-      aptContainer.innerHTML = '';
-      coreContainer.innerHTML = '';
+      const palApt = document.getElementById('palette-aptitude');
+      const palCore = document.getElementById('palette-core');
+      palApt.innerHTML = '';
+      palCore.innerHTML = '';
 
       questionsList.forEach((q, idx) => {
         const btn = document.createElement('button');
         btn.id = `palette-btn-${idx}`;
-        btn.className = getPaletteBtnClass(q.question_id, idx);
+        btn.className = getPaletteBtnClass(q.question_id);
         btn.innerText = q.question_number;
-        btn.onclick = () => jumpToQuestion(idx);
+        btn.onclick = () => renderQuestion(idx);
 
-        if (q.section === 'APTITUDE') {
-          aptContainer.appendChild(btn);
+        if (q.section === "APTITUDE") {
+          palApt.appendChild(btn);
         } else {
-          coreContainer.appendChild(btn);
+          palCore.appendChild(btn);
         }
       });
-      updateAnsweredCount();
     }
 
-    function getPaletteBtnClass(qid, idx) {
-      const resp = studentResponses[qid];
-      let base = "py-1.5 rounded text-xs font-bold border transition ";
-      if (idx === currentIndex) base += "ring-2 ring-pw-blue ";
-
-      if (resp && resp.status === 'ATTEMPTED') {
-        return base + "bg-emerald-500 text-white border-emerald-600";
-      } else if (resp && resp.status === 'REVIEW') {
-        return base + "bg-amber-400 text-amber-950 border-amber-500";
-      } else {
-        return base + "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200";
-      }
+    function getPaletteBtnClass(qid) {
+      const st = studentResponses[qid]?.status || "NOT_ATTEMPTED";
+      if (st === "ATTEMPTED") return "h-7 text-xs font-bold rounded bg-emerald-500 text-white hover:bg-emerald-600 transition";
+      if (st === "MARKED_REVIEW") return "h-7 text-xs font-bold rounded bg-amber-400 text-slate-900 hover:bg-amber-500 transition";
+      return "h-7 text-xs font-semibold rounded bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition";
     }
 
-    function jumpToQuestion(idx) {
-      saveCurrentQuestionState();
-      currentIndex = idx;
-      renderCurrentQuestion();
-      updatePaletteHighlight();
-    }
-
-    function updatePaletteHighlight() {
-      questionsList.forEach((q, idx) => {
-        const btn = document.getElementById(`palette-btn-${idx}`);
-        if (btn) btn.className = getPaletteBtnClass(q.question_id, idx);
-      });
-      updateAnsweredCount();
-    }
-
-    function updateAnsweredCount() {
-      const count = Object.values(studentResponses).filter(r => r.status === 'ATTEMPTED').length;
-      document.getElementById('answered-counter').innerText = `${count} / ${questionsList.length} Answered`;
-    }
-
-    // Render Current Question View
-    function renderCurrentQuestion() {
-      if (!questionsList.length) return;
-      const q = questionsList[currentIndex];
+    // Render Current Question
+    function renderQuestion(index) {
+      if (index < 0 || index >= questionsList.length) return;
+      currentQIndex = index;
+      const q = questionsList[index];
 
       document.getElementById('current-q-title').innerText = `Question ${q.question_number}`;
-      document.getElementById('current-q-section').innerText = q.section === 'APTITUDE' ? 'General Aptitude' : 'Core Engineering';
+      document.getElementById('current-q-section').innerText = q.section === "APTITUDE" ? "General Aptitude" : "Core Engineering";
       document.getElementById('current-q-type').innerText = q.question_type;
-      document.getElementById('current-q-marks').innerText = `+${q.marks_correct.toFixed(1)}`;
-      document.getElementById('current-q-neg').innerText = `-${q.marks_negative.toFixed(2)}`;
+      document.getElementById('current-q-marks').innerText = `+${Number(q.marks_correct).toFixed(1)}`;
+      document.getElementById('current-q-neg').innerText = q.question_type === 'MCQ' ? `-${Number(q.marks_negative).toFixed(2)}` : '0.00 (No Negative)';
 
-      const inputContainer = document.getElementById('answer-input-container');
-      inputContainer.innerHTML = '';
+      const container = document.getElementById('answer-input-container');
+      container.innerHTML = '';
 
-      const existing = studentResponses[q.question_id] || { marked_options: [], nat_value: '' };
+      const resp = studentResponses[q.question_id] || { status: "NOT_ATTEMPTED", marked_options: [], nat_value: null };
 
       if (q.question_type === 'MCQ') {
-        // Radio Options A, B, C, D
-        const optsDiv = document.createElement('div');
-        optsDiv.className = "grid grid-cols-1 sm:grid-cols-2 gap-3";
-        ['A', 'B', 'C', 'D'].forEach(opt => {
-          const isChecked = existing.marked_options && existing.marked_options.includes(opt);
-          const label = document.createElement('label');
-          label.className = `flex items-center space-x-3 p-3 rounded-lg border cursor-pointer transition ${isChecked ? 'bg-blue-50 border-pw-accent font-bold text-pw-blue' : 'hover:bg-slate-50 border-slate-200'}`;
-          label.innerHTML = `
-            <input type="radio" name="mcq-option" value="${opt}" ${isChecked ? 'checked' : ''} class="w-4 h-4 text-pw-accent">
-            <span class="text-sm font-semibold">Option (${opt})</span>
+        const opts = ['A', 'B', 'C', 'D'];
+        const grid = document.createElement('div');
+        grid.className = "grid grid-cols-2 gap-3 max-w-md";
+        opts.forEach(opt => {
+          const isSelected = resp.marked_options?.includes(opt);
+          grid.innerHTML += `
+            <label class="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition ${isSelected ? 'bg-blue-50 border-pw-accent text-pw-blue font-bold ring-1 ring-pw-accent' : 'hover:bg-slate-50 border-slate-200'}">
+              <input type="radio" name="mcq-option" value="${opt}" ${isSelected ? 'checked' : ''} class="w-4 h-4 text-pw-accent">
+              <span class="text-sm font-semibold">${opt}</span>
+            </label>
           `;
-          label.onclick = () => {
-            studentResponses[q.question_id] = { status: 'ATTEMPTED', marked_options: [opt], nat_value: null };
-            renderCurrentQuestion();
-            updatePaletteHighlight();
-          };
-          optsDiv.appendChild(label);
         });
-        inputContainer.appendChild(optsDiv);
+        container.appendChild(grid);
       } else if (q.question_type === 'MSQ') {
-        // Multi-select Checkboxes A, B, C, D
-        const optsDiv = document.createElement('div');
-        optsDiv.className = "grid grid-cols-1 sm:grid-cols-2 gap-3";
-        const currentOpts = existing.marked_options || [];
-        ['A', 'B', 'C', 'D'].forEach(opt => {
-          const isChecked = currentOpts.includes(opt);
-          const label = document.createElement('label');
-          label.className = `flex items-center space-x-3 p-3 rounded-lg border cursor-pointer transition ${isChecked ? 'bg-amber-50 border-amber-500 font-bold text-amber-900' : 'hover:bg-slate-50 border-slate-200'}`;
-          label.innerHTML = `
-            <input type="checkbox" value="${opt}" ${isChecked ? 'checked' : ''} class="w-4 h-4 text-amber-600 rounded">
-            <span class="text-sm font-semibold">Option (${opt})</span>
+        const opts = ['A', 'B', 'C', 'D'];
+        const grid = document.createElement('div');
+        grid.className = "grid grid-cols-2 gap-3 max-w-md";
+        opts.forEach(opt => {
+          const isSelected = resp.marked_options?.includes(opt);
+          grid.innerHTML += `
+            <label class="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition ${isSelected ? 'bg-purple-50 border-purple-600 text-purple-900 font-bold ring-1 ring-purple-600' : 'hover:bg-slate-50 border-slate-200'}">
+              <input type="checkbox" name="msq-option" value="${opt}" ${isSelected ? 'checked' : ''} class="w-4 h-4 text-purple-600 rounded">
+              <span class="text-sm font-semibold">${opt}</span>
+            </label>
           `;
-          label.onclick = (e) => {
-            e.preventDefault();
-            let updated = [...currentOpts];
-            if (updated.includes(opt)) {
-              updated = updated.filter(o => o !== opt);
-            } else {
-              updated.push(opt);
-            }
-            if (updated.length > 0) {
-              studentResponses[q.question_id] = { status: 'ATTEMPTED', marked_options: updated, nat_value: null };
-            } else {
-              delete studentResponses[q.question_id];
-            }
-            renderCurrentQuestion();
-            updatePaletteHighlight();
-          };
-          optsDiv.appendChild(label);
         });
-        inputContainer.appendChild(optsDiv);
-      } else {
-        // NAT Numeric Input with On-Screen Keypad
-        const natDiv = document.createElement('div');
-        natDiv.className = "max-w-md mx-auto";
-        natDiv.innerHTML = `
-          <div class="mb-3">
-            <label class="block text-xs font-bold text-slate-700 mb-1">Enter Numerical Value:</label>
-            <input type="text" id="nat-display" value="${existing.nat_value || ''}" readonly class="w-full text-center text-xl font-mono font-bold py-2 border-2 border-slate-300 rounded-lg bg-slate-50 shadow-inner">
+        container.appendChild(grid);
+      } else if (q.question_type === 'NAT') {
+        const wrapper = document.createElement('div');
+        wrapper.className = "max-w-sm space-y-3";
+        wrapper.innerHTML = `
+          <div class="relative">
+            <input type="text" id="nat-input" value="${resp.nat_value || ''}" placeholder="Enter numerical answer..." class="w-full border-2 border-slate-300 rounded-lg px-4 py-2.5 text-base font-mono font-bold text-pw-blue focus:border-pw-accent outline-none">
           </div>
-          <div class="grid grid-cols-3 gap-2 text-sm">
-            <button class="numpad-btn" onclick="natKey('7')">7</button>
-            <button class="numpad-btn" onclick="natKey('8')">8</button>
-            <button class="numpad-btn" onclick="natKey('9')">9</button>
-            <button class="numpad-btn" onclick="natKey('4')">4</button>
-            <button class="numpad-btn" onclick="natKey('5')">5</button>
-            <button class="numpad-btn" onclick="natKey('6')">6</button>
-            <button class="numpad-btn" onclick="natKey('1')">1</button>
-            <button class="numpad-btn" onclick="natKey('2')">2</button>
-            <button class="numpad-btn" onclick="natKey('3')">3</button>
-            <button class="numpad-btn" onclick="natKey('0')">0</button>
-            <button class="numpad-btn" onclick="natKey('.')">.</button>
-            <button class="numpad-btn" onclick="natKey('-')">-</button>
-          </div>
-          <div class="grid grid-cols-2 gap-2 mt-2">
-            <button class="py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold rounded text-xs border border-rose-200" onclick="natBackspace()">Backspace</button>
-            <button class="py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded text-xs" onclick="natClear()">Clear</button>
+          <!-- Virtual Numeric Keypad -->
+          <div class="grid grid-cols-4 gap-1.5 bg-slate-100 p-2.5 rounded-lg border text-sm font-bold text-slate-700">
+            <button type="button" onclick="appendNat('7')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">7</button>
+            <button type="button" onclick="appendNat('8')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">8</button>
+            <button type="button" onclick="appendNat('9')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">9</button>
+            <button type="button" onclick="backspaceNat()" class="p-2 bg-rose-50 text-rose-600 rounded shadow-sm hover:bg-rose-100"><i class="fa-solid fa-delete-left"></i></button>
+            <button type="button" onclick="appendNat('4')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">4</button>
+            <button type="button" onclick="appendNat('5')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">5</button>
+            <button type="button" onclick="appendNat('6')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">6</button>
+            <button type="button" onclick="clearNat()" class="p-2 bg-slate-200 text-slate-600 rounded shadow-sm hover:bg-slate-300">C</button>
+            <button type="button" onclick="appendNat('1')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">1</button>
+            <button type="button" onclick="appendNat('2')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">2</button>
+            <button type="button" onclick="appendNat('3')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">3</button>
+            <button type="button" onclick="appendNat('-')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">±</button>
+            <button type="button" onclick="appendNat('0')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 col-span-2">0</button>
+            <button type="button" onclick="appendNat('.')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">.</button>
+            <button type="button" onclick="appendNat('e')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">e</button>
           </div>
         `;
-        inputContainer.appendChild(natDiv);
+        container.appendChild(wrapper);
       }
     }
 
-    // NAT Keypad actions
-    function natKey(val) {
-      const q = questionsList[currentIndex];
-      let current = (studentResponses[q.question_id] && studentResponses[q.question_id].nat_value) || '';
-      if (val === '-' && current.length > 0) return;
-      if (val === '.' && current.includes('.')) return;
-      current += val;
-      studentResponses[q.question_id] = { status: 'ATTEMPTED', marked_options: null, nat_value: current };
-      document.getElementById('nat-display').value = current;
-      updatePaletteHighlight();
+    // Keypad Helpers
+    function appendNat(char) {
+      const inp = document.getElementById('nat-input');
+      if (inp) inp.value += char;
+    }
+    function backspaceNat() {
+      const inp = document.getElementById('nat-input');
+      if (inp) inp.value = inp.value.slice(0, -1);
+    }
+    function clearNat() {
+      const inp = document.getElementById('nat-input');
+      if (inp) inp.value = '';
     }
 
-    function natBackspace() {
-      const q = questionsList[currentIndex];
-      let current = (studentResponses[q.question_id] && studentResponses[q.question_id].nat_value) || '';
-      current = current.slice(0, -1);
-      if (current.length > 0) {
-        studentResponses[q.question_id] = { status: 'ATTEMPTED', marked_options: null, nat_value: current };
-      } else {
-        delete studentResponses[q.question_id];
+    // Question Actions
+    function saveAndNext() {
+      saveCurrentState("ATTEMPTED");
+      if (currentQIndex < questionsList.length - 1) {
+        renderQuestion(currentQIndex + 1);
       }
-      document.getElementById('nat-display').value = current;
-      updatePaletteHighlight();
-    }
-
-    function natClear() {
-      const q = questionsList[currentIndex];
-      delete studentResponses[q.question_id];
-      document.getElementById('nat-display').value = '';
-      updatePaletteHighlight();
-    }
-
-    function saveCurrentQuestionState() {
-      // already saved on click
-    }
-
-    function clearResponse() {
-      const q = questionsList[currentIndex];
-      delete studentResponses[q.question_id];
-      renderCurrentQuestion();
-      updatePaletteHighlight();
     }
 
     function markForReview() {
-      const q = questionsList[currentIndex];
-      const existing = studentResponses[q.question_id] || { marked_options: null, nat_value: null };
-      studentResponses[q.question_id] = { ...existing, status: 'REVIEW' };
-      nextQuestion();
-    }
-
-    function saveAndNext() {
-      nextQuestion();
-    }
-
-    function nextQuestion() {
-      if (currentIndex < questionsList.length - 1) {
-        currentIndex++;
-        renderCurrentQuestion();
-        updatePaletteHighlight();
+      saveCurrentState("MARKED_REVIEW");
+      if (currentQIndex < questionsList.length - 1) {
+        renderQuestion(currentQIndex + 1);
       }
+    }
+
+    function clearResponse() {
+      const q = questionsList[currentQIndex];
+      studentResponses[q.question_id] = {
+        status: "NOT_ATTEMPTED",
+        marked_options: [],
+        nat_value: null
+      };
+      renderQuestion(currentQIndex);
+      updatePaletteButton(currentQIndex);
+      updateCounters();
     }
 
     function prevQuestion() {
-      if (currentIndex > 0) {
-        currentIndex--;
-        renderCurrentQuestion();
-        updatePaletteHighlight();
-      }
+      if (currentQIndex > 0) renderQuestion(currentQIndex - 1);
     }
 
-    // Submit Student Exam Paper
+    function saveCurrentState(desiredStatus) {
+      const q = questionsList[currentQIndex];
+      let hasAnswer = false;
+      let opts = [];
+      let natVal = null;
+
+      if (q.question_type === 'MCQ') {
+        const checked = document.querySelector('input[name="mcq-option"]:checked');
+        if (checked) {
+          opts = [checked.value];
+          hasAnswer = true;
+        }
+      } else if (q.question_type === 'MSQ') {
+        const checked = document.querySelectorAll('input[name="msq-option"]:checked');
+        if (checked.length > 0) {
+          opts = Array.from(checked).map(c => c.value);
+          hasAnswer = true;
+        }
+      } else if (q.question_type === 'NAT') {
+        const inp = document.getElementById('nat-input');
+        if (inp && inp.value.trim() !== '') {
+          natVal = inp.value.trim();
+          hasAnswer = true;
+        }
+      }
+
+      studentResponses[q.question_id] = {
+        status: hasAnswer ? desiredStatus : (desiredStatus === 'MARKED_REVIEW' ? 'MARKED_REVIEW' : 'NOT_ATTEMPTED'),
+        marked_options: opts,
+        nat_value: natVal
+      };
+
+      updatePaletteButton(currentQIndex);
+      updateCounters();
+    }
+
+    function updatePaletteButton(idx) {
+      const btn = document.getElementById(`palette-btn-${idx}`);
+      const q = questionsList[idx];
+      if (btn) btn.className = getPaletteBtnClass(q.question_id);
+    }
+
+    function updateCounters() {
+      let answered = 0;
+      for (let k in studentResponses) {
+        if (studentResponses[k].status === "ATTEMPTED") answered++;
+      }
+      document.getElementById('answered-counter').innerText = `${answered} / ${questionsList.length} Answered`;
+    }
+
+    // Submit Exam Paper
     async function submitExamPaper() {
+      saveCurrentState("ATTEMPTED");
+
       const phone = document.getElementById('meta-phone').value.trim();
       const name = document.getElementById('meta-name').value.trim();
-      const category = document.getElementById('meta-category').value;
+      const paper = document.getElementById('meta-paper').value;
+      const cat = document.getElementById('meta-category').value;
       const session = parseInt(document.getElementById('meta-session').value);
       const btech = parseFloat(document.getElementById('meta-btech').value);
       const age = parseInt(document.getElementById('meta-age').value);
 
-      const phoneRegex = /^[6-9]\d{9}$/;
-      if (!phoneRegex.test(phone)) {
-        showToast("Please enter a valid 10-digit Indian Mobile Number starting with 6, 7, 8, or 9", "red");
+      if (!phone || !phone.match(/^[6-9]\d{9}$/)) {
+        showToast("Please enter a valid 10-digit Indian Mobile number", "red");
         document.getElementById('meta-phone').focus();
         return;
       }
-
       if (!name) {
-        showToast("Please enter Candidate Name", "red");
+        showToast("Please enter the student full name", "red");
         document.getElementById('meta-name').focus();
         return;
       }
 
-      // Build responses array for all 65 questions
-      const responsesPayload = questionsList.map(q => {
+      const answersPayload = [];
+      for (let q of questionsList) {
         const r = studentResponses[q.question_id];
-        if (r && (r.status === 'ATTEMPTED' || r.status === 'REVIEW')) {
-          return {
-            question_id: q.question_id,
-            status: "ATTEMPTED",
-            marked_options: r.marked_options,
-            nat_value: r.nat_value
-          };
-        } else {
-          return {
-            question_id: q.question_id,
-            status: "SKIPPED",
-            marked_options: null,
-            nat_value: null
-          };
-        }
-      });
+        answersPayload.push({
+          question_id: q.question_id,
+          status: r ? r.status : "NOT_ATTEMPTED",
+          marked_options: r ? r.marked_options : [],
+          nat_value: r ? r.nat_value : null
+        });
+      }
 
       const payload = {
         student_phone: phone,
         student_name: name,
-        student_category: category,
+        student_category: cat,
         btech_percentage: btech,
         candidate_age: age,
-        has_valid_ncl: true,
-        pw_batch_id: "PW_Online_CBT_2025",
-        paper_code: currentPaper,
+        has_valid_ncl: cat === 'OBC_NCL',
+        paper_code: paper,
         session_id: session,
-        responses: responsesPayload
+        responses: answersPayload
       };
 
       const btn = document.getElementById('btn-submit-paper');
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Evaluating against Faculty Key...`;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Evaluating against Faculty Key...</span>`;
 
       try {
         const resp = await fetch('/api/v1/submissions', {
@@ -1049,589 +702,131 @@
           body: JSON.stringify(payload)
         });
 
-        const data = await resp.json();
         if (!resp.ok) {
-          throw new Error(data.detail || "Submission failed");
+          const errData = await resp.json();
+          throw new Error(errData.detail || "Submission failed");
         }
 
+        const data = await resp.json();
         lastEvaluatedPhone = phone;
-        renderResultsCard(data, name, phone, category, currentPaper);
-        showToast("Paper evaluated successfully! Results rendered below.", "green");
-        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        renderResultsCard(data);
+        showToast("Evaluation complete! Choice recommendations generated.", "green");
       } catch (err) {
         showToast("Submission Error: " + err.message, "red");
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-2"></i> Submit & Predict Admissions`;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit & Predict Admissions</span>`;
       }
     }
 
-    // Render Full Diagnostic Results Card
-    function renderResultsCard(data, name, phone, cat, paper) {
-      document.getElementById('results-section').classList.remove('hidden');
-      document.getElementById('res-student-name').innerText = name;
-      document.getElementById('res-meta-line').innerText = `GATE ${paper} | ${cat} Category | Mobile: ${phone}`;
-      document.getElementById('res-raw-score').innerText = Number(data.raw_score_total).toFixed(2);
-      document.getElementById('res-neg-lost').innerText = `-${Number(data.marks_lost_to_negatives).toFixed(2)}`;
-      document.getElementById('res-gate-score').innerText = data.gate_score;
-      document.getElementById('res-air-band').innerText = data.air_range || `${data.predicted_air}`;
+    // Render Evaluated Scorecard & Choices
+    function renderResultsCard(data) {
+      const card = document.getElementById('results-section');
+      card.classList.remove('hidden');
 
-      const badge = document.getElementById('res-lead-badge');
-      badge.innerText = data.lead_classification || 'SUPER_TOPPER';
+      document.getElementById('res-student-name').innerText = data.student_name;
+      document.getElementById('res-paper-category').innerText = `GATE ${data.paper_code} | Category: ${data.category} | Priority: ${data.lead_classification}`;
+      document.getElementById('res-raw-score').innerText = `${Number(data.raw_score).toFixed(2)} / 100`;
+      document.getElementById('res-neg-marks').innerText = `-${Number(data.marks_lost_to_negatives).toFixed(2)}`;
+      document.getElementById('res-gate-score').innerText = `${data.gate_score} / 1000`;
+      document.getElementById('res-air-range').innerText = data.air_range;
 
-      // COAP IITs
-      const coapList = document.getElementById('coap-results-list');
-      const coapOpts = data.coap_options || data.coap_matches || [];
-      document.getElementById('coap-badge-count').innerText = `${coapOpts.length} Matches`;
-      coapList.innerHTML = coapOpts.slice(0, 5).map(o => `
-        <div class="bg-white p-2.5 rounded border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <div class="font-bold text-slate-800">${o.institution_name}</div>
-            <div class="text-[11px] text-slate-500">${o.program_name}</div>
-          </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.match_tier === 'SAFE' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'}">
-            ${o.match_tier}
-          </span>
-        </div>
-      `).join('') || '<div class="text-slate-400 italic">No direct IIT options at current score.</div>';
+      const fillList = (listId, items) => {
+        const ul = document.getElementById(listId);
+        ul.innerHTML = '';
+        if (!items || items.length === 0) {
+          ul.innerHTML = '<li class="text-slate-400 italic">No historical matches in this tier.</li>';
+          return;
+        }
+        items.slice(0, 5).forEach(item => {
+          ul.innerHTML += `
+            <li class="p-2.5 bg-white rounded border border-slate-200 shadow-xs">
+              <div class="font-bold text-slate-800">${item.institution_name}</div>
+              <div class="text-[11px] text-slate-600">${item.program_or_post}</div>
+              <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1">
+                <span>Cutoff: ${item.historical_cutoff_score}</span>
+                <span class="font-semibold text-pw-accent">${item.admission_mode || item.target_type}</span>
+              </div>
+            </li>
+          `;
+        });
+      };
 
-      // CCMT NITs
-      const ccmtList = document.getElementById('ccmt-results-list');
-      const ccmtOpts = data.ccmt_options || data.ccmt_matches || [];
-      document.getElementById('ccmt-badge-count').innerText = `${ccmtOpts.length} Matches`;
-      ccmtList.innerHTML = ccmtOpts.slice(0, 5).map(o => `
-        <div class="bg-white p-2.5 rounded border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <div class="font-bold text-slate-800">${o.institution_name}</div>
-            <div class="text-[11px] text-slate-500">${o.program_name}</div>
-          </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-800">
-            ${o.match_tier}
-          </span>
-        </div>
-      `).join('') || '<div class="text-slate-400 italic">Explore state counseling and target batches.</div>';
+      fillList('list-ambitious', data.ambitious);
+      fillList('list-target', data.target);
+      fillList('list-safe', data.safe);
 
-      // PSUs
-      const psuList = document.getElementById('psu-results-list');
-      const psuOpts = data.psu_options || data.psu_matches || [];
-      document.getElementById('psu-badge-count').innerText = `${psuOpts.length} Matches`;
-      psuList.innerHTML = psuOpts.slice(0, 4).map(p => `
-        <div class="bg-white p-2.5 rounded border border-slate-200 shadow-sm">
-          <div class="flex items-center justify-between mb-1">
-            <span class="font-bold text-slate-800">${p.psu_name}</span>
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.is_eligible ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
-              ${p.is_eligible ? 'ELIGIBLE' : 'DISQUALIFIED'}
-            </span>
-          </div>
-          <div class="text-[11px] text-slate-500">${p.post_name}</div>
-          ${p.eligibility_note ? `<div class="text-[10px] text-amber-600 mt-1">${p.eligibility_note}</div>` : ''}
-        </div>
-      `).join('') || '<div class="text-slate-400 italic">PSUs require Top 300 AIR.</div>';
+      card.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Download PDF Report
-    function downloadPdfReport() {
-      if (!lastEvaluatedPhone) return;
-      window.open(`/api/v1/counsellor/students/${lastEvaluatedPhone}/pdf`, '_blank');
-    }
-
-    // Copy WhatsApp
-    async function copyWhatsAppFromCard() {
-      if (!lastEvaluatedPhone) return;
-      try {
-        const resp = await fetch(`/api/v1/counsellor/students/${lastEvaluatedPhone}/whatsapp-summary`);
-        const data = await resp.json();
-        await navigator.clipboard.writeText(data.whatsapp_text);
-        showToast("WhatsApp summary copied to clipboard!", "green");
-      } catch (err) {
-        showToast("Failed to copy WhatsApp summary", "red");
+    function downloadStudentPdfDirect() {
+      if (lastEvaluatedPhone) {
+        window.open(`/api/v1/counsellor/students/${lastEvaluatedPhone}/pdf`, '_blank');
       }
     }
 
-    // Digialm Actions
+    // Digialm Parser Functions
     async function processDigialmUrl() {
       const url = document.getElementById('digialm-url-input').value.trim();
-      const phone = document.getElementById('digialm-phone').value.trim();
-      const cat = document.getElementById('digialm-category').value;
+      const phone = document.getElementById('meta-phone').value.trim() || "9876543210";
+      const cat = document.getElementById('meta-category').value;
 
       if (!url) {
-        showToast("Please enter a valid Digialm URL", "red");
-        return;
-      }
-      const phoneRegex = /^[6-9]\d{9}$/;
-      if (!phoneRegex.test(phone)) {
-        showToast("Please enter candidate 10-digit mobile number starting with 6, 7, 8, or 9", "red");
+        showToast("Please enter a valid TCS Digialm URL", "red");
         return;
       }
 
-      const btn = document.getElementById('btn-digialm-fetch');
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Scraping & Grading Digialm Sheet...`;
-
+      showToast("Scraping response sheet HTML from TCS CDN...", "amber");
       try {
-        const resp = await fetch('/api/v1/ingest/response-sheet/submit', {
+        const resp = await fetch('/api/v1/ingest/parse-response-sheet-url', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: url, student_phone: phone, student_category: cat })
         });
+        if (!resp.ok) {
+          const errData = await resp.json();
+          throw new Error(errData.detail || "Failed to parse URL");
+        }
         const data = await resp.json();
-        if (!resp.ok) throw new Error(data.detail || "Digialm parsing failed");
-
-        lastEvaluatedPhone = phone;
+        renderResultsCard(data);
         switchTab('exam-tab');
-        renderResultsCard(data, data.student_name || "Digialm Candidate", phone, cat, data.paper_code || "CS");
-        showToast("Response sheet parsed and graded successfully!", "green");
-        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        showToast("Digialm sheet auto-graded successfully!", "green");
       } catch (err) {
         showToast("Digialm Error: " + err.message, "red");
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-bolt mr-2"></i> Fetch & Auto-Grade Immediately`;
       }
     }
 
     async function processDigialmHtml() {
       const html = document.getElementById('digialm-html-input').value.trim();
-      const phone = document.getElementById('digialm-phone').value.trim();
-      const cat = document.getElementById('digialm-category').value;
+      const phone = document.getElementById('meta-phone').value.trim() || "9876543210";
+      const cat = document.getElementById('meta-category').value;
 
-      if (!html) {
-        showToast("Please paste HTML content", "red");
-        return;
-      }
-      const phoneRegex = /^[6-9]\d{9}$/;
-      if (!phoneRegex.test(phone)) {
-        showToast("Please enter candidate 10-digit mobile number starting with 6, 7, 8, or 9", "red");
+      if (!html || html.length < 100) {
+        showToast("Please paste the full HTML content of the response sheet", "red");
         return;
       }
 
+      showToast("Parsing TCS HTML question tags...", "amber");
       try {
-        const resp = await fetch('/api/v1/ingest/response-sheet/submit', {
+        const resp = await fetch('/api/v1/ingest/parse-response-sheet-html', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ html_content: html, student_phone: phone, student_category: cat })
         });
-        const data = await resp.json();
-        if (!resp.ok) throw new Error(data.detail || "HTML grading failed");
-
-        lastEvaluatedPhone = phone;
-        switchTab('exam-tab');
-        renderResultsCard(data, data.student_name || "Pasted Candidate", phone, cat, data.paper_code || "CS");
-        showToast("Pasted HTML evaluated successfully!", "green");
-        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
-      } catch (err) {
-        showToast("Error: " + err.message, "red");
-      }
-    }
-
-    // Counsellor Ops Dashboard
-    async function loadCounsellorAnalytics() {
-      try {
-        const resp = await fetch('/api/v1/counsellor/analytics/lead-summary');
-        if (!resp.ok) return;
-        const data = await resp.json();
-        document.getElementById('kpi-total').innerText = data.total_submissions;
-        document.getElementById('kpi-topper').innerText = data.super_topper_count;
-        document.getElementById('kpi-psu').innerText = data.psu_and_top_iit_count;
-        document.getElementById('kpi-high-neg').innerText = data.high_negative_marks_count;
-        const pendingCount = (data.disposition_counts && data.disposition_counts['PENDING']) || 0;
-        document.getElementById('kpi-pending').innerText = pendingCount;
-      } catch (err) {
-        console.error("Analytics load error:", err);
-      }
-    }
-
-    async function loadCounsellorStudents() {
-      const search = document.getElementById('counsellor-search').value.trim();
-      const lead = document.getElementById('counsellor-filter-lead').value;
-      const disp = document.getElementById('counsellor-filter-disp').value;
-      const paper = document.getElementById('counsellor-filter-paper').value;
-      const highNeg = document.getElementById('counsellor-high-neg').checked;
-
-      let url = `/api/v1/counsellor/students?limit=100`;
-      if (search) url += `&search=${encodeURIComponent(search)}`;
-      if (lead) url += `&lead_classification=${encodeURIComponent(lead)}`;
-      if (disp) url += `&call_disposition=${encodeURIComponent(disp)}`;
-      if (paper) url += `&paper_code=${encodeURIComponent(paper)}`;
-      if (highNeg) url += `&min_negative_lost=8.0`;
-
-      try {
-        const resp = await fetch(url);
-        const data = await resp.json();
-        const tbody = document.getElementById('counsellor-table-body');
-        tbody.innerHTML = '';
-
-        if (!data.students || !data.students.length) {
-          tbody.innerHTML = `<tr><td colspan="11" class="text-center py-6 text-slate-400">No student submissions match query.</td></tr>`;
-          return;
-        }
-
-        data.students.forEach(s => {
-          const tr = document.createElement('tr');
-          tr.className = "hover:bg-slate-50 transition";
-          tr.innerHTML = `
-            <td class="py-2.5 px-3 font-bold text-slate-900">${s.student_name}</td>
-            <td class="py-2.5 px-3">
-              <button onclick="openContactModal('${s.student_phone}', '${s.student_name.replace(/'/g, "\\'")}', '${s.paper_code}', ${s.raw_score}, '${s.air_range}', '${s.category}', '${s.lead_classification}', '${s.call_disposition || 'PENDING'}', ${s.marks_lost_to_negatives || 0}, ${s.gate_score || 0}, '${(s.student_email || '').replace(/'/g, "\\'")}')"
-                class="font-mono text-pw-blue hover:text-blue-800 font-bold hover:underline inline-flex items-center space-x-1 text-left"
-                title="View Candidate Contact Details Card">
-                <span>${s.student_phone}</span>
-                <i class="fa-regular fa-address-card text-slate-400 text-xs ml-1"></i>
-              </button>
-            </td>
-            <td class="py-2.5 px-3 font-bold text-pw-blue">${s.paper_code}</td>
-            <td class="py-2.5 px-3">${s.category}</td>
-            <td class="py-2.5 px-3 font-bold">${Number(s.raw_score).toFixed(2)}</td>
-            <td class="py-2.5 px-3 text-rose-600 font-semibold">-${Number(s.marks_lost_to_negatives).toFixed(2)}</td>
-            <td class="py-2.5 px-3 font-bold text-emerald-600">${s.gate_score}</td>
-            <td class="py-2.5 px-3 font-semibold">${s.air_range}</td>
-            <td class="py-2.5 px-3">
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${getBadgeStyle(s.lead_classification)}">
-                ${s.lead_classification}
-              </span>
-            </td>
-            <td class="py-2.5 px-3">
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${getDispBadgeStyle(s.call_disposition)}">
-                ${(s.call_disposition || 'PENDING').replace(/_/g, ' ')}
-              </span>
-            </td>
-            <td class="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">
-              <button onclick="openContactModal('${s.student_phone}', '${s.student_name.replace(/'/g, "\\'")}', '${s.paper_code}', ${s.raw_score}, '${s.air_range}', '${s.category}', '${s.lead_classification}', '${s.call_disposition || 'PENDING'}', ${s.marks_lost_to_negatives || 0}, ${s.gate_score || 0}, '${(s.student_email || '').replace(/'/g, "\\'")}')"
-                title="View Contact Details Card & Log Call" class="inline-block px-2 py-1 bg-blue-50 text-pw-blue hover:bg-blue-100 rounded text-xs font-bold">
-                <i class="fa-regular fa-id-card mr-1"></i>Contact
-              </button>
-              <button onclick="copyStudentWhatsApp('${s.student_phone}')" title="Copy WhatsApp Text" class="px-2 py-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded text-xs">
-                <i class="fa-brands fa-whatsapp"></i>
-              </button>
-              <button onclick="downloadStudentPdf('${s.student_phone}')" title="Download Diagnostic PDF" class="px-2 py-1 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded text-xs">
-                <i class="fa-solid fa-file-pdf"></i>
-              </button>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
-      } catch (err) {
-        showToast("Error loading counsellor leads: " + err.message, "red");
-      }
-    }
-
-    function getBadgeStyle(cls) {
-      if (cls === 'SUPER_TOPPER') return 'bg-purple-100 text-purple-900';
-      if (cls === 'PSU_AND_TOP_IIT') return 'bg-blue-100 text-blue-900';
-      if (cls === 'NIT_PROSPECT') return 'bg-emerald-100 text-emerald-900';
-      return 'bg-amber-100 text-amber-900';
-    }
-
-    function getDispBadgeStyle(disp) {
-      if (!disp || disp === 'PENDING') return 'bg-slate-100 text-slate-700 border border-slate-200';
-      if (disp.includes('INTERESTED') || disp.includes('BOOKED')) return 'bg-emerald-100 text-emerald-800';
-      if (disp === 'CONNECTED_FOLLOW_UP') return 'bg-amber-100 text-amber-800';
-      return 'bg-rose-100 text-rose-800';
-    }
-
-    function exportLeadsCsv() {
-      const lead = document.getElementById('counsellor-filter-lead').value;
-      const disp = document.getElementById('counsellor-filter-disp').value;
-      const paper = document.getElementById('counsellor-filter-paper').value;
-      const highNeg = document.getElementById('counsellor-high-neg').checked;
-
-      let url = `/api/v1/counsellor/export/csv?`;
-      if (lead) url += `lead_classification=${encodeURIComponent(lead)}&`;
-      if (disp) url += `call_disposition=${encodeURIComponent(disp)}&`;
-      if (paper) url += `paper_code=${encodeURIComponent(paper)}&`;
-      if (highNeg) url += `min_negative_lost=8.0&`;
-
-      window.open(url, '_blank');
-    }
-
-    // Contact Card & Call Log Modal Functions
-    let currentModalPhone = "";
-    let currentModalEmail = "";
-
-    async function openContactModal(phone, name, branch, rawScore, airRange, category, leadCls, currentDisp, negLost, gateScore, email) {
-      currentModalPhone = phone;
-      currentModalEmail = email || "";
-
-      document.getElementById('modal-phone-input').value = phone;
-      document.getElementById('modal-student-name').innerText = name || "Candidate Details";
-      document.getElementById('modal-student-meta').innerText = `GATE ${branch || ''} | ${category || 'General'} | Raw: ${Number(rawScore || 0).toFixed(2)}`;
-
-      const priorityBadge = document.getElementById('modal-priority-badge');
-      if (priorityBadge) {
-        priorityBadge.innerText = (leadCls || 'LEAD').replace(/_/g, ' ');
-        priorityBadge.className = `px-1.5 py-0.5 rounded text-[10px] font-bold ${getBadgeStyle(leadCls || '')}`;
-      }
-
-      // Display formatted phone: +91 XXXXX XXXXX if 10 digits
-      const digits = (phone || "").replace(/\D/g, '');
-      const formattedPhone = digits.length === 10 ? `+91 ${digits.slice(0, 5)} ${digits.slice(5)}` : (phone.startsWith('+') ? phone : `+91 ${phone}`);
-      document.getElementById('modal-phone-display').innerText = formattedPhone;
-
-      // Email display
-      const emailDisplay = document.getElementById('modal-email-display');
-      if (email && email.trim()) {
-        emailDisplay.innerText = email.trim();
-      } else {
-        emailDisplay.innerText = 'Not provided';
-      }
-
-      // Academic metrics
-      document.getElementById('modal-raw-score').innerText = `${Number(rawScore || 0).toFixed(2)} / 100`;
-      document.getElementById('modal-neg-lost').innerText = `-${Number(negLost || 0).toFixed(2)}`;
-      document.getElementById('modal-gate-score').innerText = `${gateScore || '--'} / 1000`;
-      document.getElementById('modal-air-range').innerText = airRange || '--';
-
-      // Disposition & notes
-      document.getElementById('modal-disposition-select').value = currentDisp || 'INTERESTED_IN_BATCH';
-      document.getElementById('modal-notes-input').value = '';
-      document.getElementById('modal-followup-date').value = '';
-
-      resetCopyButtons();
-
-      // Telephony links (WhatsApp Web link only - no direct calls)
-      try {
-        const resp = await fetch(`/api/v1/counsellor/students/${phone}/telephony-link`);
-        if (resp.ok) {
-          const links = await resp.json();
-          document.getElementById('modal-wa-btn').href = links.wa_web_link;
-        }
-      } catch (e) {}
-
-      // Load past history
-      await loadCallHistoryForModal(phone);
-
-      document.getElementById('call-log-modal').classList.remove('hidden');
-    }
-
-    // Retain openCallLogModal for backward compatibility
-    function openCallLogModal(phone, name, branch, rawScore, airRange, currentDisp) {
-      openContactModal(phone, name, branch, rawScore, airRange, 'General', 'LEAD', currentDisp, 0, 0, '');
-    }
-
-    function resetCopyButtons() {
-      const copyPhoneText = document.getElementById('copy-phone-text');
-      if (copyPhoneText) copyPhoneText.innerText = 'Copy Number';
-      const copyEmailText = document.getElementById('copy-email-text');
-      if (copyEmailText) copyEmailText.innerText = 'Copy';
-    }
-
-    async function copyModalPhone() {
-      if (!currentModalPhone) return;
-      try {
-        await navigator.clipboard.writeText(currentModalPhone);
-      } catch (err) {
-        const temp = document.createElement("input");
-        temp.value = currentModalPhone;
-        document.body.appendChild(temp);
-        temp.select();
-        document.execCommand("copy");
-        document.body.removeChild(temp);
-      }
-      const textSpan = document.getElementById('copy-phone-text');
-      if (textSpan) {
-        textSpan.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-check mr-1"></i>Copied!</span>';
-        setTimeout(() => {
-          textSpan.innerText = 'Copy Number';
-        }, 2000);
-      }
-      showToast(`Phone ${currentModalPhone} copied to clipboard!`, "green");
-    }
-
-    async function copyModalEmail() {
-      if (!currentModalEmail) {
-        showToast("No email address provided for candidate", "amber");
-        return;
-      }
-      try {
-        await navigator.clipboard.writeText(currentModalEmail);
-      } catch (err) {
-        const temp = document.createElement("input");
-        temp.value = currentModalEmail;
-        document.body.appendChild(temp);
-        temp.select();
-        document.execCommand("copy");
-        document.body.removeChild(temp);
-      }
-      const textSpan = document.getElementById('copy-email-text');
-      if (textSpan) {
-        textSpan.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-check mr-1"></i>Copied!</span>';
-        setTimeout(() => {
-          textSpan.innerText = 'Copy';
-        }, 2000);
-      }
-      showToast(`Email ${currentModalEmail} copied to clipboard!`, "green");
-    }
-
-    function closeCallLogModal() {
-      document.getElementById('call-log-modal').classList.add('hidden');
-    }
-
-    async function loadCallHistoryForModal(phone) {
-      const histDiv = document.getElementById('modal-history-list');
-      histDiv.innerHTML = '<div class="text-slate-400 italic">Loading past logs...</div>';
-      try {
-        const resp = await fetch(`/api/v1/counsellor/students/${phone}/call-history`);
-        const logs = await resp.json();
-        if (!logs.length) {
-          histDiv.innerHTML = '<div class="text-slate-400 italic">No previous calls logged yet.</div>';
-          return;
-        }
-        histDiv.innerHTML = logs.map(l => `
-          <div class="bg-slate-50 p-2 rounded border border-slate-200">
-            <div class="flex items-center justify-between font-bold text-slate-700">
-              <span>${l.counsellor_name} (${l.call_disposition.replace(/_/g, ' ')})</span>
-              <span class="text-[10px] text-slate-400 font-normal">${new Date(l.logged_at).toLocaleString()}</span>
-            </div>
-            ${l.notes ? `<p class="text-slate-600 mt-1">${l.notes}</p>` : ''}
-            ${l.follow_up_date ? `<div class="text-[10px] text-amber-700 font-bold mt-1">Reminder: Follow up on ${l.follow_up_date}</div>` : ''}
-          </div>
-        `).join('');
-      } catch (err) {
-        histDiv.innerHTML = '<div class="text-rose-500">Failed to load history</div>';
-      }
-    }
-
-    async function submitCallLog(e) {
-      e.preventDefault();
-      const phone = document.getElementById('modal-phone-input').value;
-      const counsellor = document.getElementById('modal-counsellor-name').value.trim();
-      const disp = document.getElementById('modal-disposition-select').value;
-      const notes = document.getElementById('modal-notes-input').value.trim();
-      const followup = document.getElementById('modal-followup-date').value || null;
-
-      const btn = document.getElementById('btn-save-call-log');
-      btn.disabled = true;
-      btn.innerText = "Saving Call Log...";
-
-      try {
-        const resp = await fetch(`/api/v1/counsellor/students/${phone}/call-log`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            counsellor_name: counsellor,
-            call_disposition: disp,
-            notes: notes,
-            follow_up_date: followup
-          })
-        });
-
         if (!resp.ok) {
           const errData = await resp.json();
-          throw new Error(errData.detail || "Failed to save call log");
+          throw new Error(errData.detail || "Failed to parse HTML");
         }
-
-        showToast("Call log saved successfully!", "green");
-        closeCallLogModal();
-        loadCounsellorStudents();
-        loadCounsellorAnalytics();
-      } catch (err) {
-        showToast("Error saving call: " + err.message, "red");
-      } finally {
-        btn.disabled = false;
-        btn.innerText = "Save Call Record & Update Lead";
-      }
-    }
-
-    async function copyStudentWhatsApp(phone) {
-      try {
-        const resp = await fetch(`/api/v1/counsellor/students/${phone}/whatsapp-summary`);
         const data = await resp.json();
-        await navigator.clipboard.writeText(data.whatsapp_text);
-        showToast(`WhatsApp report copied for ${phone}!`, "green");
+        renderResultsCard(data);
+        switchTab('exam-tab');
+        showToast("Digialm HTML auto-graded successfully!", "green");
       } catch (err) {
-        showToast("Failed to copy WhatsApp report", "red");
+        showToast("HTML Parse Error: " + err.message, "red");
       }
     }
 
-    function downloadStudentPdf(phone) {
-      window.open(`/api/v1/counsellor/students/${phone}/pdf`, '_blank');
-    }
-
-    // Admin / Key Management
-    async function publishSampleFacultyKey() {
-      const paper = document.getElementById('key-paper').value;
-      const ver = parseInt(document.getElementById('key-version').value);
-      const type = document.getElementById('key-type').value;
-      const author = document.getElementById('key-author').value;
-
-      // Construct 65 items
-      const items = [];
-      for (let i = 1; i <= 65; i++) {
-        items.push({
-          question_id: `${paper}-${i}`,
-          question_number: i,
-          section: i <= 10 ? "APTITUDE" : "CORE",
-          question_type: i % 4 === 0 ? "NAT" : (i % 5 === 0 ? "MSQ" : "MCQ"),
-          marks_correct: i <= 5 || (i >= 11 && i <= 35) ? 1.0 : 2.0,
-          valid_options: i % 4 === 0 ? null : (i % 5 === 0 ? [["A", "C"]] : [["B"]]),
-          nat_min: i % 4 === 0 ? 24.0 : null,
-          nat_max: i % 4 === 0 ? 25.0 : null,
-          is_mta: false
-        });
-      }
-
-      try {
-        const resp = await fetch('/api/v1/keys', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            paper_code: paper,
-            version: ver,
-            key_type: type,
-            author_name: author,
-            items: items
-          })
-        });
-        const data = await resp.json();
-        if (!resp.ok) throw new Error(data.detail || "Failed to publish key");
-        showToast(`Answer Key v${ver} for ${paper} published successfully!`, "green");
-      } catch (err) {
-        showToast("Key Publishing Error: " + err.message, "red");
-      }
-    }
-
-    async function triggerBatchReevaluation() {
-      const paper = document.getElementById('key-paper').value;
-      const btn = document.getElementById('btn-batch-reeval');
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Re-evaluating All Students...`;
-
-      try {
-        const activeResp = await fetch(`/api/v1/keys/${paper}/active`);
-        if (!activeResp.ok) throw new Error(`No active key found for ${paper}`);
-        const activeKey = await activeResp.json();
-
-        const reevalResp = await fetch(`/api/v1/keys/${activeKey.key_id}/re-evaluate`, { method: 'POST' });
-        const reevalData = await reevalResp.json();
-        showToast(`Batch Re-evaluation Complete! ${reevalData.re_evaluated_count || 0} students updated.`, "green");
-      } catch (err) {
-        showToast("Re-evaluation Error: " + err.message, "red");
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-arrows-rotate mr-1.5"></i> Run Batch Re-Evaluation`;
-      }
-    }
-
-    // Toast Notification Utility
-    function showToast(message, color = "blue") {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      const bg = color === 'green' ? 'bg-emerald-600' : (color === 'red' ? 'bg-rose-600' : 'bg-pw-blue');
-      toast.className = `${bg} text-white px-4 py-2.5 rounded-lg shadow-xl text-xs font-semibold flex items-center space-x-2 transition transform duration-300 translate-y-2 opacity-0`;
-      toast.innerHTML = `<i class="fa-solid fa-circle-info"></i><span>${message}</span>`;
-      container.appendChild(toast);
-
-      requestAnimationFrame(() => {
-        toast.classList.remove('translate-y-2', 'opacity-0');
-      });
-
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-2');
-        setTimeout(() => toast.remove(), 300);
-      }, 3500);
-    }
-
-    // Initialize application on load
+    // Auto-init on page load
     window.addEventListener('DOMContentLoaded', () => {
       loadExamPaper('CS');
     });

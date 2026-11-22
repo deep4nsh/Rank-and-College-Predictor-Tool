@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Physics Wallah | Counsellor & Operations Portal</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'pw-blue': '#1b2a4a',
+            'pw-accent': '#2563eb',
+            'pw-yellow': '#f59e0b',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
+
+  <!-- Top Header for Counsellor Portal -->
+  <header class="bg-pw-blue text-white shadow-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 flex flex-wrap justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-lg bg-amber-400 text-pw-blue font-black flex items-center justify-center text-xl shadow">
+          PW
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-lg font-bold tracking-tight">Physics Wallah | Counsellor Station</h1>
+            <span class="bg-amber-400/20 text-amber-300 text-[10px] font-bold px-2 py-0.5 rounded border border-amber-400/30">
+              OPERATIONS & ADMISSIONS
+            </span>
+          </div>
+          <p class="text-xs text-blue-200">Candidate Triage, Laptop Call Center & Answer Key Management</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs & Student Portal Link -->
+      <div class="flex items-center space-x-2 sm:space-x-4 mt-2 sm:mt-0 text-sm font-medium">
+        <nav class="flex space-x-1">
+          <button onclick="switchTab('counsellor-tab')" id="nav-counsellor" class="px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-headset"></i>
+            <span>Lead Triage</span>
+          </button>
+          <button onclick="switchTab('admin-tab')" id="nav-admin" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-key"></i>
+            <span>Answer Keys</span>
+          </button>
+        </nav>
+
+        <!-- Access back to Student Exam Portal -->
+        <a href="/" class="px-3 py-1.5 text-xs bg-slate-700/80 hover:bg-slate-700 text-white border border-slate-500/50 rounded-md transition flex items-center space-x-1.5 font-semibold" title="Open Student Exam CBT Portal">
+          <i class="fa-solid fa-graduation-cap text-[11px]"></i>
+          <span>Student Portal</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
+
+    <!-- TAB 1: COUNSELLOR OPERATIONS DASHBOARD -->
+    <section id="counsellor-tab" class="block">
+      <!-- Operational KPI Analytics Bar -->
+      <div id="analytics-kpi-bar" class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-5">
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-center">
+          <div id="kpi-total" class="text-xl font-black text-pw-blue">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">Total Submissions</div>
+        </div>
+        <div class="bg-purple-50 border border-purple-200 rounded-xl p-3 text-center">
+          <div id="kpi-topper" class="text-xl font-black text-purple-700">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">Super Toppers (Top 100)</div>
+        </div>
+        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-center">
+          <div id="kpi-psu" class="text-xl font-black text-indigo-700">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">PSU & Top IIT</div>
+        </div>
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-center">
+          <div id="kpi-high-neg" class="text-xl font-black text-amber-700">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">High Negatives (>8)</div>
+        </div>
+        <div class="bg-rose-50 border border-rose-200 rounded-xl p-3 text-center">
+          <div id="kpi-pending" class="text-xl font-black text-rose-700">0</div>
+          <div class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">Pending Calls</div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-5">
+          <div>
+            <h2 class="text-base font-bold text-slate-800">Counsellor Lead Management & Diagnostics</h2>
+            <p class="text-xs text-slate-500">Prioritized triage by GATE Score, AIR band, call dispositions, and negative marks.</p>
+          </div>
+
+          <!-- Filters -->
+          <div class="flex flex-wrap items-center gap-2">
+            <input type="text" id="counsellor-search" oninput="loadCounsellorStudents()" placeholder="Search phone, name..." class="border rounded px-3 py-1.5 text-xs focus:ring-2 focus:ring-pw-accent outline-none w-36">
+            <select id="counsellor-filter-lead" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="">All Priorities</option>
+              <option value="SUPER_TOPPER">SUPER_TOPPER (AIR &lt; 100)</option>
+              <option value="PSU_AND_TOP_IIT">PSU_AND_TOP_IIT (AIR 100-500)</option>
+              <option value="NIT_PROSPECT">NIT_PROSPECT (AIR 500-2500)</option>
+              <option value="NURTURE_REPEATER">NURTURE_REPEATER (AIR &gt; 5000)</option>
+            </select>
+            <select id="counsellor-filter-disp" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="">All Dispositions</option>
+              <option value="PENDING">Pending Call</option>
+              <option value="INTERESTED_IN_BATCH">Interested in Batch</option>
+              <option value="COAP_COUNSELLING_BOOKED">COAP Booked</option>
+              <option value="PSU_GDPI_BOOKED">PSU GD/PI Booked</option>
+              <option value="CONNECTED_FOLLOW_UP">Follow Up</option>
+              <option value="NOT_REACHABLE">Not Reachable</option>
+              <option value="NOT_INTERESTED">Not Interested</option>
+            </select>
+            <select id="counsellor-filter-paper" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="">All Branches</option>
+              <option value="CS">CS</option>
+              <option value="DA">DA</option>
+              <option value="ME">ME</option>
+              <option value="CE">CE</option>
+              <option value="EE">EE</option>
+              <option value="EC">EC</option>
+            </select>
+            <label class="flex items-center space-x-1.5 text-xs font-bold text-amber-700 bg-amber-50 px-2 py-1.5 rounded border border-amber-200 cursor-pointer">
+              <input type="checkbox" id="counsellor-high-neg" onchange="loadCounsellorStudents()" class="rounded text-amber-600">
+              <span>Neg &gt; 8</span>
+            </label>
+            <button onclick="exportLeadsCsv()" title="Export Filtered Leads to CSV" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold transition flex items-center space-x-1">
+              <i class="fa-solid fa-file-excel"></i>
+              <span>Export CSV</span>
+            </button>
+            <button onclick="loadCounsellorStudents(); loadCounsellorAnalytics();" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-xs font-semibold transition" title="Refresh List">
+              <i class="fa-solid fa-rotate"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Student Leads Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 font-bold border-b">
+              <tr>
+                <th class="py-2.5 px-3">Student Name</th>
+                <th class="py-2.5 px-3">Mobile No.</th>
+                <th class="py-2.5 px-3">Branch</th>
+                <th class="py-2.5 px-3">Category</th>
+                <th class="py-2.5 px-3">Raw Score</th>
+                <th class="py-2.5 px-3">Neg. Lost</th>
+                <th class="py-2.5 px-3">GATE Score</th>
+                <th class="py-2.5 px-3">AIR Band</th>
+                <th class="py-2.5 px-3">Priority</th>
+                <th class="py-2.5 px-3">Disposition</th>
+                <th class="py-2.5 px-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="counsellor-table-body" class="divide-y text-slate-700">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CANDIDATE CONTACT DETAILS & CALL LOG MODAL -->
+    <div id="call-log-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden transform transition-all">
+        <!-- Modal Header -->
+        <div class="bg-pw-blue text-white p-4 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-200">
+              <i class="fa-solid fa-id-card text-base"></i>
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h3 id="modal-student-name" class="font-bold text-sm">Candidate Contact Details</h3>
+                <span id="modal-priority-badge" class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-slate-900">PRIORITY</span>
+              </div>
+              <p id="modal-student-meta" class="text-[11px] text-blue-200">GATE CS | General | Score: 64.33</p>
+            </div>
+          </div>
+          <button onclick="closeCallLogModal()" class="text-white/80 hover:text-white text-lg p-1 transition" title="Close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Modal Body Content -->
+        <div class="p-5 space-y-3.5 text-xs max-h-[85vh] overflow-y-auto">
+
+          <!-- Notice: Laptop Mode / No Direct Calling -->
+          <div class="bg-blue-50/80 border border-blue-200/90 rounded-lg p-2.5 flex items-start space-x-2.5 text-slate-700">
+            <i class="fa-solid fa-laptop text-pw-blue text-sm mt-0.5"></i>
+            <div class="text-[11px] leading-tight">
+              <span class="font-bold text-pw-blue">Laptop Workstation Mode:</span>
+              <span>Direct telephony calling is disabled on laptop systems. Copy the phone number below to paste into your phone/dialer, or start a chat via WhatsApp Web.</span>
+            </div>
+          </div>
+
+          <!-- Contact Details Card -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2.5">
+            <!-- Mobile Number Row with Copy & WhatsApp Web -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+              <div>
+                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Candidate Mobile Number</span>
+                <div class="flex items-center space-x-2 mt-0.5">
+                  <i class="fa-solid fa-phone text-pw-blue text-sm"></i>
+                  <span id="modal-phone-display" class="font-mono text-base font-extrabold text-slate-900 tracking-wide">+91 98765 43210</span>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <button type="button" id="btn-copy-phone" onclick="copyModalPhone()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded font-bold text-xs flex items-center space-x-1.5 transition">
+                  <i class="fa-regular fa-copy"></i>
+                  <span id="copy-phone-text">Copy Number</span>
+                </button>
+                <a id="modal-wa-btn" href="#" target="_blank" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-xs flex items-center space-x-1.5 shadow-sm transition">
+                  <i class="fa-brands fa-whatsapp text-sm"></i>
+                  <span>WhatsApp Web</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Email Address Row -->
+            <div id="modal-email-row" class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200 text-[11px]">
+              <div class="flex items-center space-x-2 truncate mr-2">
+                <i class="fa-regular fa-envelope text-slate-400"></i>
+                <span class="text-slate-500 font-medium">Email:</span>
+                <span id="modal-email-display" class="font-semibold text-slate-800 truncate">student@example.com</span>
+              </div>
+              <button type="button" id="btn-copy-email" onclick="copyModalEmail()" class="text-pw-blue hover:text-blue-800 font-bold text-[11px] flex items-center space-x-1 px-1.5 py-0.5 rounded hover:bg-blue-50 transition">
+                <i class="fa-regular fa-copy"></i>
+                <span id="copy-email-text">Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Academic Score Snapshot -->
+          <div class="grid grid-cols-4 gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-center">
+            <div>
+              <span class="text-[10px] text-slate-500 font-semibold block">Raw Marks</span>
+              <span id="modal-raw-score" class="font-extrabold text-slate-800 text-xs">-- / 100</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 font-semibold block">Neg. Lost</span>
+              <span id="modal-neg-lost" class="font-extrabold text-rose-600 text-xs">-0.00</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 font-semibold block">GATE Score</span>
+              <span id="modal-gate-score" class="font-extrabold text-emerald-600 text-xs">-- / 1000</span>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 font-semibold block">Est. AIR</span>
+              <span id="modal-air-range" class="font-extrabold text-pw-blue text-xs">--</span>
+            </div>
+          </div>
+
+          <!-- Call Logging & Disposition Form -->
+          <form id="call-log-form" onsubmit="submitCallLog(event)" class="pt-1">
+            <input type="hidden" id="modal-phone-input">
+            <div class="grid grid-cols-2 gap-3 mb-3">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Counsellor Name</label>
+                <input type="text" id="modal-counsellor-name" value="PW Admissions Mentor" required class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Call Disposition *</label>
+                <select id="modal-disposition-select" required class="w-full border rounded px-2.5 py-1.5 font-bold text-pw-blue focus:ring-2 focus:ring-pw-accent outline-none">
+                  <option value="INTERESTED_IN_BATCH">Interested in Batch</option>
+                  <option value="COAP_COUNSELLING_BOOKED">COAP Counselling Booked</option>
+                  <option value="PSU_GDPI_BOOKED">PSU GD/PI Guidance Booked</option>
+                  <option value="CONNECTED_FOLLOW_UP">Connected - Follow Up</option>
+                  <option value="NOT_REACHABLE">Not Reachable</option>
+                  <option value="WRONG_NUMBER">Wrong Number</option>
+                  <option value="NOT_INTERESTED">Not Interested</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="block font-bold text-slate-700 mb-1">Follow-Up Date (Optional)</label>
+              <input type="date" id="modal-followup-date" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+            </div>
+
+            <div class="mb-3">
+              <label class="block font-bold text-slate-700 mb-1">Call Notes & Action Plan</label>
+              <textarea id="modal-notes-input" rows="2" placeholder="Discussed negative marks and COAP choice sequence..." class="w-full border rounded p-2.5 focus:ring-2 focus:ring-pw-accent outline-none"></textarea>
+            </div>
+
+            <button type="submit" id="btn-save-call-log" class="w-full py-2 bg-pw-blue hover:bg-blue-900 text-white font-bold rounded-lg shadow text-xs transition">
+              Save Call Record & Update Lead
+            </button>
+          </form>
+
+          <!-- Prior Call History Timeline -->
+          <div class="pt-2 border-t">
+            <h4 class="font-bold text-slate-700 mb-2 flex items-center justify-between">
+              <span>Past Call History</span>
+              <span class="text-[10px] text-slate-400 font-normal">Audit Trail</span>
+            </h4>
+            <div id="modal-history-list" class="max-h-32 overflow-y-auto space-y-2 text-[11px]">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: ANSWER KEY MANAGEMENT -->
+    <section id="admin-tab" class="hidden">
+      <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div class="flex items-center justify-between border-b pb-4 mb-5">
+          <div>
+            <h2 class="text-base font-bold text-slate-800">Faculty & Official Answer Key Portal</h2>
+            <p class="text-xs text-slate-500">Publish provisional faculty keys on exam day, then revise with official IIT keys for 1-click batch re-evaluation.</p>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-amber-50 text-amber-800 rounded-full border border-amber-200">
+            Immutable Key Versioning
+          </span>
+        </div>
+
+        <!-- Create Key Form -->
+        <div class="bg-slate-50 p-4 rounded-xl border mb-6 text-xs space-y-3">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Paper Code</label>
+              <select id="key-paper" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+                <option value="CS">CS</option>
+                <option value="DA">DA</option>
+                <option value="ME">ME</option>
+                <option value="CE">CE</option>
+                <option value="EE">EE</option>
+                <option value="EC">EC</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Version</label>
+              <input type="number" id="key-version" value="1" min="1" max="10" class="w-full border rounded px-2.5 py-1.5">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Key Type</label>
+              <select id="key-type" class="w-full border rounded px-2.5 py-1.5">
+                <option value="FACULTY_EXAM_DAY">FACULTY_EXAM_DAY (Provisional v1)</option>
+                <option value="OFFICIAL_IIT">OFFICIAL_IIT (Final Key v2)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Author / Faculty Panel</label>
+              <input type="text" id="key-author" value="PW GATE Faculty Panel" class="w-full border rounded px-2.5 py-1.5">
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button onclick="publishSampleFacultyKey()" class="px-4 py-2 bg-pw-blue hover:bg-blue-900 text-white font-bold rounded shadow transition">
+              Publish & Auto-Provision Key
+            </button>
+          </div>
+        </div>
+
+        <!-- 1-Click Batch Re-Evaluation Section -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h4 class="font-bold text-pw-blue text-sm">1-Click Batch Re-Evaluation Engine</h4>
+            <p class="text-xs text-blue-900/80">Recalculates all registered candidates against the active key in under 1 second.</p>
+          </div>
+          <button onclick="triggerBatchReevaluation()" id="btn-batch-reeval" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow text-xs transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <span>Run Batch Re-Evaluation</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- JavaScript Application Logic -->
+  <script>
+    // Tab Switching
+    function switchTab(tabId) {
+      document.getElementById('counsellor-tab').classList.add('hidden');
+      document.getElementById('admin-tab').classList.add('hidden');
+
+      document.getElementById(tabId).classList.remove('hidden');
+
+      const tabs = ['counsellor', 'admin'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`nav-${t}`);
+        if (!btn) return;
+        if (`${t}-tab` === tabId) {
+          btn.className = "px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition";
+        }
+      });
+
+      if (tabId === 'counsellor-tab') {
+        loadCounsellorStudents();
+        loadCounsellorAnalytics();
+      }
+    }
+
+    // Counsellor Operations Functions
+    async function loadCounsellorAnalytics() {
+      try {
+        const resp = await fetch('/api/v1/counsellor/analytics/lead-summary');
+        if (!resp.ok) return;
+        const data = await resp.json();
+
+        document.getElementById('kpi-total').innerText = data.total_submissions || 0;
+        document.getElementById('kpi-topper').innerText = data.priority_counts?.SUPER_TOPPER || 0;
+        document.getElementById('kpi-psu').innerText = data.priority_counts?.PSU_AND_TOP_IIT || 0;
+        document.getElementById('kpi-high-neg').innerText = data.high_negative_marks_candidates || 0;
+        document.getElementById('kpi-pending').innerText = data.disposition_counts?.PENDING || 0;
+      } catch (err) {
+        console.error("Failed to load analytics", err);
+      }
+    }
+
+    async function loadCounsellorStudents() {
+      const search = document.getElementById('counsellor-search').value.trim();
+      const lead = document.getElementById('counsellor-filter-lead').value;
+      const disp = document.getElementById('counsellor-filter-disp').value;
+      const paper = document.getElementById('counsellor-filter-paper').value;
+      const highNeg = document.getElementById('counsellor-high-neg').checked;
+
+      const params = new URLSearchParams();
+      if (search) params.append('search', search);
+      if (lead) params.append('lead_priority', lead);
+      if (disp) params.append('call_disposition', disp);
+      if (paper) params.append('paper_code', paper);
+      if (highNeg) params.append('high_negatives_only', 'true');
+
+      try {
+        const resp = await fetch(`/api/v1/counsellor/students?${params.toString()}`);
+        const data = await resp.json();
+        const tbody = document.getElementById('counsellor-table-body');
+
+        if (!data.students || data.students.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="11" class="py-8 text-center text-slate-400 font-semibold">No student leads found matching filter criteria.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = data.students.map(s => {
+          const priorityColor = s.lead_priority === 'SUPER_TOPPER' ? 'bg-purple-100 text-purple-800 border-purple-200' :
+                               (s.lead_priority === 'PSU_AND_TOP_IIT' ? 'bg-indigo-100 text-indigo-800 border-indigo-200' :
+                               (s.lead_priority === 'NIT_PROSPECT' ? 'bg-blue-100 text-blue-800 border-blue-200' : 'bg-slate-100 text-slate-700 border-slate-200'));
+
+          const dispColor = s.call_disposition === 'INTERESTED_IN_BATCH' ? 'bg-emerald-100 text-emerald-800' :
+                           (s.call_disposition === 'COAP_COUNSELLING_BOOKED' ? 'bg-sky-100 text-sky-800' :
+                           (s.call_disposition === 'CONNECTED_FOLLOW_UP' ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'));
+
+          const safeName = (s.student_name || 'Candidate').replace(/'/g, "\\'");
+          const safeEmail = (s.student_email || '').replace(/'/g, "\\'");
+          const safeAir = (s.air_prediction_range || '--').replace(/'/g, "\\'");
+
+          return `
+            <tr class="hover:bg-slate-50 transition border-b">
+              <td class="py-2.5 px-3 font-semibold text-slate-800">${s.student_name}</td>
+              <td class="py-2.5 px-3">
+                <button type="button" onclick="openContactModal('${s.student_phone}', '${safeName}', '${s.paper_code}', ${s.raw_score}, '${safeAir}', '${s.student_category}', '${s.lead_priority}', '${s.call_disposition}', ${s.gate_score || 0}, ${s.marks_lost_to_negatives || 0}, '${safeEmail}')" class="font-mono text-pw-blue hover:text-blue-800 font-bold hover:underline flex items-center space-x-1" title="View Candidate Contact Details">
+                  <i class="fa-solid fa-address-card text-[11px] text-slate-400"></i>
+                  <span>${s.student_phone}</span>
+                </button>
+              </td>
+              <td class="py-2.5 px-3 font-mono font-bold">${s.paper_code}</td>
+              <td class="py-2.5 px-3">${s.student_category}</td>
+              <td class="py-2.5 px-3 font-bold text-slate-800">${s.raw_score.toFixed(2)}</td>
+              <td class="py-2.5 px-3 font-semibold ${s.marks_lost_to_negatives > 5 ? 'text-rose-600 font-bold' : 'text-slate-500'}">-${s.marks_lost_to_negatives.toFixed(2)}</td>
+              <td class="py-2.5 px-3 font-black text-emerald-600">${s.gate_score ? s.gate_score.toFixed(0) : '--'}</td>
+              <td class="py-2.5 px-3 font-semibold text-pw-blue">${s.air_prediction_range || '--'}</td>
+              <td class="py-2.5 px-3">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${priorityColor}">
+                  ${s.lead_priority}
+                </span>
+              </td>
+              <td class="py-2.5 px-3">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${dispColor}">
+                  ${s.call_disposition.replace(/_/g, ' ')}
+                </span>
+              </td>
+              <td class="py-2.5 px-3 text-right space-x-1.5 whitespace-nowrap">
+                <button type="button" onclick="openContactModal('${s.student_phone}', '${safeName}', '${s.paper_code}', ${s.raw_score}, '${safeAir}', '${s.student_category}', '${s.lead_priority}', '${s.call_disposition}', ${s.gate_score || 0}, ${s.marks_lost_to_negatives || 0}, '${safeEmail}')" class="px-2 py-1 bg-pw-blue hover:bg-blue-900 text-white rounded text-[11px] font-bold shadow-sm transition" title="Open Contact Details & Call Log">
+                  <i class="fa-solid fa-id-card mr-1"></i>Contact
+                </button>
+                <button type="button" onclick="copyStudentWhatsApp('${s.student_phone}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[11px] font-bold transition" title="Copy WhatsApp Report">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </button>
+                <button type="button" onclick="downloadStudentPdf('${s.student_phone}')" class="px-2 py-1 bg-slate-700 hover:bg-slate-800 text-white rounded text-[11px] font-bold transition" title="Download Official 1-Page PDF">
+                  <i class="fa-solid fa-file-pdf"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error("Failed to load students", err);
+      }
+    }
+
+    function exportLeadsCsv() {
+      const search = document.getElementById('counsellor-search').value.trim();
+      const lead = document.getElementById('counsellor-filter-lead').value;
+      const disp = document.getElementById('counsellor-filter-disp').value;
+      const paper = document.getElementById('counsellor-filter-paper').value;
+      const highNeg = document.getElementById('counsellor-high-neg').checked;
+
+      const params = new URLSearchParams();
+      if (search) params.append('search', search);
+      if (lead) params.append('lead_priority', lead);
+      if (disp) params.append('call_disposition', disp);
+      if (paper) params.append('paper_code', paper);
+      if (highNeg) params.append('high_negatives_only', 'true');
+
+      window.open(`/api/v1/counsellor/export/csv?${params.toString()}`, '_blank');
+    }
+
+    // Modal State Management
+    let currentModalPhone = "";
+    let currentModalEmail = "";
+
+    async function openContactModal(phone, name, branch, rawScore, airRange, category = "GEN", leadPriority = "LEAD", currentDisp = "PENDING", gateScore = 0, negLost = 0, email = "") {
+      currentModalPhone = phone;
+      currentModalEmail = email || "";
+
+      resetCopyButtons();
+
+      document.getElementById('modal-student-name').innerText = name || 'Candidate';
+      document.getElementById('modal-student-meta').innerText = `GATE ${branch} | Category: ${category} | AIR: ${airRange}`;
+      document.getElementById('modal-phone-input').value = phone;
+
+      // Priority badge
+      const badge = document.getElementById('modal-priority-badge');
+      if (badge) {
+        badge.innerText = (leadPriority || 'LEAD').replace(/_/g, ' ');
+      }
+
+      // Format display phone
+      const displayPhone = phone.startsWith("+91") ? phone : (phone.length === 10 ? `+91 ${phone.slice(0, 5)} ${phone.slice(5)}` : phone);
+      document.getElementById('modal-phone-display').innerText = displayPhone;
+
+      // WhatsApp Web Link
+      const cleanDigits = phone.replace(/[^0-9]/g, '');
+      const waDigits = cleanDigits.length === 10 ? `91${cleanDigits}` : cleanDigits;
+      const encodedMsg = encodeURIComponent(`Hello ${name || 'Candidate'}, greetings from Physics Wallah (PW)! Regarding your GATE ${branch} score prediction...`);
+      document.getElementById('modal-wa-btn').href = `https://wa.me/${waDigits}?text=${encodedMsg}`;
+
+      // Email Display
+      const emailRow = document.getElementById('modal-email-row');
+      const emailDisplay = document.getElementById('modal-email-display');
+      if (email && emailDisplay) {
+        emailDisplay.innerText = email;
+        emailRow.classList.remove('hidden');
+      } else if (emailRow) {
+        emailRow.classList.add('hidden');
+      }
+
+      // Academic Scores
+      document.getElementById('modal-raw-score').innerText = `${Number(rawScore || 0).toFixed(2)} / 100`;
+      document.getElementById('modal-neg-lost').innerText = `-${Number(negLost || 0).toFixed(2)}`;
+      document.getElementById('modal-gate-score').innerText = gateScore ? `${Number(gateScore).toFixed(0)} / 1000` : '--';
+      document.getElementById('modal-air-range').innerText = airRange || '--';
+
+      // Current disposition
+      if (currentDisp) {
+        document.getElementById('modal-disposition-select').value = currentDisp;
+      }
+
+      // Load past history
+      await loadCallHistoryForModal(phone);
+
+      document.getElementById('call-log-modal').classList.remove('hidden');
+    }
+
+    function resetCopyButtons() {
+      const copyPhoneText = document.getElementById('copy-phone-text');
+      if (copyPhoneText) copyPhoneText.innerText = 'Copy Number';
+      const copyEmailText = document.getElementById('copy-email-text');
+      if (copyEmailText) copyEmailText.innerText = 'Copy';
+    }
+
+    async function copyModalPhone() {
+      if (!currentModalPhone) return;
+      try {
+        await navigator.clipboard.writeText(currentModalPhone);
+      } catch (err) {
+        const temp = document.createElement("input");
+        temp.value = currentModalPhone;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+      }
+      const textSpan = document.getElementById('copy-phone-text');
+      if (textSpan) {
+        textSpan.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-check mr-1"></i>Copied!</span>';
+        setTimeout(() => {
+          textSpan.innerText = 'Copy Number';
+        }, 2000);
+      }
+      showToast(`Phone ${currentModalPhone} copied to clipboard!`, "green");
+    }
+
+    async function copyModalEmail() {
+      if (!currentModalEmail) {
+        showToast("No email address provided for candidate", "amber");
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(currentModalEmail);
+      } catch (err) {
+        const temp = document.createElement("input");
+        temp.value = currentModalEmail;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+      }
+      const textSpan = document.getElementById('copy-email-text');
+      if (textSpan) {
+        textSpan.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-check mr-1"></i>Copied!</span>';
+        setTimeout(() => {
+          textSpan.innerText = 'Copy';
+        }, 2000);
+      }
+      showToast(`Email ${currentModalEmail} copied to clipboard!`, "green");
+    }
+
+    function closeCallLogModal() {
+      document.getElementById('call-log-modal').classList.add('hidden');
+    }
+
+    async function loadCallHistoryForModal(phone) {
+      const histDiv = document.getElementById('modal-history-list');
+      histDiv.innerHTML = '<div class="text-slate-400 italic">Loading past logs...</div>';
+      try {
+        const resp = await fetch(`/api/v1/counsellor/students/${phone}/call-history`);
+        const logs = await resp.json();
+        if (!logs.length) {
+          histDiv.innerHTML = '<div class="text-slate-400 italic">No previous calls logged yet.</div>';
+          return;
+        }
+        histDiv.innerHTML = logs.map(l => `
+          <div class="bg-slate-50 p-2 rounded border border-slate-200">
+            <div class="flex items-center justify-between font-bold text-slate-700">
+              <span>${l.counsellor_name} (${l.call_disposition.replace(/_/g, ' ')})</span>
+              <span class="text-[10px] text-slate-400 font-normal">${new Date(l.logged_at).toLocaleString()}</span>
+            </div>
+            ${l.notes ? `<p class="text-slate-600 mt-1">${l.notes}</p>` : ''}
+            ${l.follow_up_date ? `<div class="text-[10px] text-amber-700 font-bold mt-1">Reminder: Follow up on ${l.follow_up_date}</div>` : ''}
+          </div>
+        `).join('');
+      } catch (err) {
+        histDiv.innerHTML = '<div class="text-rose-500">Failed to load history</div>';
+      }
+    }
+
+    async function submitCallLog(e) {
+      e.preventDefault();
+      const phone = document.getElementById('modal-phone-input').value;
+      const counsellor = document.getElementById('modal-counsellor-name').value.trim();
+      const disp = document.getElementById('modal-disposition-select').value;
+      const notes = document.getElementById('modal-notes-input').value.trim();
+      const followup = document.getElementById('modal-followup-date').value || null;
+
+      const btn = document.getElementById('btn-save-call-log');
+      btn.disabled = true;
+      btn.innerText = "Saving Call Log...";
+
+      try {
+        const resp = await fetch(`/api/v1/counsellor/students/${phone}/call-log`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            counsellor_name: counsellor,
+            call_disposition: disp,
+            notes: notes,
+            follow_up_date: followup
+          })
+        });
+
+        if (!resp.ok) {
+          const errData = await resp.json();
+          throw new Error(errData.detail || "Failed to save call log");
+        }
+
+        showToast("Call log saved successfully!", "green");
+        closeCallLogModal();
+        loadCounsellorStudents();
+        loadCounsellorAnalytics();
+      } catch (err) {
+        showToast("Error saving call: " + err.message, "red");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "Save Call Record & Update Lead";
+      }
+    }
+
+    async function copyStudentWhatsApp(phone) {
+      try {
+        const resp = await fetch(`/api/v1/counsellor/students/${phone}/whatsapp-summary`);
+        const data = await resp.json();
+        await navigator.clipboard.writeText(data.whatsapp_text);
+        showToast(`WhatsApp report copied for ${phone}!`, "green");
+      } catch (err) {
+        showToast("Failed to copy WhatsApp report", "red");
+      }
+    }
+
+    function downloadStudentPdf(phone) {
+      window.open(`/api/v1/counsellor/students/${phone}/pdf`, '_blank');
+    }
+
+    // Admin / Key Management
+    async function publishSampleFacultyKey() {
+      const paper = document.getElementById('key-paper').value;
+      const ver = parseInt(document.getElementById('key-version').value);
+      const type = document.getElementById('key-type').value;
+      const author = document.getElementById('key-author').value;
+
+      // Construct 65 items
+      const items = [];
+      for (let i = 1; i <= 65; i++) {
+        items.push({
+          question_id: `${paper}-${i}`,
+          question_number: i,
+          section: i <= 10 ? "APTITUDE" : "CORE",
+          question_type: i % 4 === 0 ? "NAT" : (i % 5 === 0 ? "MSQ" : "MCQ"),
+          marks_correct: i <= 5 || (i >= 11 && i <= 35) ? 1.0 : 2.0,
+          valid_options: i % 4 === 0 ? null : (i % 5 === 0 ? [["A", "C"]] : [["B"]]),
+          nat_min: i % 4 === 0 ? 24.0 : null,
+          nat_max: i % 4 === 0 ? 25.0 : null,
+          is_mta: false
+        });
+      }
+
+      try {
+        const resp = await fetch('/api/v1/keys', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            paper_code: paper,
+            version: ver,
+            key_type: type,
+            author_name: author,
+            items: items
+          })
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.detail || "Failed to publish key");
+        showToast(`Answer Key v${ver} for ${paper} published successfully!`, "green");
+      } catch (err) {
+        showToast("Key Publishing Error: " + err.message, "red");
+      }
+    }
+
+    async function triggerBatchReevaluation() {
+      const paper = document.getElementById('key-paper').value;
+      const btn = document.getElementById('btn-batch-reeval');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Re-evaluating All Students...`;
+
+      try {
+        const activeResp = await fetch(`/api/v1/keys/${paper}/active`);
+        if (!activeResp.ok) throw new Error(`No active key found for ${paper}`);
+        const activeKey = await activeResp.json();
+
+        const reevalResp = await fetch(`/api/v1/keys/${activeKey.key_id}/re-evaluate`, { method: 'POST' });
+        const reevalData = await reevalResp.json();
+        showToast(`Batch Re-evaluation Complete! ${reevalData.re_evaluated_count || 0} students updated.`, "green");
+      } catch (err) {
+        showToast("Re-evaluation Error: " + err.message, "red");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-arrows-rotate mr-1.5"></i> Run Batch Re-Evaluation`;
+      }
+    }
+
+    // Toast Notification Utility
+    function showToast(message, color = "blue") {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bg = color === 'green' ? 'bg-emerald-600' : (color === 'red' ? 'bg-rose-600' : 'bg-pw-blue');
+      toast.className = `${bg} text-white px-4 py-2.5 rounded-lg shadow-xl text-xs font-semibold flex items-center space-x-2 transition transform duration-300 translate-y-2 opacity-0`;
+      toast.innerHTML = `<i class="fa-solid fa-circle-info"></i><span>${message}</span>`;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Initialize application on load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadCounsellorStudents();
+      loadCounsellorAnalytics();
+    });
+  </script>
+</body>
+</html>

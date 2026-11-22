@@ -43,16 +43,38 @@ if STATIC_DIR.exists():
 
 
 @app.get("/")
-def serve_index_app():
+@app.get("/student")
+def serve_student_portal():
     """
-    Serves the Physics Wallah GATE Predictor & CBT Exam Form web application.
+    Serves the Student Exam Portal: personal info, CBT response form,
+    TCS Digialm response parser, scorecards, and admission forecasts.
     """
+    student_file = STATIC_DIR / "student.html"
+    if student_file.exists():
+        return FileResponse(str(student_file))
     index_file = STATIC_DIR / "index.html"
     if index_file.exists():
         return FileResponse(str(index_file))
     return {
         "status": "healthy",
-        "system": "PW GATE Predictor & In-House Ops Engine",
+        "system": "PW GATE Predictor & In-House Ops Engine - Student Portal",
+        "version": "1.0.0",
+    }
+
+
+@app.get("/counsellor")
+@app.get("/admin")
+def serve_counsellor_portal():
+    """
+    Serves the Counsellor Operations & Admissions Portal:
+    KPI triage, candidate lead table, laptop contact details card, and key publisher.
+    """
+    counsellor_file = STATIC_DIR / "counsellor.html"
+    if counsellor_file.exists():
+        return FileResponse(str(counsellor_file))
+    return {
+        "status": "healthy",
+        "system": "PW GATE Predictor & In-House Ops Engine - Counsellor Portal",
         "version": "1.0.0",
     }
 

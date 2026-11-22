@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Physics Wallah | GATE Score & College Predictor</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'pw-blue': '#1b2a4a',
+            'pw-accent': '#2563eb',
+            'pw-yellow': '#f59e0b',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
+
+  <!-- Student Portal Top Header -->
+  <header class="bg-pw-blue text-white shadow-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 flex flex-wrap justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-lg bg-white text-pw-blue font-black flex items-center justify-center text-xl shadow">
+          PW
+        </div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight">Physics Wallah | GATE Predictor</h1>
+          <p class="text-xs text-blue-200">Official Student Exam Scoring, Cutoffs & Placement Forecasting</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs & Counsellor Link -->
+      <div class="flex items-center space-x-2 sm:space-x-4 mt-2 sm:mt-0 text-sm font-medium">
+        <nav class="flex space-x-1">
+          <button onclick="switchTab('exam-tab')" id="nav-exam" class="px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Exam CBT Form</span>
+          </button>
+          <button onclick="switchTab('digialm-tab')" id="nav-digialm" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-link"></i>
+            <span>TCS Response Sheet</span>
+          </button>
+        </nav>
+
+        <!-- Access to Counsellor Portal -->
+        <a href="/counsellor" class="px-3 py-1.5 text-xs bg-blue-700/60 hover:bg-blue-700 text-white border border-blue-400/40 rounded-md transition flex items-center space-x-1.5 font-semibold" title="Access Counsellor Mentorship Portal">
+          <i class="fa-solid fa-lock text-[11px]"></i>
+          <span>Counsellor Portal</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
+
+    <!-- TAB 1: INTERACTIVE EXAM FORM -->
+    <section id="exam-tab" class="block">
+      <!-- Candidate Details Strip -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-5">
+        <div class="flex items-center justify-between border-b pb-3 mb-3">
+          <div class="flex items-center space-x-2">
+            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+            <h2 class="text-md font-bold text-slate-800">Student Personal & Academic Details</h2>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-blue-50 text-pw-accent rounded-full border border-blue-200">
+            Official GATE CBT Interface
+          </span>
+        </div>
+
+        <form id="student-meta-form" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 text-xs">
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Mobile No. *</label>
+            <input type="tel" id="meta-phone" required pattern="[6-9][0-9]{9}" placeholder="9876543210" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none font-mono">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Student Name *</label>
+            <input type="text" id="meta-name" required placeholder="e.g. Rahul Sharma" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Paper Code *</label>
+            <select id="meta-paper" onchange="loadExamPaper(this.value)" class="w-full border rounded px-2.5 py-1.5 font-bold text-pw-blue focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="CS">CS (Computer Science)</option>
+              <option value="DA">DA (Data Science & AI)</option>
+              <option value="ME">ME (Mechanical)</option>
+              <option value="CE">CE (Civil)</option>
+              <option value="EE">EE (Electrical)</option>
+              <option value="EC">EC (Electronics)</option>
+              <option value="IN">IN (Instrumentation)</option>
+              <option value="CH">CH (Chemical)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Category *</label>
+            <select id="meta-category" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="GEN">General (GEN)</option>
+              <option value="OBC_NCL">OBC-NCL</option>
+              <option value="EWS">GEN-EWS</option>
+              <option value="SC">SC</option>
+              <option value="ST">ST</option>
+              <option value="PWD">PwD (Horizontal)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Session / Shift</label>
+            <select id="meta-session" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="1">Session 1 (Forenoon)</option>
+              <option value="2">Session 2 (Afternoon)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">B.Tech %</label>
+            <input type="number" id="meta-btech" step="0.1" value="72.5" min="40" max="100" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-600 mb-1">Age</label>
+            <input type="number" id="meta-age" value="23" min="18" max="45" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+          </div>
+        </form>
+      </div>
+
+      <!-- CBT Exam Grid Layout (Left: Question Panel | Right: 65-Question Palette) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Question View (2 Cols) -->
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col min-h-[460px]">
+          <!-- Question Header -->
+          <div class="px-5 py-3 border-b flex items-center justify-between bg-slate-50 rounded-t-xl">
+            <div class="flex items-center space-x-3">
+              <span id="current-q-title" class="font-bold text-slate-800 text-base">Question 1</span>
+              <span id="current-q-section" class="text-xs px-2 py-0.5 rounded bg-blue-100 text-pw-blue font-semibold">General Aptitude</span>
+              <span id="current-q-type" class="text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-semibold">MCQ</span>
+            </div>
+            <div class="text-xs text-slate-500 font-medium">
+              Marks: <span id="current-q-marks" class="font-bold text-emerald-600">+1.0</span> | Negative: <span id="current-q-neg" class="font-bold text-rose-600">-0.33</span>
+            </div>
+          </div>
+
+          <!-- Question Body & Answer Inputs -->
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div id="question-prompt" class="text-sm text-slate-700 leading-relaxed mb-6">
+              Select or enter your marked answer for this question from your exam paper:
+            </div>
+
+            <!-- Dynamic Answer Form Container -->
+            <div id="answer-input-container" class="my-auto">
+              <!-- Rendered dynamically by JavaScript -->
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="pt-6 border-t flex flex-wrap items-center justify-between gap-3 mt-6">
+              <div class="flex space-x-2">
+                <button onclick="clearResponse()" class="px-3 py-1.5 border border-slate-300 rounded text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">
+                  Clear Response
+                </button>
+                <button onclick="markForReview()" class="px-3 py-1.5 border border-amber-300 bg-amber-50 rounded text-xs font-semibold text-amber-700 hover:bg-amber-100 transition">
+                  Mark for Review & Next
+                </button>
+              </div>
+              <div class="flex space-x-2">
+                <button onclick="prevQuestion()" class="px-3.5 py-1.5 border border-slate-300 rounded text-xs font-semibold text-slate-700 hover:bg-slate-100 transition">
+                  <i class="fa-solid fa-chevron-left mr-1"></i> Prev
+                </button>
+                <button onclick="saveAndNext()" class="px-5 py-1.5 bg-pw-blue hover:bg-blue-900 text-white rounded text-xs font-semibold shadow transition">
+                  Save & Next <i class="fa-solid fa-chevron-right ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 65-Question Palette (1 Col) -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b mb-3">
+              <h3 class="text-sm font-bold text-slate-800">Question Palette (65)</h3>
+              <span id="answered-counter" class="text-xs font-semibold text-emerald-600">0 / 65 Answered</span>
+            </div>
+
+            <!-- Legend -->
+            <div class="grid grid-cols-3 gap-2 text-[10px] text-slate-600 mb-4 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+              <div class="flex items-center space-x-1.5">
+                <span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span>
+                <span>Answered</span>
+              </div>
+              <div class="flex items-center space-x-1.5">
+                <span class="w-3 h-3 rounded bg-amber-400 inline-block"></span>
+                <span>Review</span>
+              </div>
+              <div class="flex items-center space-x-1.5">
+                <span class="w-3 h-3 rounded bg-slate-200 inline-block"></span>
+                <span>Unattempted</span>
+              </div>
+            </div>
+
+            <!-- Palette Grid (Aptitude 1-10, Core 11-65) -->
+            <div class="text-[11px] font-bold text-slate-500 mb-1">General Aptitude (Q1 - Q10)</div>
+            <div id="palette-aptitude" class="grid grid-cols-5 gap-1.5 mb-4">
+              <!-- Rendered via JS -->
+            </div>
+
+            <div class="text-[11px] font-bold text-slate-500 mb-1">Core Engineering (Q11 - Q65)</div>
+            <div id="palette-core" class="grid grid-cols-5 gap-1.5 max-h-56 overflow-y-auto custom-scrollbar p-1">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Final Submit Button -->
+          <div class="pt-4 border-t mt-4">
+            <button onclick="submitExamPaper()" id="btn-submit-paper" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-md text-sm transition flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Submit & Predict Admissions</span>
+            </button>
+            <p class="text-[10px] text-slate-400 text-center mt-1.5">Zero calculation drift • Real-time faculty key match</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Results Card (Hidden until submitted) -->
+      <div id="results-section" class="hidden mt-8 bg-white rounded-xl shadow-lg border border-blue-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-pw-blue to-blue-800 text-white p-6 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-xs font-semibold tracking-wide uppercase">Physics Wallah Diagnostic Scorecard</span>
+            <h2 id="res-student-name" class="text-2xl font-black mt-1">Rahul Sharma</h2>
+            <p id="res-paper-category" class="text-xs text-blue-200 mt-0.5">GATE CS (Session 1) | Category: General | Scorecard ID: #EVAL-2025-01</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <button onclick="downloadStudentPdfDirect()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg text-xs shadow flex items-center space-x-2 transition">
+              <i class="fa-solid fa-file-pdf"></i>
+              <span>Download 1-Page PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4-Stat Metric Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x border-b bg-slate-50 text-center py-4">
+          <div class="p-3">
+            <span class="text-xs text-slate-500 font-semibold uppercase">Total Raw Score</span>
+            <div id="res-raw-score" class="text-2xl font-black text-slate-900 mt-1">68.33 / 100</div>
+            <span class="text-[11px] text-slate-400">Exact rational calculation</span>
+          </div>
+          <div class="p-3">
+            <span class="text-xs text-slate-500 font-semibold uppercase">Marks Lost to Negatives</span>
+            <div id="res-neg-marks" class="text-2xl font-black text-rose-600 mt-1">-8.67</div>
+            <span class="text-[11px] text-rose-500 font-medium">Wrong MCQ penalties</span>
+          </div>
+          <div class="p-3">
+            <span class="text-xs text-slate-500 font-semibold uppercase">Normalized Score</span>
+            <div id="res-gate-score" class="text-2xl font-black text-emerald-600 mt-1">742 / 1000</div>
+            <span class="text-[11px] text-emerald-600 font-medium">Multi-session normalized</span>
+          </div>
+          <div class="p-3">
+            <span class="text-xs text-slate-500 font-semibold uppercase">Predicted AIR Range</span>
+            <div id="res-air-range" class="text-2xl font-black text-pw-blue mt-1">280 - 450</div>
+            <span class="text-[11px] text-slate-400">PCHIP Monotonic Model</span>
+          </div>
+        </div>
+
+        <!-- Matcher Recommendations (3 Columns: Ambitious, Target, Safe) -->
+        <div class="p-6">
+          <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center space-x-2">
+            <i class="fa-solid fa-building-columns text-pw-accent"></i>
+            <span>Institutional Allotment Forecast (COAP, CCMT & PSUs)</span>
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Ambitious -->
+            <div class="border rounded-xl p-4 bg-purple-50/50 border-purple-200">
+              <div class="flex items-center space-x-2 mb-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+                <h4 class="font-bold text-xs uppercase tracking-wide text-purple-900">Ambitious Reach (Top Choices)</h4>
+              </div>
+              <ul id="list-ambitious" class="space-y-2 text-xs">
+                <!-- Injected via JS -->
+              </ul>
+            </div>
+
+            <!-- Target -->
+            <div class="border rounded-xl p-4 bg-blue-50/50 border-blue-200">
+              <div class="flex items-center space-x-2 mb-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-pw-blue"></span>
+                <h4 class="font-bold text-xs uppercase tracking-wide text-blue-900">Target Allotments (High Prob.)</h4>
+              </div>
+              <ul id="list-target" class="space-y-2 text-xs">
+                <!-- Injected via JS -->
+              </ul>
+            </div>
+
+            <!-- Safe -->
+            <div class="border rounded-xl p-4 bg-emerald-50/50 border-emerald-200">
+              <div class="flex items-center space-x-2 mb-3">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                <h4 class="font-bold text-xs uppercase tracking-wide text-emerald-900">Safe Backup (Guaranteed)</h4>
+              </div>
+              <ul id="list-safe" class="space-y-2 text-xs">
+                <!-- Injected via JS -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: DIGIALM SCRAPER -->
+    <section id="digialm-tab" class="hidden">
+      <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div class="text-center mb-6">
+          <div class="w-12 h-12 bg-blue-50 text-pw-accent rounded-full flex items-center justify-center mx-auto mb-2 text-xl">
+            <i class="fa-solid fa-file-code"></i>
+          </div>
+          <h2 class="text-lg font-bold text-slate-800">TCS iON Digialm Response Sheet Ingestion</h2>
+          <p class="text-xs text-slate-500 mt-1">Paste your official TCS candidate response sheet URL or raw HTML for automated answer grading.</p>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Digialm Candidate URL</label>
+            <div class="flex space-x-2">
+              <input type="url" id="digialm-url-input" placeholder="https://cdn.digialm.com//per/g01/pub/.../response.html" class="flex-1 border rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-pw-accent outline-none">
+              <button onclick="processDigialmUrl()" class="px-4 py-2 bg-pw-blue hover:bg-blue-900 text-white font-semibold rounded-lg text-xs transition">
+                Fetch & Grade
+              </button>
+            </div>
+          </div>
+
+          <div class="relative flex py-2 items-center">
+            <div class="flex-grow border-t border-slate-200"></div>
+            <span class="flex-shrink mx-4 text-slate-400 text-xs uppercase">OR Paste HTML File</span>
+            <div class="flex-grow border-t border-slate-200"></div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Raw HTML Response Sheet Content</label>
+            <textarea id="digialm-html-input" rows="5" placeholder="If URL is password protected or CDN unreachable, paste page source here..." class="w-full border rounded-lg p-2.5 text-xs font-mono focus:ring-2 focus:ring-pw-accent outline-none"></textarea>
+          </div>
+
+          <button onclick="processDigialmHtml()" class="w-full py-2.5 bg-slate-700 hover:bg-slate-800 text-white font-semibold rounded-lg text-xs transition">
+            Parse & Grade Pasted HTML
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div id="toast-body" class="bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl flex items-center space-x-2">
+      <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+      <span id="toast-msg">Success</span>
+    </div>
+  </div>
+
+  <!-- Student Portal Logic -->
+  <script>
+    // State
+    let currentPaperCode = "CS";
+    let questionsList = [];
+    let currentQIndex = 0;
+    let studentResponses = {};
+    let lastEvaluatedPhone = "";
+
+    function switchTab(tabId) {
+      document.getElementById('exam-tab').classList.add('hidden');
+      document.getElementById('digialm-tab').classList.add('hidden');
+
+      document.getElementById('nav-exam').className = "px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition";
+      document.getElementById('nav-digialm').className = "px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition";
+
+      document.getElementById(tabId).classList.remove('hidden');
+
+      if (tabId === 'exam-tab') {
+        document.getElementById('nav-exam').className = "px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition";
+      } else if (tabId === 'digialm-tab') {
+        document.getElementById('nav-digialm').className = "px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition";
+      }
+    }
+
+    function showToast(msg, type = "green") {
+      const toast = document.getElementById('toast');
+      const body = document.getElementById('toast-body');
+      const icon = document.getElementById('toast-icon');
+      document.getElementById('toast-msg').innerText = msg;
+
+      if (type === "green") {
+        icon.className = "fa-solid fa-circle-check text-emerald-400";
+        body.className = "bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl flex items-center space-x-2 border-l-4 border-emerald-500";
+      } else if (type === "red") {
+        icon.className = "fa-solid fa-circle-exclamation text-rose-400";
+        body.className = "bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl flex items-center space-x-2 border-l-4 border-rose-500";
+      } else {
+        icon.className = "fa-solid fa-circle-info text-amber-400";
+        body.className = "bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl flex items-center space-x-2 border-l-4 border-amber-500";
+      }
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // Load Exam Paper Blueprint
+    async function loadExamPaper(paperCode) {
+      currentPaperCode = paperCode;
+      try {
+        const resp = await fetch(`/api/v1/ingest/sample-paper/${paperCode}`);
+        if (!resp.ok) throw new Error("Failed to load blueprint");
+        const data = await resp.json();
+        questionsList = data.questions;
+
+        // Reset response state
+        studentResponses = {};
+        for (let q of questionsList) {
+          studentResponses[q.question_id] = {
+            status: "NOT_ATTEMPTED",
+            marked_options: [],
+            nat_value: null
+          };
+        }
+
+        renderPalette();
+        renderQuestion(0);
+        updateCounters();
+      } catch (err) {
+        showToast("Error loading paper questions: " + err.message, "red");
+      }
+    }
+
+    // Render Question Palette
+    function renderPalette() {
+      const palApt = document.getElementById('palette-aptitude');
+      const palCore = document.getElementById('palette-core');
+      palApt.innerHTML = '';
+      palCore.innerHTML = '';
+
+      questionsList.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.id = `palette-btn-${idx}`;
+        btn.className = getPaletteBtnClass(q.question_id);
+        btn.innerText = q.question_number;
+        btn.onclick = () => renderQuestion(idx);
+
+        if (q.section === "APTITUDE") {
+          palApt.appendChild(btn);
+        } else {
+          palCore.appendChild(btn);
+        }
+      });
+    }
+
+    function getPaletteBtnClass(qid) {
+      const st = studentResponses[qid]?.status || "NOT_ATTEMPTED";
+      if (st === "ATTEMPTED") return "h-7 text-xs font-bold rounded bg-emerald-500 text-white hover:bg-emerald-600 transition";
+      if (st === "MARKED_REVIEW") return "h-7 text-xs font-bold rounded bg-amber-400 text-slate-900 hover:bg-amber-500 transition";
+      return "h-7 text-xs font-semibold rounded bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition";
+    }
+
+    // Render Current Question
+    function renderQuestion(index) {
+      if (index < 0 || index >= questionsList.length) return;
+      currentQIndex = index;
+      const q = questionsList[index];
+
+      document.getElementById('current-q-title').innerText = `Question ${q.question_number}`;
+      document.getElementById('current-q-section').innerText = q.section === "APTITUDE" ? "General Aptitude" : "Core Engineering";
+      document.getElementById('current-q-type').innerText = q.question_type;
+      document.getElementById('current-q-marks').innerText = `+${Number(q.marks_correct).toFixed(1)}`;
+      document.getElementById('current-q-neg').innerText = q.question_type === 'MCQ' ? `-${Number(q.marks_negative).toFixed(2)}` : '0.00 (No Negative)';
+
+      const container = document.getElementById('answer-input-container');
+      container.innerHTML = '';
+
+      const resp = studentResponses[q.question_id] || { status: "NOT_ATTEMPTED", marked_options: [], nat_value: null };
+
+      if (q.question_type === 'MCQ') {
+        const opts = ['A', 'B', 'C', 'D'];
+        const grid = document.createElement('div');
+        grid.className = "grid grid-cols-2 gap-3 max-w-md";
+        opts.forEach(opt => {
+          const isSelected = resp.marked_options?.includes(opt);
+          grid.innerHTML += `
+            <label class="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition ${isSelected ? 'bg-blue-50 border-pw-accent text-pw-blue font-bold ring-1 ring-pw-accent' : 'hover:bg-slate-50 border-slate-200'}">
+              <input type="radio" name="mcq-option" value="${opt}" ${isSelected ? 'checked' : ''} class="w-4 h-4 text-pw-accent">
+              <span class="text-sm font-semibold">${opt}</span>
+            </label>
+          `;
+        });
+        container.appendChild(grid);
+      } else if (q.question_type === 'MSQ') {
+        const opts = ['A', 'B', 'C', 'D'];
+        const grid = document.createElement('div');
+        grid.className = "grid grid-cols-2 gap-3 max-w-md";
+        opts.forEach(opt => {
+          const isSelected = resp.marked_options?.includes(opt);
+          grid.innerHTML += `
+            <label class="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition ${isSelected ? 'bg-purple-50 border-purple-600 text-purple-900 font-bold ring-1 ring-purple-600' : 'hover:bg-slate-50 border-slate-200'}">
+              <input type="checkbox" name="msq-option" value="${opt}" ${isSelected ? 'checked' : ''} class="w-4 h-4 text-purple-600 rounded">
+              <span class="text-sm font-semibold">${opt}</span>
+            </label>
+          `;
+        });
+        container.appendChild(grid);
+      } else if (q.question_type === 'NAT') {
+        const wrapper = document.createElement('div');
+        wrapper.className = "max-w-sm space-y-3";
+        wrapper.innerHTML = `
+          <div class="relative">
+            <input type="text" id="nat-input" value="${resp.nat_value || ''}" placeholder="Enter numerical answer..." class="w-full border-2 border-slate-300 rounded-lg px-4 py-2.5 text-base font-mono font-bold text-pw-blue focus:border-pw-accent outline-none">
+          </div>
+          <!-- Virtual Numeric Keypad -->
+          <div class="grid grid-cols-4 gap-1.5 bg-slate-100 p-2.5 rounded-lg border text-sm font-bold text-slate-700">
+            <button type="button" onclick="appendNat('7')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">7</button>
+            <button type="button" onclick="appendNat('8')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">8</button>
+            <button type="button" onclick="appendNat('9')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">9</button>
+            <button type="button" onclick="backspaceNat()" class="p-2 bg-rose-50 text-rose-600 rounded shadow-sm hover:bg-rose-100"><i class="fa-solid fa-delete-left"></i></button>
+            <button type="button" onclick="appendNat('4')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">4</button>
+            <button type="button" onclick="appendNat('5')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">5</button>
+            <button type="button" onclick="appendNat('6')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">6</button>
+            <button type="button" onclick="clearNat()" class="p-2 bg-slate-200 text-slate-600 rounded shadow-sm hover:bg-slate-300">C</button>
+            <button type="button" onclick="appendNat('1')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">1</button>
+            <button type="button" onclick="appendNat('2')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">2</button>
+            <button type="button" onclick="appendNat('3')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">3</button>
+            <button type="button" onclick="appendNat('-')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">±</button>
+            <button type="button" onclick="appendNat('0')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 col-span-2">0</button>
+            <button type="button" onclick="appendNat('.')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">.</button>
+            <button type="button" onclick="appendNat('e')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">e</button>
+          </div>
+        `;
+        container.appendChild(wrapper);
+      }
+    }
+
+    // Keypad Helpers
+    function appendNat(char) {
+      const inp = document.getElementById('nat-input');
+      if (inp) inp.value += char;
+    }
+    function backspaceNat() {
+      const inp = document.getElementById('nat-input');
+      if (inp) inp.value = inp.value.slice(0, -1);
+    }
+    function clearNat() {
+      const inp = document.getElementById('nat-input');
+      if (inp) inp.value = '';
+    }
+
+    // Question Actions
+    function saveAndNext() {
+      saveCurrentState("ATTEMPTED");
+      if (currentQIndex < questionsList.length - 1) {
+        renderQuestion(currentQIndex + 1);
+      }
+    }
+
+    function markForReview() {
+      saveCurrentState("MARKED_REVIEW");
+      if (currentQIndex < questionsList.length - 1) {
+        renderQuestion(currentQIndex + 1);
+      }
+    }
+
+    function clearResponse() {
+      const q = questionsList[currentQIndex];
+      studentResponses[q.question_id] = {
+        status: "NOT_ATTEMPTED",
+        marked_options: [],
+        nat_value: null
+      };
+      renderQuestion(currentQIndex);
+      updatePaletteButton(currentQIndex);
+      updateCounters();
+    }
+
+    function prevQuestion() {
+      if (currentQIndex > 0) renderQuestion(currentQIndex - 1);
+    }
+
+    function saveCurrentState(desiredStatus) {
+      const q = questionsList[currentQIndex];
+      let hasAnswer = false;
+      let opts = [];
+      let natVal = null;
+
+      if (q.question_type === 'MCQ') {
+        const checked = document.querySelector('input[name="mcq-option"]:checked');
+        if (checked) {
+          opts = [checked.value];
+          hasAnswer = true;
+        }
+      } else if (q.question_type === 'MSQ') {
+        const checked = document.querySelectorAll('input[name="msq-option"]:checked');
+        if (checked.length > 0) {
+          opts = Array.from(checked).map(c => c.value);
+          hasAnswer = true;
+        }
+      } else if (q.question_type === 'NAT') {
+        const inp = document.getElementById('nat-input');
+        if (inp && inp.value.trim() !== '') {
+          natVal = inp.value.trim();
+          hasAnswer = true;
+        }
+      }
+
+      studentResponses[q.question_id] = {
+        status: hasAnswer ? desiredStatus : (desiredStatus === 'MARKED_REVIEW' ? 'MARKED_REVIEW' : 'NOT_ATTEMPTED'),
+        marked_options: opts,
+        nat_value: natVal
+      };
+
+      updatePaletteButton(currentQIndex);
+      updateCounters();
+    }
+
+    function updatePaletteButton(idx) {
+      const btn = document.getElementById(`palette-btn-${idx}`);
+      const q = questionsList[idx];
+      if (btn) btn.className = getPaletteBtnClass(q.question_id);
+    }
+
+    function updateCounters() {
+      let answered = 0;
+      for (let k in studentResponses) {
+        if (studentResponses[k].status === "ATTEMPTED") answered++;
+      }
+      document.getElementById('answered-counter').innerText = `${answered} / ${questionsList.length} Answered`;
+    }
+
+    // Submit Exam Paper
+    async function submitExamPaper() {
+      saveCurrentState("ATTEMPTED");
+
+      const phone = document.getElementById('meta-phone').value.trim();
+      const name = document.getElementById('meta-name').value.trim();
+      const paper = document.getElementById('meta-paper').value;
+      const cat = document.getElementById('meta-category').value;
+      const session = parseInt(document.getElementById('meta-session').value);
+      const btech = parseFloat(document.getElementById('meta-btech').value);
+      const age = parseInt(document.getElementById('meta-age').value);
+
+      if (!phone || !phone.match(/^[6-9]\d{9}$/)) {
+        showToast("Please enter a valid 10-digit Indian Mobile number", "red");
+        document.getElementById('meta-phone').focus();
+        return;
+      }
+      if (!name) {
+        showToast("Please enter the student full name", "red");
+        document.getElementById('meta-name').focus();
+        return;
+      }
+
+      const answersPayload = [];
+      for (let q of questionsList) {
+        const r = studentResponses[q.question_id];
+        answersPayload.push({
+          question_id: q.question_id,
+          status: r ? r.status : "NOT_ATTEMPTED",
+          marked_options: r ? r.marked_options : [],
+          nat_value: r ? r.nat_value : null
+        });
+      }
+
+      const payload = {
+        student_phone: phone,
+        student_name: name,
+        student_category: cat,
+        btech_percentage: btech,
+        candidate_age: age,
+        has_valid_ncl: cat === 'OBC_NCL',
+        paper_code: paper,
+        session_id: session,
+        responses: answersPayload
+      };
+
+      const btn = document.getElementById('btn-submit-paper');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Evaluating against Faculty Key...</span>`;
+
+      try {
+        const resp = await fetch('/api/v1/submissions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resp.ok) {
+          const errData = await resp.json();
+          throw new Error(errData.detail || "Submission failed");
+        }
+
+        const data = await resp.json();
+        lastEvaluatedPhone = phone;
+        renderResultsCard(data);
+        showToast("Evaluation complete! Choice recommendations generated.", "green");
+      } catch (err) {
+        showToast("Submission Error: " + err.message, "red");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit & Predict Admissions</span>`;
+      }
+    }
+
+    // Render Evaluated Scorecard & Choices
+    function renderResultsCard(data) {
+      const card = document.getElementById('results-section');
+      card.classList.remove('hidden');
+
+      document.getElementById('res-student-name').innerText = data.student_name;
+      document.getElementById('res-paper-category').innerText = `GATE ${data.paper_code} | Category: ${data.category} | Priority: ${data.lead_classification}`;
+      document.getElementById('res-raw-score').innerText = `${Number(data.raw_score).toFixed(2)} / 100`;
+      document.getElementById('res-neg-marks').innerText = `-${Number(data.marks_lost_to_negatives).toFixed(2)}`;
+      document.getElementById('res-gate-score').innerText = `${data.gate_score} / 1000`;
+      document.getElementById('res-air-range').innerText = data.air_range;
+
+      const fillList = (listId, items) => {
+        const ul = document.getElementById(listId);
+        ul.innerHTML = '';
+        if (!items || items.length === 0) {
+          ul.innerHTML = '<li class="text-slate-400 italic">No historical matches in this tier.</li>';
+          return;
+        }
+        items.slice(0, 5).forEach(item => {
+          ul.innerHTML += `
+            <li class="p-2.5 bg-white rounded border border-slate-200 shadow-xs">
+              <div class="font-bold text-slate-800">${item.institution_name}</div>
+              <div class="text-[11px] text-slate-600">${item.program_or_post}</div>
+              <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1">
+                <span>Cutoff: ${item.historical_cutoff_score}</span>
+                <span class="font-semibold text-pw-accent">${item.admission_mode || item.target_type}</span>
+              </div>
+            </li>
+          `;
+        });
+      };
+
+      fillList('list-ambitious', data.ambitious);
+      fillList('list-target', data.target);
+      fillList('list-safe', data.safe);
+
+      card.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function downloadStudentPdfDirect() {
+      if (lastEvaluatedPhone) {
+        window.open(`/api/v1/counsellor/students/${lastEvaluatedPhone}/pdf`, '_blank');
+      }
+    }
+
+    // Digialm Parser Functions
+    async function processDigialmUrl() {
+      const url = document.getElementById('digialm-url-input').value.trim();
+      const phone = document.getElementById('meta-phone').value.trim() || "9876543210";
+      const cat = document.getElementById('meta-category').value;
+
+      if (!url) {
+        showToast("Please enter a valid TCS Digialm URL", "red");
+        return;
+      }
+
+      showToast("Scraping response sheet HTML from TCS CDN...", "amber");
+      try {
+        const resp = await fetch('/api/v1/ingest/parse-response-sheet-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: url, student_phone: phone, student_category: cat })
+        });
+        if (!resp.ok) {
+          const errData = await resp.json();
+          throw new Error(errData.detail || "Failed to parse URL");
+        }
+        const data = await resp.json();
+        renderResultsCard(data);
+        switchTab('exam-tab');
+        showToast("Digialm sheet auto-graded successfully!", "green");
+      } catch (err) {
+        showToast("Digialm Error: " + err.message, "red");
+      }
+    }
+
+    async function processDigialmHtml() {
+      const html = document.getElementById('digialm-html-input').value.trim();
+      const phone = document.getElementById('meta-phone').value.trim() || "9876543210";
+      const cat = document.getElementById('meta-category').value;
+
+      if (!html || html.length < 100) {
+        showToast("Please paste the full HTML content of the response sheet", "red");
+        return;
+      }
+
+      showToast("Parsing TCS HTML question tags...", "amber");
+      try {
+        const resp = await fetch('/api/v1/ingest/parse-response-sheet-html', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ html_content: html, student_phone: phone, student_category: cat })
+        });
+        if (!resp.ok) {
+          const errData = await resp.json();
+          throw new Error(errData.detail || "Failed to parse HTML");
+        }
+        const data = await resp.json();
+        renderResultsCard(data);
+        switchTab('exam-tab');
+        showToast("Digialm HTML auto-graded successfully!", "green");
+      } catch (err) {
+        showToast("HTML Parse Error: " + err.message, "red");
+      }
+    }
+
+    // Auto-init on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadExamPaper('CS');
+    });
+  </script>
+</body>
+</html>
