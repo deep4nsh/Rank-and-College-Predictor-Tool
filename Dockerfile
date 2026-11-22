@@ -11,8 +11,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     g++ \
     && rm -rf /var/lib/apt/lists/*
 
+# Create virtual environment in /opt/venv for clean non-root permissions
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
 COPY requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 
 # Final runtime image
@@ -26,16 +31,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy installed python wheels from builder
-COPY --from=builder /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
+# Copy installed virtualenv from builder into world-accessible /opt/venv
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
 # Create unprivileged application user
 RUN useradd -m -u 1001 pwuser && \
     mkdir -p /app/data /app/db_data /app/reports && \
-    chown -R pwuser:pwuser /app
+    chown -R pwuser:pwuser /app /opt/venv
 
 # Copy application source code and data assets
 COPY --chown=pwuser:pwuser backend/ /app/backend/
