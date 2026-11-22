@@ -229,15 +229,31 @@
           <div class="pt-4 border-t mt-4">
             <button onclick="submitExamPaper()" id="btn-submit-paper" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-md text-sm transition flex items-center justify-center space-x-2">
               <i class="fa-solid fa-paper-plane"></i>
-              <span>Submit & Predict Admissions</span>
+              <span>Submit Response</span>
             </button>
             <p class="text-[10px] text-slate-400 text-center mt-1.5">Zero calculation drift • Real-time faculty key match</p>
           </div>
         </div>
       </div>
 
+      <!-- Flash Message Notification Banner (Shown after submission) -->
+      <div id="flash-coordinate-banner" class="hidden mt-6 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl p-4 shadow-lg flex items-center justify-between">
+        <div class="flex items-center space-x-3.5">
+          <div class="w-10 h-10 rounded-full bg-white text-emerald-600 flex items-center justify-center text-xl flex-shrink-0 shadow-md">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-sm sm:text-base tracking-tight">Response Submitted Successfully!</h3>
+            <p class="text-xs text-emerald-100 mt-0.5">Thank you for submitting your responses. The <strong>Physics Wallah (PW) team will coordinate with you soon</strong> to guide your score analysis, cutoffs, and college counselling options.</p>
+          </div>
+        </div>
+        <span class="hidden sm:inline-block text-[11px] font-bold bg-white/20 px-3 py-1 rounded-full uppercase tracking-wider text-emerald-50 border border-white/30">
+          PW Counselling Team
+        </span>
+      </div>
+
       <!-- Live Results Card (Hidden until submitted) -->
-      <div id="results-section" class="hidden mt-8 bg-white rounded-xl shadow-lg border border-blue-200 overflow-hidden">
+      <div id="results-section" class="hidden mt-6 bg-white rounded-xl shadow-lg border border-blue-200 overflow-hidden">
         <div class="bg-gradient-to-r from-pw-blue to-blue-800 text-white p-6 flex flex-wrap items-center justify-between gap-4">
           <div>
             <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-xs font-semibold tracking-wide uppercase">Physics Wallah Diagnostic Scorecard</span>
@@ -693,7 +709,7 @@
 
       const btn = document.getElementById('btn-submit-paper');
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Evaluating against Faculty Key...</span>`;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Submitting Response...</span>`;
 
       try {
         const resp = await fetch('/api/v1/submissions', {
@@ -710,17 +726,23 @@
         const data = await resp.json();
         lastEvaluatedPhone = phone;
         renderResultsCard(data);
-        showToast("Evaluation complete! Choice recommendations generated.", "green");
+        showToast("Response submitted! The PW team will coordinate with you soon.", "green");
       } catch (err) {
         showToast("Submission Error: " + err.message, "red");
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit & Predict Admissions</span>`;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit Response</span>`;
       }
     }
 
     // Render Evaluated Scorecard & Choices
     function renderResultsCard(data) {
+      const banner = document.getElementById('flash-coordinate-banner');
+      if (banner) {
+        banner.classList.remove('hidden');
+        banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
       const card = document.getElementById('results-section');
       card.classList.remove('hidden');
 
