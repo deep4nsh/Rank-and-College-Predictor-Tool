@@ -5,8 +5,20 @@ and non-blocking reads/writes with 64MB cache and WAL checkpoints.
 """
 
 import os
+from pathlib import Path
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import declarative_base, sessionmaker
+
+# Automatically load .env file if present in workspace root
+_env_path = Path(__file__).resolve().parents[3] / ".env"
+if _env_path.exists():
+    with open(_env_path, "r", encoding="utf-8") as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _k, _v = _line.split("=", 1)
+                _val = _v.strip().strip("'\"")
+                os.environ.setdefault(_k.strip(), _val)
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./gate_predictor.db")
 
