@@ -51,7 +51,7 @@ if STATIC_DIR.exists():
 PORTAL_MODE = os.getenv("PORTAL_MODE", "both").lower().strip()
 
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 def serve_root():
     """
     Dynamically routes root URL '/' based on PORTAL_MODE:
@@ -64,7 +64,7 @@ def serve_root():
     return serve_student_portal()
 
 
-@app.get("/student")
+@app.api_route("/student", methods=["GET", "HEAD"])
 def serve_student_portal():
     """
     Serves the Student Exam Portal: personal info, CBT response form,
@@ -88,8 +88,8 @@ def serve_student_portal():
     }
 
 
-@app.get("/counsellor")
-@app.get("/admin")
+@app.api_route("/counsellor", methods=["GET", "HEAD"])
+@app.api_route("/admin", methods=["GET", "HEAD"])
 def serve_counsellor_portal():
     """
     Serves the Counsellor Operations & Admissions Portal:
@@ -110,7 +110,7 @@ def serve_counsellor_portal():
     }
 
 
-@app.get("/api/health")
+@app.api_route("/api/health", methods=["GET", "HEAD"])
 def health_check():
     return {
         "status": "healthy",
