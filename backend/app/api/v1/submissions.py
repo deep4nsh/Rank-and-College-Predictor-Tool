@@ -66,6 +66,16 @@ def submit_student_exam_paper(
     )
 
     if not active_key:
+        from backend.app.core.sample_questions import sync_sample_paper_to_db
+        sync_sample_paper_to_db(db, clean_paper, payload.session_id or 1)
+        active_key = (
+            db.query(AnswerKeyModel)
+            .filter(AnswerKeyModel.paper_code == clean_paper, AnswerKeyModel.status == "ACTIVE")
+            .order_by(AnswerKeyModel.version.desc())
+            .first()
+        )
+
+    if not active_key:
         raise HTTPException(
             status_code=400,
             detail=f"No active answer key available for {clean_paper}. Faculty must publish key v1.",
@@ -98,6 +108,15 @@ def submit_student_exam_paper(
     deduped_responses = {}
     for resp in payload.responses:
         deduped_responses[resp.question_id] = resp
+
+    # Ensure all question IDs exist in QuestionModel to satisfy foreign keys
+    existing_qids = {
+        q[0] for q in db.query(QuestionModel.question_id).filter(QuestionModel.paper_code == clean_paper).all()
+    }
+    missing_qids = set(deduped_responses.keys()) - existing_qids
+    if missing_qids:
+        from backend.app.core.sample_questions import sync_sample_paper_to_db
+        sync_sample_paper_to_db(db, clean_paper, payload.session_id or 1)
 
     # Store individual student responses
     for qid, resp in deduped_responses.items():

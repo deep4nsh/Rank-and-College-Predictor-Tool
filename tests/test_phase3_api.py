@@ -121,3 +121,88 @@ def test_empty_or_invalid_html_rejection():
     res = client.post("/api/v1/ingest/response-sheet/submit", json=submit_payload)
     assert res.status_code == 400
     assert "No question panels found" in res.json()["detail"]
+
+
+def test_sample_paper_branch_and_session_diversity():
+    """
+    Verifies that different branches and sessions receive authentic, distinct questions,
+    with options for MCQ/MSQ and units for NAT.
+    """
+    # 1. CS Session 1 vs Session 2
+    res_cs1 = client.get("/api/v1/ingest/sample-paper/CS?session_id=1")
+    assert res_cs1.status_code == 200
+    cs1_data = res_cs1.json()
+    assert cs1_data["total_questions"] == 65
+    assert cs1_data["session_id"] == 1
+
+    res_cs2 = client.get("/api/v1/ingest/sample-paper/CS?session_id=2")
+    assert res_cs2.status_code == 200
+    cs2_data = res_cs2.json()
+    assert cs2_data["total_questions"] == 65
+    assert cs2_data["session_id"] == 2
+
+    # Assert distinct questions between sessions
+    assert cs1_data["questions"][0]["question_text"] != cs2_data["questions"][0]["question_text"]
+    assert cs1_data["questions"][10]["question_text"] != cs2_data["questions"][10]["question_text"]
+
+    # Assert option texts exist for MCQ/MSQ
+    q_mcq = cs1_data["questions"][0]
+    assert q_mcq["question_type"] == "MCQ"
+    assert "options" in q_mcq and "A" in q_mcq["options"] and "B" in q_mcq["options"]
+
+    # 2. Test DA (Data Science & AI)
+    res_da = client.get("/api/v1/ingest/sample-paper/DA?session_id=1")
+    assert res_da.status_code == 200
+    da_data = res_da.json()
+    assert da_data["total_questions"] == 65
+    # Verify DA-specific tags
+    da_tags = {q.get("subject_tag") for q in da_data["questions"]}
+    assert "Machine Learning" in da_tags or "Linear Algebra" in da_tags
+
+    # 3. Test ME (Mechanical)
+    res_me = client.get("/api/v1/ingest/sample-paper/ME?session_id=1")
+    assert res_me.status_code == 200
+    me_data = res_me.json()
+    assert me_data["total_questions"] == 65
+    me_tags = {q.get("subject_tag") for q in me_data["questions"]}
+    assert "Thermodynamics" in me_tags or "Fluid Mechanics" in me_tags
+
+
+def test_sample_paper_interactive_student_submission():
+    """
+    Verifies that a student can take and submit an exam directly from the CBT portal
+    for any branch (e.g. ME) and receive immediate evaluation and admissions prediction
+    without manual pre-configuration of answer keys.
+    """
+    # Fetch ME paper blueprint
+    paper_res = client.get("/api/v1/ingest/sample-paper/ME?session_id=1")
+    assert paper_res.status_code == 200
+    paper_data = paper_res.json()
+    q1 = paper_data["questions"][0]  # Aptitude Q1
+    q11 = paper_data["questions"][10] # Core Q11 (Carnot Engine, 50% = Option A)
+
+    sub_payload = {
+        "student_phone": "9811122233",
+        "student_name": "Karan Malhotra",
+        "student_email": "karan.me@example.com",
+        "student_category": "GEN",
+        "btech_percentage": 76.0,
+        "candidate_age": 23,
+        "has_valid_ncl": True,
+        "pw_batch_id": "PW_ME_CBT",
+        "paper_code": "ME",
+        "session_id": 1,
+        "responses": [
+            {"question_id": q1["question_id"], "status": "ATTEMPTED", "marked_options": ["B"]},
+            {"question_id": q11["question_id"], "status": "ATTEMPTED", "marked_options": ["A"]},
+        ],
+    }
+
+    sub_res = client.post("/api/v1/submissions", json=sub_payload)
+    assert sub_res.status_code == 200
+    sub_data = sub_res.json()
+    assert sub_data["status"] == "success"
+    assert sub_data["raw_score_total"] > 0
+    assert sub_data["predicted_air"] > 0
+    assert "coap_options" in sub_data
+    assert "psu_options" in sub_data

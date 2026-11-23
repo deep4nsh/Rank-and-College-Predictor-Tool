@@ -99,7 +99,7 @@
           </div>
           <div>
             <label class="block font-semibold text-slate-600 mb-1">Paper Code *</label>
-            <select id="meta-paper" onchange="loadExamPaper(this.value)" class="w-full border rounded px-2.5 py-1.5 font-bold text-pw-blue focus:ring-2 focus:ring-pw-accent outline-none">
+            <select id="meta-paper" onchange="handleExamPaperChange()" class="w-full border rounded px-2.5 py-1.5 font-bold text-pw-blue focus:ring-2 focus:ring-pw-accent outline-none">
               <option value="CS">CS (Computer Science)</option>
               <option value="DA">DA (Data Science & AI)</option>
               <option value="ME">ME (Mechanical)</option>
@@ -123,7 +123,7 @@
           </div>
           <div>
             <label class="block font-semibold text-slate-600 mb-1">Session / Shift</label>
-            <select id="meta-session" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
+            <select id="meta-session" onchange="handleExamPaperChange()" class="w-full border rounded px-2.5 py-1.5 focus:ring-2 focus:ring-pw-accent outline-none">
               <option value="1">Session 1 (Forenoon)</option>
               <option value="2">Session 2 (Afternoon)</option>
             </select>
@@ -435,11 +435,19 @@
       }, 3000);
     }
 
+    // Handle Paper or Session Change
+    function handleExamPaperChange() {
+      const paper = document.getElementById('meta-paper').value;
+      const session = document.getElementById('meta-session').value;
+      loadExamPaper(paper, session);
+    }
+
     // Load Exam Paper Blueprint
-    async function loadExamPaper(paperCode) {
+    async function loadExamPaper(paperCode, sessionId = null) {
       currentPaperCode = paperCode;
+      const sessionVal = sessionId || document.getElementById('meta-session')?.value || 1;
       try {
-        const resp = await fetch(`/api/v1/ingest/sample-paper/${paperCode}`);
+        const resp = await fetch(`/api/v1/ingest/sample-paper/${paperCode}?session_id=${sessionVal}`);
         if (!resp.ok) throw new Error("Failed to load blueprint");
         const data = await resp.json();
         questionsList = data.questions;
@@ -486,8 +494,8 @@
 
     function getPaletteBtnClass(qid) {
       const st = studentResponses[qid]?.status || "NOT_ATTEMPTED";
-      if (st === "ATTEMPTED") return "h-7 text-xs font-bold rounded bg-emerald-500 text-white hover:bg-emerald-600 transition";
-      if (st === "MARKED_REVIEW") return "h-7 text-xs font-bold rounded bg-amber-400 text-slate-900 hover:bg-amber-500 transition";
+      if (st === "ATTEMPTED") return "h-7 text-xs font-bold rounded bg-emerald-500 text-white hover:bg-emerald-600 transition shadow-sm";
+      if (st === "MARKED_REVIEW") return "h-7 text-xs font-bold rounded bg-amber-400 text-slate-900 hover:bg-amber-500 transition shadow-sm";
       return "h-7 text-xs font-semibold rounded bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition";
     }
 
@@ -503,6 +511,21 @@
       document.getElementById('current-q-marks').innerText = `+${Number(q.marks_correct).toFixed(1)}`;
       document.getElementById('current-q-neg').innerText = q.question_type === 'MCQ' ? `-${Number(q.marks_negative).toFixed(2)}` : '0.00 (No Negative)';
 
+      const promptEl = document.getElementById('question-prompt');
+      if (q.question_text) {
+        promptEl.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex items-center space-x-2">
+              <span class="text-[11px] px-2 py-0.5 rounded-full font-bold bg-slate-100 text-slate-700 uppercase tracking-wider">${q.subject_tag || 'Technical Question'}</span>
+              <span class="text-xs text-slate-400 font-mono">QID: ${q.question_id}</span>
+            </div>
+            <div class="text-sm sm:text-base font-medium text-slate-900 leading-relaxed select-text">${q.question_text}</div>
+          </div>
+        `;
+      } else {
+        promptEl.innerHTML = `<div class="text-sm text-slate-600">Select or enter your marked answer for this question from your exam paper:</div>`;
+      }
+
       const container = document.getElementById('answer-input-container');
       container.innerHTML = '';
 
@@ -511,13 +534,17 @@
       if (q.question_type === 'MCQ') {
         const opts = ['A', 'B', 'C', 'D'];
         const grid = document.createElement('div');
-        grid.className = "grid grid-cols-2 gap-3 max-w-md";
+        grid.className = "flex flex-col space-y-2.5 max-w-2xl w-full";
         opts.forEach(opt => {
           const isSelected = resp.marked_options?.includes(opt);
+          const optText = (q.options && q.options[opt]) ? q.options[opt] : `Option ${opt}`;
           grid.innerHTML += `
-            <label class="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition ${isSelected ? 'bg-blue-50 border-pw-accent text-pw-blue font-bold ring-1 ring-pw-accent' : 'hover:bg-slate-50 border-slate-200'}">
-              <input type="radio" name="mcq-option" value="${opt}" ${isSelected ? 'checked' : ''} class="w-4 h-4 text-pw-accent">
-              <span class="text-sm font-semibold">${opt}</span>
+            <label class="flex items-start space-x-3 p-3.5 border rounded-xl cursor-pointer transition ${isSelected ? 'bg-blue-50 border-pw-accent text-pw-blue font-bold ring-2 ring-pw-accent/20 shadow-sm' : 'hover:bg-slate-50 border-slate-200 text-slate-800'}">
+              <input type="radio" name="mcq-option" value="${opt}" ${isSelected ? 'checked' : ''} class="w-4 h-4 mt-0.5 text-pw-accent">
+              <div class="text-sm leading-normal flex-1">
+                <span class="inline-block px-1.5 py-0.5 mr-2 rounded bg-slate-100 text-slate-700 font-mono font-bold text-xs">(${opt})</span>
+                <span class="${isSelected ? 'font-semibold text-pw-blue' : 'font-normal text-slate-700'}">${optText}</span>
+              </div>
             </label>
           `;
         });
@@ -525,41 +552,50 @@
       } else if (q.question_type === 'MSQ') {
         const opts = ['A', 'B', 'C', 'D'];
         const grid = document.createElement('div');
-        grid.className = "grid grid-cols-2 gap-3 max-w-md";
+        grid.className = "flex flex-col space-y-2.5 max-w-2xl w-full";
         opts.forEach(opt => {
           const isSelected = resp.marked_options?.includes(opt);
+          const optText = (q.options && q.options[opt]) ? q.options[opt] : `Option ${opt}`;
           grid.innerHTML += `
-            <label class="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer transition ${isSelected ? 'bg-purple-50 border-purple-600 text-purple-900 font-bold ring-1 ring-purple-600' : 'hover:bg-slate-50 border-slate-200'}">
-              <input type="checkbox" name="msq-option" value="${opt}" ${isSelected ? 'checked' : ''} class="w-4 h-4 text-purple-600 rounded">
-              <span class="text-sm font-semibold">${opt}</span>
+            <label class="flex items-start space-x-3 p-3.5 border rounded-xl cursor-pointer transition ${isSelected ? 'bg-purple-50 border-purple-600 text-purple-900 font-bold ring-2 ring-purple-600/20 shadow-sm' : 'hover:bg-slate-50 border-slate-200 text-slate-800'}">
+              <input type="checkbox" name="msq-option" value="${opt}" ${isSelected ? 'checked' : ''} class="w-4 h-4 mt-0.5 text-purple-600 rounded">
+              <div class="text-sm leading-normal flex-1">
+                <span class="inline-block px-1.5 py-0.5 mr-2 rounded bg-purple-100 text-purple-800 font-mono font-bold text-xs">(${opt})</span>
+                <span class="${isSelected ? 'font-semibold text-purple-900' : 'font-normal text-slate-700'}">${optText}</span>
+              </div>
             </label>
           `;
         });
         container.appendChild(grid);
       } else if (q.question_type === 'NAT') {
         const wrapper = document.createElement('div');
-        wrapper.className = "max-w-sm space-y-3";
+        wrapper.className = "max-w-md space-y-3";
+        const unitLabel = q.unit ? `<span class="text-xs font-semibold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">Unit: ${q.unit}</span>` : '';
         wrapper.innerHTML = `
-          <div class="relative">
-            <input type="text" id="nat-input" value="${resp.nat_value || ''}" placeholder="Enter numerical answer..." class="w-full border-2 border-slate-300 rounded-lg px-4 py-2.5 text-base font-mono font-bold text-pw-blue focus:border-pw-accent outline-none">
+          <div>
+            <div class="flex items-center justify-between text-xs text-slate-600 mb-1.5 font-medium">
+              <span>Numerical Answer (Round off if needed)</span>
+              ${unitLabel}
+            </div>
+            <input type="text" id="nat-input" value="${resp.nat_value || ''}" placeholder="Enter numerical answer..." class="w-full border-2 border-slate-300 rounded-lg px-4 py-2.5 text-base font-mono font-bold text-pw-blue focus:border-pw-accent outline-none shadow-sm">
           </div>
           <!-- Virtual Numeric Keypad -->
           <div class="grid grid-cols-4 gap-1.5 bg-slate-100 p-2.5 rounded-lg border text-sm font-bold text-slate-700">
-            <button type="button" onclick="appendNat('7')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">7</button>
-            <button type="button" onclick="appendNat('8')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">8</button>
-            <button type="button" onclick="appendNat('9')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">9</button>
-            <button type="button" onclick="backspaceNat()" class="p-2 bg-rose-50 text-rose-600 rounded shadow-sm hover:bg-rose-100"><i class="fa-solid fa-delete-left"></i></button>
-            <button type="button" onclick="appendNat('4')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">4</button>
-            <button type="button" onclick="appendNat('5')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">5</button>
-            <button type="button" onclick="appendNat('6')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">6</button>
-            <button type="button" onclick="clearNat()" class="p-2 bg-slate-200 text-slate-600 rounded shadow-sm hover:bg-slate-300">C</button>
-            <button type="button" onclick="appendNat('1')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">1</button>
-            <button type="button" onclick="appendNat('2')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">2</button>
-            <button type="button" onclick="appendNat('3')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">3</button>
-            <button type="button" onclick="appendNat('-')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">±</button>
-            <button type="button" onclick="appendNat('0')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 col-span-2">0</button>
-            <button type="button" onclick="appendNat('.')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">.</button>
-            <button type="button" onclick="appendNat('e')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50">e</button>
+            <button type="button" onclick="appendNat('7')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">7</button>
+            <button type="button" onclick="appendNat('8')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">8</button>
+            <button type="button" onclick="appendNat('9')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">9</button>
+            <button type="button" onclick="backspaceNat()" class="p-2 bg-rose-50 text-rose-600 rounded shadow-sm hover:bg-rose-100 transition"><i class="fa-solid fa-delete-left"></i></button>
+            <button type="button" onclick="appendNat('4')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">4</button>
+            <button type="button" onclick="appendNat('5')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">5</button>
+            <button type="button" onclick="appendNat('6')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">6</button>
+            <button type="button" onclick="clearNat()" class="p-2 bg-slate-200 text-slate-600 rounded shadow-sm hover:bg-slate-300 transition">C</button>
+            <button type="button" onclick="appendNat('1')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">1</button>
+            <button type="button" onclick="appendNat('2')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">2</button>
+            <button type="button" onclick="appendNat('3')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">3</button>
+            <button type="button" onclick="appendNat('-')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">±</button>
+            <button type="button" onclick="appendNat('0')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition col-span-2">0</button>
+            <button type="button" onclick="appendNat('.')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">.</button>
+            <button type="button" onclick="appendNat('e')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">e</button>
           </div>
         `;
         container.appendChild(wrapper);

@@ -5,10 +5,11 @@ and sample paper template generation for exam-day student input.
 """
 
 from typing import Any, Dict
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy.orm import Session
 
 from backend.app.api.v1.submissions import submit_student_exam_paper
+from backend.app.core.sample_questions import sync_sample_paper_to_db
 from backend.app.db.models import AnswerKeyItemModel, AnswerKeyModel, QuestionModel
 from backend.app.db.session import get_db
 from backend.app.schemas.submission import (
@@ -202,84 +203,16 @@ def bulk_csv_import_endpoint(
 
 
 @router.get("/sample-paper/{paper_code}")
-def get_sample_exam_paper(paper_code: str, db: Session = Depends(get_db)):
+def get_sample_exam_paper(
+    paper_code: str,
+    session_id: int = Query(1, ge=1, le=2, description="Session / Shift ID (1 or 2)"),
+    db: Session = Depends(get_db)
+):
     """
     Generates the 65-question GATE paper blueprint for exam-day interactive form.
-    Prepopulates question types, sections, and marks based on active key or GATE standards.
+    Returns authentic, discipline-tailored questions with section breakdown, formulas,
+    realistic MCQ/MSQ options, and NAT parameters for the selected branch and session.
+    Automatically syncs questions and faculty answer key to database.
     """
     clean_paper = paper_code.upper().strip()
-
-    # Check if questions exist in DB
-    existing_questions = (
-        db.query(QuestionModel)
-        .filter(QuestionModel.paper_code == clean_paper)
-        .order_by(QuestionModel.question_number.asc())
-        .all()
-    )
-
-    questions_data = []
-
-    if existing_questions and len(existing_questions) >= 10:
-        for q in existing_questions:
-            questions_data.append({
-                "question_id": q.question_id,
-                "question_number": q.question_number,
-                "section": q.section,
-                "question_type": q.question_type,
-                "marks_correct": q.marks_correct,
-                "marks_negative": q.marks_negative,
-            })
-    else:
-        # Standard GATE 65-Question Blueprint
-        # Q1-Q5: Aptitude 1 Mark
-        for i in range(1, 6):
-            questions_data.append({
-                "question_id": f"{clean_paper}-{i}",
-                "question_number": i,
-                "section": "APTITUDE",
-                "question_type": "MCQ",
-                "marks_correct": 1.0,
-                "marks_negative": 0.33,
-            })
-        # Q6-Q10: Aptitude 2 Marks
-        for i in range(6, 11):
-            questions_data.append({
-                "question_id": f"{clean_paper}-{i}",
-                "question_number": i,
-                "section": "APTITUDE",
-                "question_type": "MCQ",
-                "marks_correct": 2.0,
-                "marks_negative": 0.66,
-            })
-        # Q11-Q35: Core 1 Mark
-        for i in range(11, 36):
-            q_type = "NAT" if i % 4 == 0 else ("MSQ" if i % 5 == 0 else "MCQ")
-            neg = 0.0 if q_type in ["NAT", "MSQ"] else 0.33
-            questions_data.append({
-                "question_id": f"{clean_paper}-{i}",
-                "question_number": i,
-                "section": "CORE",
-                "question_type": q_type,
-                "marks_correct": 1.0,
-                "marks_negative": neg,
-            })
-        # Q36-Q65: Core 2 Marks
-        for i in range(36, 66):
-            q_type = "NAT" if i % 3 == 0 else ("MSQ" if i % 4 == 0 else "MCQ")
-            neg = 0.0 if q_type in ["NAT", "MSQ"] else 0.66
-            questions_data.append({
-                "question_id": f"{clean_paper}-{i}",
-                "question_number": i,
-                "section": "CORE",
-                "question_type": q_type,
-                "marks_correct": 2.0,
-                "marks_negative": neg,
-            })
-
-    return {
-        "paper_code": clean_paper,
-        "total_questions": len(questions_data),
-        "total_marks": 100,
-        "duration_minutes": 180,
-        "questions": questions_data,
-    }
+    return sync_sample_paper_to_db(db, clean_paper, session_id)
