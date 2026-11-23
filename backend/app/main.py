@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -35,6 +35,21 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def handle_head_requests_middleware(request: Request, call_next):
+    """
+    Ensures full compatibility with uptime monitors (UptimeRobot, BetterUptime)
+    that issue HTTP HEAD requests across any endpoint.
+    """
+    if request.method == "HEAD":
+        request.scope["method"] = "GET"
+        response = await call_next(request)
+        headers = dict(response.headers)
+        headers["content-length"] = "0"
+        return Response(content=b"", status_code=response.status_code, headers=headers)
+    return await call_next(request)
 
 # Register REST Routers
 app.include_router(predictor_router, prefix="/api/v1")
