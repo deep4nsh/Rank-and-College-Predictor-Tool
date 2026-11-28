@@ -806,6 +806,15 @@
           const negMarksVal = s.marks_lost_to_negatives !== undefined ? Number(s.marks_lost_to_negatives) : 0;
           const gateScoreVal = s.gate_score ? Number(s.gate_score) : 0;
 
+          const isDirect = s.submission_mode === 'DIRECT_SCORE' || (s.pw_batch_id && s.pw_batch_id.includes('Direct'));
+          const negLostDisplay = isDirect ?
+            `<span class="text-slate-400 font-semibold text-[10px] bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200" title="Student entered final calculated marks directly without bubbling questions">Direct Score</span>` :
+            `<span class="${negMarksVal > 5 ? 'text-rose-600 font-bold' : 'text-slate-500'}">-${negMarksVal.toFixed(2)}</span>`;
+
+          const rawScoreDisplay = isDirect ?
+            `<span class="font-bold text-slate-800">${rawScoreVal.toFixed(2)}</span> <span class="text-[9px] font-bold text-amber-700 bg-amber-50 px-1 py-0.5 rounded border border-amber-200 ml-1" title="Direct Score Entry (Bypassed OMR)">Direct</span>` :
+            `<span class="font-bold text-slate-800">${rawScoreVal.toFixed(2)}</span>`;
+
           return `
             <tr class="hover:bg-slate-50 transition border-b">
               <td class="py-2.5 px-3 font-semibold text-slate-800">${s.student_name}</td>
@@ -817,8 +826,8 @@
               </td>
               <td class="py-2.5 px-3 font-mono font-bold">${s.paper_code}</td>
               <td class="py-2.5 px-3 font-semibold text-slate-700">${studentCategory}</td>
-              <td class="py-2.5 px-3 font-bold text-slate-800">${rawScoreVal.toFixed(2)}</td>
-              <td class="py-2.5 px-3 font-semibold ${negMarksVal > 5 ? 'text-rose-600 font-bold' : 'text-slate-500'}">-${negMarksVal.toFixed(2)}</td>
+              <td class="py-2.5 px-3 whitespace-nowrap">${rawScoreDisplay}</td>
+              <td class="py-2.5 px-3 whitespace-nowrap">${negLostDisplay}</td>
               <td class="py-2.5 px-3 font-black text-emerald-600">${gateScoreVal ? gateScoreVal.toFixed(0) : '--'}</td>
               <td class="py-2.5 px-3 font-semibold text-pw-blue">${airBand}</td>
               <td class="py-2.5 px-3">

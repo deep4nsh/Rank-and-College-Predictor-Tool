@@ -144,6 +144,7 @@ def list_students(
 
     results = []
     for sub, ev in rows:
+        is_direct = (ev.correct_count == 0 and ev.incorrect_count == 0 and ev.unattempted_count == 0)
         results.append(
             {
                 "submission_id": sub.submission_id,
@@ -153,6 +154,7 @@ def list_students(
                 "paper_code": sub.paper_code,
                 "category": sub.student_category,
                 "pw_batch_id": sub.pw_batch_id,
+                "submission_mode": "DIRECT_SCORE" if is_direct else "OMR_BUBBLED",
                 "raw_score": ev.raw_score_total,
                 "marks_lost_to_negatives": ev.marks_lost_to_negatives,
                 "gate_score": ev.gate_score,
@@ -215,6 +217,7 @@ def get_student_counselling_profile(
         .all()
     )
 
+    is_direct = (ev.correct_count == 0 and ev.incorrect_count == 0 and ev.unattempted_count == 0)
     return {
         "student_phone": sub.student_phone,
         "student_name": sub.student_name,
@@ -224,6 +227,7 @@ def get_student_counselling_profile(
         "candidate_age": sub.candidate_age,
         "has_valid_ncl": sub.has_valid_ncl,
         "pw_batch_id": sub.pw_batch_id,
+        "submission_mode": "DIRECT_SCORE" if is_direct else "OMR_BUBBLED",
         "paper_code": sub.paper_code,
         "call_disposition": sub.call_disposition or "PENDING",
         "last_contacted_at": sub.last_contacted_at.isoformat() if sub.last_contacted_at else None,

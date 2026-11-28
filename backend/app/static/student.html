@@ -302,7 +302,7 @@
           <div class="p-3">
             <span class="text-xs text-slate-500 font-semibold uppercase">Marks Lost to Negatives</span>
             <div id="res-neg-marks" class="text-2xl font-black text-rose-600 mt-1">-8.67</div>
-            <span class="text-[11px] text-rose-500 font-medium">Wrong MCQ penalties</span>
+            <span id="res-neg-subtitle" class="text-[11px] text-rose-500 font-medium">Wrong MCQ penalties</span>
           </div>
           <div class="p-3">
             <span class="text-xs text-slate-500 font-semibold uppercase">Normalized Score</span>
@@ -819,7 +819,25 @@
       document.getElementById('res-student-name').innerText = data.student_name;
       document.getElementById('res-paper-category').innerText = `GATE ${data.paper_code} | Category: ${data.category} | Priority: ${data.lead_classification}`;
       document.getElementById('res-raw-score').innerText = `${Number(data.raw_score).toFixed(2)} / 100`;
-      document.getElementById('res-neg-marks').innerText = `-${Number(data.marks_lost_to_negatives).toFixed(2)}`;
+
+      if (data.key_type === 'DIRECT_SCORE' || Number(data.marks_lost_to_negatives) === 0) {
+        document.getElementById('res-neg-marks').innerText = `Direct Entry`;
+        document.getElementById('res-neg-marks').className = `text-xl font-black text-slate-500 mt-1`;
+        const sub = document.getElementById('res-neg-subtitle');
+        if (sub) {
+          sub.innerText = 'Bypassed OMR sheet';
+          sub.className = 'text-[11px] text-slate-400 font-medium';
+        }
+      } else {
+        document.getElementById('res-neg-marks').innerText = `-${Number(data.marks_lost_to_negatives).toFixed(2)}`;
+        document.getElementById('res-neg-marks').className = `text-2xl font-black text-rose-600 mt-1`;
+        const sub = document.getElementById('res-neg-subtitle');
+        if (sub) {
+          sub.innerText = 'Wrong MCQ penalties';
+          sub.className = 'text-[11px] text-rose-500 font-medium';
+        }
+      }
+
       document.getElementById('res-gate-score').innerText = `${data.gate_score} / 1000`;
       document.getElementById('res-air-range').innerText = data.air_range;
 
