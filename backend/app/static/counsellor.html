@@ -802,9 +802,14 @@
         }
 
         tbody.innerHTML = data.students.map(s => {
-          const leadPriority = s.lead_classification || s.lead_priority || 'NORMAL';
-          const studentCategory = s.category || s.student_category || 'GEN';
-          const airBand = s.air_range || s.air_prediction_range || (s.predicted_air ? `AIR ${s.predicted_air}` : '--');
+          const rawLead = s.lead_classification || s.lead_priority || 'NORMAL';
+          const leadPriority = (rawLead && rawLead !== 'undefined') ? rawLead : 'NORMAL';
+
+          const rawCat = s.category || s.student_category || 'GEN';
+          const studentCategory = (rawCat && rawCat !== 'undefined') ? rawCat : 'GEN';
+
+          const rawAir = s.air_range || s.air_prediction_range || (s.predicted_air ? `AIR ${s.predicted_air}` : '--');
+          const airBand = (rawAir && rawAir !== 'undefined' && !rawAir.includes('undefined')) ? rawAir : (s.predicted_air ? `AIR ${s.predicted_air}` : '--');
 
           // Clean compact priority pills
           let priorityLabel = 'Lead';

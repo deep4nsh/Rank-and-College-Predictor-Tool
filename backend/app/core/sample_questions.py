@@ -4303,7 +4303,8 @@ def sync_sample_paper_to_db(db: Session, paper_code: str, session_id: int = 1) -
             new_items.append(item)
             existing_item_qids.add(qid)
 
-    if new_items:
+    if new_items or new_q_models:
         db.flush()
+        db.commit()
 
     return paper_data

@@ -161,11 +161,16 @@
         <!-- OMR Sheet Header -->
         <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200/60">
           <div>
-            <h2 class="text-base sm:text-lg font-black text-slate-800 flex items-center space-x-2">
-              <i class="fa-solid fa-file-lines text-pw-accent"></i>
-              <span>Digital OMR Response Sheet & Question Palette</span>
-            </h2>
-            <p class="text-xs text-slate-500 mt-0.5">Click the circles (A, B, C, D) to bubble your answers. For NAT questions, enter your numerical value.</p>
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 class="text-base sm:text-lg font-black text-slate-800 flex items-center space-x-2">
+                <i class="fa-solid fa-file-lines text-pw-accent"></i>
+                <span>Digital OMR Response Sheet & Question Palette</span>
+              </h2>
+              <span id="omr-active-paper-badge" class="px-2.5 py-0.5 bg-pw-blue text-white rounded-full text-xs font-bold font-mono shadow-xs">
+                GATE <span id="omr-badge-paper">CS</span> (Shift <span id="omr-badge-session">1</span>)
+              </span>
+            </div>
+            <p id="omr-branch-description" class="text-xs text-slate-500 mt-1">Computer Science & Information Technology • Click the circles (A, B, C, D) to bubble your answers. For NAT questions, enter your numerical value.</p>
           </div>
           <div class="flex items-center space-x-3">
             <span id="omr-counter-badge" class="px-3.5 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-xs font-bold shadow-xs">
@@ -196,7 +201,7 @@
           <div class="flex items-center justify-between bg-slate-100 border border-slate-200 px-4 py-2.5 rounded-lg mb-3">
             <span class="font-bold text-xs sm:text-sm text-slate-800 flex items-center space-x-2">
               <i class="fa-solid fa-microchip text-slate-700"></i>
-              <span>Core Engineering Discipline (Q11 – Q65)</span>
+              <span id="omr-core-discipline-label">Core Computer Science & IT (Q11 – Q65)</span>
             </span>
             <span class="text-[11px] font-semibold text-slate-600">85 Total Marks</span>
           </div>
@@ -543,10 +548,30 @@
       document.getElementById('direct-score-input').value = val;
     }
 
+    const BRANCH_NAMES = {
+      'CS': 'Computer Science & Information Technology',
+      'DA': 'Data Science & Artificial Intelligence',
+      'ME': 'Mechanical Engineering',
+      'CE': 'Civil Engineering',
+      'EE': 'Electrical Engineering',
+      'EC': 'Electronics & Communication Engineering',
+      'IN': 'Instrumentation Engineering',
+      'CH': 'Chemical Engineering'
+    };
+
     // Handle Paper or Session Change
     function handleExamPaperChange() {
       const paper = document.getElementById('meta-paper').value;
-      const session = document.getElementById('meta-session').value;
+      const sessionSelect = document.getElementById('meta-session');
+      
+      // Auto-adjust session for single-session GATE branches
+      const singleSessionPapers = ['DA', 'EE', 'EC', 'IN', 'CH'];
+      if (singleSessionPapers.includes(paper) && sessionSelect.value === '2') {
+        sessionSelect.value = '1';
+        showToast(`${paper} is conducted in a single session (Session 1 Forenoon)`, "blue");
+      }
+      
+      const session = sessionSelect.value;
       loadExamPaper(paper, session);
     }
 
@@ -554,6 +579,23 @@
     async function loadExamPaper(paperCode, sessionId = null) {
       currentPaperCode = paperCode;
       const sessionVal = sessionId || document.getElementById('meta-session')?.value || 1;
+      
+      const badgePaper = document.getElementById('omr-badge-paper');
+      const badgeSession = document.getElementById('omr-badge-session');
+      const branchDesc = document.getElementById('omr-branch-description');
+      const coreLabel = document.getElementById('omr-core-discipline-label');
+      
+      if (badgePaper) badgePaper.textContent = paperCode;
+      if (badgeSession) badgeSession.textContent = sessionVal;
+      
+      const branchName = BRANCH_NAMES[paperCode] || paperCode;
+      if (branchDesc) {
+        branchDesc.textContent = `${branchName} • Click the circles (A, B, C, D) to bubble your answers. For NAT questions, enter your numerical value.`;
+      }
+      if (coreLabel) {
+        coreLabel.textContent = `Core ${branchName} (Q11 – Q65)`;
+      }
+
       try {
         const resp = await fetch(`/api/v1/ingest/sample-paper/${paperCode}?session_id=${sessionVal}`);
         if (!resp.ok) throw new Error("Failed to load blueprint");
@@ -1109,7 +1151,9 @@
 
     // Auto-init on page load
     window.addEventListener('DOMContentLoaded', () => {
-      loadExamPaper('CS');
+      const initialPaper = document.getElementById('meta-paper')?.value || 'CS';
+      const initialSession = document.getElementById('meta-session')?.value || '1';
+      loadExamPaper(initialPaper, initialSession);
     });
   </script>
 </body>
