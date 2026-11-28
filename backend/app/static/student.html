@@ -139,100 +139,121 @@
         </form>
       </div>
 
-      <!-- CBT Exam Grid Layout (Left: Question Panel | Right: 65-Question Palette) -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Submission Mode Selector: Option 1 (Digital OMR) vs Option 2 (Direct Score Entry) -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-2 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-center text-xs sm:text-sm font-bold">
+          <button type="button" id="tab-btn-omr" onclick="switchSubmissionMode('omr')" class="py-3 px-4 rounded-lg bg-pw-blue text-white shadow-sm transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-circle-dot"></i>
+            <span>Option 1: Digital OMR Response Sheet</span>
+          </button>
+          <button type="button" id="tab-btn-direct" onclick="switchSubmissionMode('direct')" class="py-3 px-4 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-bolt text-amber-500"></i>
+            <span>Option 2: Enter Score Directly (Bypass OMR)</span>
+          </button>
+        </div>
+      </div>
 
-        <!-- Question View (2 Cols) -->
-        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col min-h-[460px]">
-          <!-- Question Header -->
-          <div class="px-5 py-3 border-b flex items-center justify-between bg-slate-50 rounded-t-xl">
-            <div class="flex items-center space-x-3">
-              <span id="current-q-title" class="font-bold text-slate-800 text-base">Question 1</span>
-              <span id="current-q-section" class="text-xs px-2 py-0.5 rounded bg-blue-100 text-pw-blue font-semibold">General Aptitude</span>
-              <span id="current-q-type" class="text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-semibold">MCQ</span>
-            </div>
-            <div class="text-xs text-slate-500 font-medium">
-              Marks: <span id="current-q-marks" class="font-bold text-emerald-600">+1.0</span> | Negative: <span id="current-q-neg" class="font-bold text-rose-600">-0.33</span>
-            </div>
+      <!-- OPTION 1: Digital OMR Sheet View -->
+      <div id="mode-omr-container" class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6 mb-6">
+        <!-- OMR Sheet Header -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+          <div>
+            <h2 class="text-base sm:text-lg font-black text-slate-800 flex items-center space-x-2">
+              <i class="fa-solid fa-file-lines text-pw-accent"></i>
+              <span>Digital OMR Response Sheet & Question Palette</span>
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">Click the circles (A, B, C, D) to bubble your answers. For NAT questions, enter your numerical value.</p>
           </div>
-
-          <!-- Question Body & Answer Inputs -->
-          <div class="p-6 flex-1 flex flex-col justify-between">
-            <div id="question-prompt" class="text-sm text-slate-700 leading-relaxed mb-6">
-              Select or enter your marked answer for this question from your exam paper:
-            </div>
-
-            <!-- Dynamic Answer Form Container -->
-            <div id="answer-input-container" class="my-auto">
-              <!-- Rendered dynamically by JavaScript -->
-            </div>
-
-            <!-- Footer Buttons -->
-            <div class="pt-6 border-t flex flex-wrap items-center justify-between gap-3 mt-6">
-              <div class="flex space-x-2">
-                <button onclick="clearResponse()" class="px-3 py-1.5 border border-slate-300 rounded text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">
-                  Clear Response
-                </button>
-                <button onclick="markForReview()" class="px-3 py-1.5 border border-amber-300 bg-amber-50 rounded text-xs font-semibold text-amber-700 hover:bg-amber-100 transition">
-                  Mark for Review & Next
-                </button>
-              </div>
-              <div class="flex space-x-2">
-                <button onclick="prevQuestion()" class="px-3.5 py-1.5 border border-slate-300 rounded text-xs font-semibold text-slate-700 hover:bg-slate-100 transition">
-                  <i class="fa-solid fa-chevron-left mr-1"></i> Prev
-                </button>
-                <button onclick="saveAndNext()" class="px-5 py-1.5 bg-pw-blue hover:bg-blue-900 text-white rounded text-xs font-semibold shadow transition">
-                  Save & Next <i class="fa-solid fa-chevron-right ml-1"></i>
-                </button>
-              </div>
-            </div>
+          <div class="flex items-center space-x-3">
+            <span id="omr-counter-badge" class="px-3.5 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-xs font-bold shadow-xs">
+              0 / 65 Questions Answered
+            </span>
+            <button type="button" onclick="clearAllOmrResponses()" class="px-3 py-1.5 border border-slate-300 text-slate-600 hover:bg-slate-100 rounded-lg text-xs font-semibold transition">
+              <i class="fa-solid fa-rotate-left mr-1"></i> Clear All Bubbles
+            </button>
           </div>
         </div>
 
-        <!-- 65-Question Palette (1 Col) -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between pb-3 border-b mb-3">
-              <h3 class="text-sm font-bold text-slate-800">Question Palette (65)</h3>
-              <span id="answered-counter" class="text-xs font-semibold text-emerald-600">0 / 65 Answered</span>
-            </div>
+        <!-- Section 1: General Aptitude (Q1 - Q10) -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between bg-blue-50/70 border border-blue-200/60 px-4 py-2.5 rounded-lg mb-3">
+            <span class="font-bold text-xs sm:text-sm text-pw-blue flex items-center space-x-2">
+              <i class="fa-solid fa-brain"></i>
+              <span>General Aptitude (Q1 – Q10)</span>
+            </span>
+            <span class="text-[11px] font-semibold text-blue-800">15 Total Marks</span>
+          </div>
+          <div id="omr-aptitude-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            <!-- Dynamically populated OMR bubble cards -->
+          </div>
+        </div>
 
-            <!-- Legend -->
-            <div class="grid grid-cols-3 gap-2 text-[10px] text-slate-600 mb-4 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-              <div class="flex items-center space-x-1.5">
-                <span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span>
-                <span>Answered</span>
-              </div>
-              <div class="flex items-center space-x-1.5">
-                <span class="w-3 h-3 rounded bg-amber-400 inline-block"></span>
-                <span>Review</span>
-              </div>
-              <div class="flex items-center space-x-1.5">
-                <span class="w-3 h-3 rounded bg-slate-200 inline-block"></span>
-                <span>Unattempted</span>
-              </div>
-            </div>
+        <!-- Section 2: Core Engineering Discipline (Q11 - Q65) -->
+        <div>
+          <div class="flex items-center justify-between bg-slate-100 border border-slate-200 px-4 py-2.5 rounded-lg mb-3">
+            <span class="font-bold text-xs sm:text-sm text-slate-800 flex items-center space-x-2">
+              <i class="fa-solid fa-microchip text-slate-700"></i>
+              <span>Core Engineering Discipline (Q11 – Q65)</span>
+            </span>
+            <span class="text-[11px] font-semibold text-slate-600">85 Total Marks</span>
+          </div>
+          <div id="omr-core-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            <!-- Dynamically populated OMR bubble cards -->
+          </div>
+        </div>
 
-            <!-- Palette Grid (Aptitude 1-10, Core 11-65) -->
-            <div class="text-[11px] font-bold text-slate-500 mb-1">General Aptitude (Q1 - Q10)</div>
-            <div id="palette-aptitude" class="grid grid-cols-5 gap-1.5 mb-4">
-              <!-- Rendered via JS -->
-            </div>
+        <!-- Submit OMR Responses Button -->
+        <div class="pt-6 border-t mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="text-xs text-slate-500 flex items-center space-x-2">
+            <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+            <span>Real-time evaluation against active faculty key & dynamic multi-session normalization</span>
+          </div>
+          <button onclick="submitExamPaper()" id="btn-submit-paper" class="w-full sm:w-auto px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md text-sm transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Submit OMR Responses</span>
+          </button>
+        </div>
+      </div>
 
-            <div class="text-[11px] font-bold text-slate-500 mb-1">Core Engineering (Q11 - Q65)</div>
-            <div id="palette-core" class="grid grid-cols-5 gap-1.5 max-h-56 overflow-y-auto custom-scrollbar p-1">
-              <!-- Rendered via JS -->
+      <!-- OPTION 2: Direct Score Entry (Bypass OMR) -->
+      <div id="mode-direct-container" class="hidden bg-white rounded-xl shadow-sm border border-slate-200 p-6 sm:p-8 mb-6 max-w-2xl mx-auto">
+        <div class="text-center mb-6">
+          <div class="w-14 h-14 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl shadow-inner border border-amber-200">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h2 class="text-xl font-black text-slate-800">Bypass OMR & Enter Score Directly</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-md mx-auto">
+            Already computed your total raw marks using the exam answer key? Skip the 65-question bubble sheet and type your score directly below for instant rank and college predictions.
+          </p>
+        </div>
+
+        <div class="space-y-5">
+          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+            <label class="block text-xs sm:text-sm font-bold text-slate-800 mb-2">
+              Calculated GATE Raw Score (out of 100) *
+            </label>
+            <div class="relative">
+              <input type="number" id="direct-score-input" min="0" max="100" step="0.01" placeholder="e.g. 68.33" class="w-full border-2 border-slate-300 rounded-xl px-4 py-3.5 text-2xl font-black font-mono text-pw-blue focus:border-pw-accent outline-none shadow-sm">
+              <span class="absolute right-4 top-4 text-sm font-bold text-slate-400">/ 100</span>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-2">
+              Enter your total marks out of 100 (including 1/3 and 2/3 negative deductions if any).
+            </p>
+
+            <!-- Quick Presets -->
+            <div class="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-slate-200/80">
+              <span class="text-[11px] font-bold text-slate-400">Quick Test Presets:</span>
+              <button type="button" onclick="setDirectScore(35.0)" class="text-xs px-2.5 py-1 rounded bg-white hover:bg-slate-200 border text-slate-700 font-semibold transition">35.0 (Passing)</button>
+              <button type="button" onclick="setDirectScore(52.5)" class="text-xs px-2.5 py-1 rounded bg-white hover:bg-slate-200 border text-slate-700 font-semibold transition">52.5 (NIT Zone)</button>
+              <button type="button" onclick="setDirectScore(68.0)" class="text-xs px-2.5 py-1 rounded bg-white hover:bg-slate-200 border text-slate-700 font-semibold transition">68.0 (Top IITs)</button>
+              <button type="button" onclick="setDirectScore(84.5)" class="text-xs px-2.5 py-1 rounded bg-white hover:bg-slate-200 border text-slate-700 font-semibold transition">84.5 (Top 50 AIR)</button>
             </div>
           </div>
 
-          <!-- Final Submit Button -->
-          <div class="pt-4 border-t mt-4">
-            <button onclick="submitExamPaper()" id="btn-submit-paper" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-md text-sm transition flex items-center justify-center space-x-2">
-              <i class="fa-solid fa-paper-plane"></i>
-              <span>Submit Response</span>
-            </button>
-            <p class="text-[10px] text-slate-400 text-center mt-1.5">Zero calculation drift • Real-time faculty key match</p>
-          </div>
+          <button type="button" onclick="submitDirectScore()" id="btn-submit-direct" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md text-sm transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Submit Score & Predict Admissions</span>
+          </button>
         </div>
       </div>
 
@@ -244,7 +265,7 @@
           </div>
           <div>
             <h3 class="font-extrabold text-sm sm:text-base tracking-tight">Response Submitted Successfully!</h3>
-            <p class="text-xs text-emerald-100 mt-0.5">Thank you for submitting your responses. The <strong>Physics Wallah (PW) team will coordinate with you soon</strong> to guide your score analysis, cutoffs, and college counselling options.</p>
+            <p class="text-xs text-emerald-100 mt-0.5">Thank you for submitting your response. The <strong>Physics Wallah (PW) Counselling Team will connect with you shortly</strong> to guide your score analysis, cutoffs, and admissions.</p>
           </div>
         </div>
         <span class="hidden sm:inline-block text-[11px] font-bold bg-white/20 px-3 py-1 rounded-full uppercase tracking-wider text-emerald-50 border border-white/30">
@@ -435,6 +456,33 @@
       }, 3000);
     }
 
+    // Mode Switcher: Option 1 (Digital OMR) vs Option 2 (Direct Score Entry)
+    let currentSubmissionMode = 'omr';
+
+    function switchSubmissionMode(mode) {
+      currentSubmissionMode = mode;
+      const omrContainer = document.getElementById('mode-omr-container');
+      const directContainer = document.getElementById('mode-direct-container');
+      const btnOmr = document.getElementById('tab-btn-omr');
+      const btnDirect = document.getElementById('tab-btn-direct');
+
+      if (mode === 'direct') {
+        omrContainer.classList.add('hidden');
+        directContainer.classList.remove('hidden');
+        btnDirect.className = "py-3 px-4 rounded-lg bg-pw-blue text-white shadow-sm transition flex items-center justify-center space-x-2";
+        btnOmr.className = "py-3 px-4 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center justify-center space-x-2";
+      } else {
+        directContainer.classList.add('hidden');
+        omrContainer.classList.remove('hidden');
+        btnOmr.className = "py-3 px-4 rounded-lg bg-pw-blue text-white shadow-sm transition flex items-center justify-center space-x-2";
+        btnDirect.className = "py-3 px-4 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center justify-center space-x-2";
+      }
+    }
+
+    function setDirectScore(val) {
+      document.getElementById('direct-score-input').value = val;
+    }
+
     // Handle Paper or Session Change
     function handleExamPaperChange() {
       const paper = document.getElementById('meta-paper').value;
@@ -442,7 +490,7 @@
       loadExamPaper(paper, session);
     }
 
-    // Load Exam Paper Blueprint
+    // Load Exam Paper Blueprint (65 Questions for OMR Grid)
     async function loadExamPaper(paperCode, sessionId = null) {
       currentPaperCode = paperCode;
       const sessionVal = sessionId || document.getElementById('meta-session')?.value || 1;
@@ -462,252 +510,147 @@
           };
         }
 
-        renderPalette();
-        renderQuestion(0);
-        updateCounters();
+        renderDigitalOmr();
       } catch (err) {
-        showToast("Error loading paper questions: " + err.message, "red");
+        showToast("Error loading paper structure: " + err.message, "red");
       }
     }
 
-    // Render Question Palette
-    function renderPalette() {
-      const palApt = document.getElementById('palette-aptitude');
-      const palCore = document.getElementById('palette-core');
-      palApt.innerHTML = '';
-      palCore.innerHTML = '';
+    // Render 65-Question Digital OMR Sheet
+    function renderDigitalOmr() {
+      const aptGrid = document.getElementById('omr-aptitude-grid');
+      const coreGrid = document.getElementById('omr-core-grid');
+      if (!aptGrid || !coreGrid) return;
 
-      questionsList.forEach((q, idx) => {
-        const btn = document.createElement('button');
-        btn.id = `palette-btn-${idx}`;
-        btn.className = getPaletteBtnClass(q.question_id);
-        btn.innerText = q.question_number;
-        btn.onclick = () => renderQuestion(idx);
+      aptGrid.innerHTML = '';
+      coreGrid.innerHTML = '';
+
+      questionsList.forEach((q) => {
+        const card = document.createElement('div');
+        card.className = "bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between hover:border-pw-blue transition";
+
+        const qNum = q.question_number < 10 ? `0${q.question_number}` : q.question_number;
+        const isTwoMark = q.marks_correct >= 2.0;
+        const resp = studentResponses[q.question_id] || { status: "NOT_ATTEMPTED", marked_options: [], nat_value: null };
+
+        let inputHtml = '';
+        if (q.question_type === 'MCQ' || q.question_type === 'MSQ') {
+          const isMsq = q.question_type === 'MSQ';
+          inputHtml = `
+            <div class="flex items-center justify-between space-x-1.5 mt-2">
+              ${['A', 'B', 'C', 'D'].map(opt => {
+                const isFilled = resp.marked_options?.includes(opt);
+                const fillClass = isFilled 
+                  ? 'bg-slate-900 border-slate-900 text-white font-black shadow-inner ring-2 ring-slate-400/40 scale-105' 
+                  : 'bg-white border-slate-300 text-slate-700 hover:border-pw-blue hover:bg-blue-50 font-bold';
+                return `
+                  <button type="button" onclick="toggleOmrBubble('${q.question_id}', '${opt}', ${isMsq})" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full border-2 flex items-center justify-center text-xs transition cursor-pointer select-none ${fillClass}">
+                    ${opt}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          `;
+        } else {
+          // NAT input
+          inputHtml = `
+            <div class="mt-2">
+              <input type="text" value="${resp.nat_value || ''}" oninput="updateOmrNat('${q.question_id}', this.value)" placeholder="Enter numerical value..." class="w-full text-center font-mono font-bold text-xs border-2 border-slate-200 rounded-lg px-2 py-1.5 focus:border-pw-accent outline-none">
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between text-[11px] pb-1 border-b border-slate-100">
+            <span class="font-extrabold text-slate-800 font-mono">Q.${qNum}</span>
+            <div class="flex items-center space-x-1">
+              <span class="text-[9px] px-1.5 py-0.2 rounded font-bold ${isTwoMark ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'}">${isTwoMark ? '2M' : '1M'}</span>
+              <span class="text-[9px] px-1.5 py-0.2 rounded font-semibold ${q.question_type === 'MSQ' ? 'bg-purple-100 text-purple-800' : (q.question_type === 'NAT' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-50 text-blue-700')}">${q.question_type}</span>
+            </div>
+          </div>
+          ${inputHtml}
+        `;
 
         if (q.section === "APTITUDE") {
-          palApt.appendChild(btn);
+          aptGrid.appendChild(card);
         } else {
-          palCore.appendChild(btn);
+          coreGrid.appendChild(card);
         }
       });
+
+      updateOmrCounter();
     }
 
-    function getPaletteBtnClass(qid) {
-      const st = studentResponses[qid]?.status || "NOT_ATTEMPTED";
-      if (st === "ATTEMPTED") return "h-7 text-xs font-bold rounded bg-emerald-500 text-white hover:bg-emerald-600 transition shadow-sm";
-      if (st === "MARKED_REVIEW") return "h-7 text-xs font-bold rounded bg-amber-400 text-slate-900 hover:bg-amber-500 transition shadow-sm";
-      return "h-7 text-xs font-semibold rounded bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition";
-    }
-
-    // Render Current Question
-    function renderQuestion(index) {
-      if (index < 0 || index >= questionsList.length) return;
-      currentQIndex = index;
-      const q = questionsList[index];
-
-      document.getElementById('current-q-title').innerText = `Question ${q.question_number}`;
-      document.getElementById('current-q-section').innerText = q.section === "APTITUDE" ? "General Aptitude" : "Core Engineering";
-      document.getElementById('current-q-type').innerText = q.question_type;
-      document.getElementById('current-q-marks').innerText = `+${Number(q.marks_correct).toFixed(1)}`;
-      document.getElementById('current-q-neg').innerText = q.question_type === 'MCQ' ? `-${Number(q.marks_negative).toFixed(2)}` : '0.00 (No Negative)';
-
-      const promptEl = document.getElementById('question-prompt');
-      if (q.question_text) {
-        promptEl.innerHTML = `
-          <div class="space-y-3">
-            <div class="flex items-center space-x-2">
-              <span class="text-[11px] px-2 py-0.5 rounded-full font-bold bg-slate-100 text-slate-700 uppercase tracking-wider">${q.subject_tag || 'Technical Question'}</span>
-              <span class="text-xs text-slate-400 font-mono">QID: ${q.question_id}</span>
-            </div>
-            <div class="text-sm sm:text-base font-medium text-slate-900 leading-relaxed select-text">${q.question_text}</div>
-          </div>
-        `;
+    // Toggle OMR Bubble on Click
+    function toggleOmrBubble(qid, opt, isMsq) {
+      if (!studentResponses[qid]) {
+        studentResponses[qid] = { status: "NOT_ATTEMPTED", marked_options: [], nat_value: null };
+      }
+      const curr = studentResponses[qid];
+      if (isMsq) {
+        if (curr.marked_options.includes(opt)) {
+          curr.marked_options = curr.marked_options.filter(o => o !== opt);
+        } else {
+          curr.marked_options.push(opt);
+        }
       } else {
-        promptEl.innerHTML = `<div class="text-sm text-slate-600">Select or enter your marked answer for this question from your exam paper:</div>`;
-      }
-
-      const container = document.getElementById('answer-input-container');
-      container.innerHTML = '';
-
-      const resp = studentResponses[q.question_id] || { status: "NOT_ATTEMPTED", marked_options: [], nat_value: null };
-
-      if (q.question_type === 'MCQ') {
-        const opts = ['A', 'B', 'C', 'D'];
-        const grid = document.createElement('div');
-        grid.className = "flex flex-col space-y-2.5 max-w-2xl w-full";
-        opts.forEach(opt => {
-          const isSelected = resp.marked_options?.includes(opt);
-          const optText = (q.options && q.options[opt]) ? q.options[opt] : `Option ${opt}`;
-          grid.innerHTML += `
-            <label class="flex items-start space-x-3 p-3.5 border rounded-xl cursor-pointer transition ${isSelected ? 'bg-blue-50 border-pw-accent text-pw-blue font-bold ring-2 ring-pw-accent/20 shadow-sm' : 'hover:bg-slate-50 border-slate-200 text-slate-800'}">
-              <input type="radio" name="mcq-option" value="${opt}" ${isSelected ? 'checked' : ''} class="w-4 h-4 mt-0.5 text-pw-accent">
-              <div class="text-sm leading-normal flex-1">
-                <span class="inline-block px-1.5 py-0.5 mr-2 rounded bg-slate-100 text-slate-700 font-mono font-bold text-xs">(${opt})</span>
-                <span class="${isSelected ? 'font-semibold text-pw-blue' : 'font-normal text-slate-700'}">${optText}</span>
-              </div>
-            </label>
-          `;
-        });
-        container.appendChild(grid);
-      } else if (q.question_type === 'MSQ') {
-        const opts = ['A', 'B', 'C', 'D'];
-        const grid = document.createElement('div');
-        grid.className = "flex flex-col space-y-2.5 max-w-2xl w-full";
-        opts.forEach(opt => {
-          const isSelected = resp.marked_options?.includes(opt);
-          const optText = (q.options && q.options[opt]) ? q.options[opt] : `Option ${opt}`;
-          grid.innerHTML += `
-            <label class="flex items-start space-x-3 p-3.5 border rounded-xl cursor-pointer transition ${isSelected ? 'bg-purple-50 border-purple-600 text-purple-900 font-bold ring-2 ring-purple-600/20 shadow-sm' : 'hover:bg-slate-50 border-slate-200 text-slate-800'}">
-              <input type="checkbox" name="msq-option" value="${opt}" ${isSelected ? 'checked' : ''} class="w-4 h-4 mt-0.5 text-purple-600 rounded">
-              <div class="text-sm leading-normal flex-1">
-                <span class="inline-block px-1.5 py-0.5 mr-2 rounded bg-purple-100 text-purple-800 font-mono font-bold text-xs">(${opt})</span>
-                <span class="${isSelected ? 'font-semibold text-purple-900' : 'font-normal text-slate-700'}">${optText}</span>
-              </div>
-            </label>
-          `;
-        });
-        container.appendChild(grid);
-      } else if (q.question_type === 'NAT') {
-        const wrapper = document.createElement('div');
-        wrapper.className = "max-w-md space-y-3";
-        const unitLabel = q.unit ? `<span class="text-xs font-semibold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">Unit: ${q.unit}</span>` : '';
-        wrapper.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between text-xs text-slate-600 mb-1.5 font-medium">
-              <span>Numerical Answer (Round off if needed)</span>
-              ${unitLabel}
-            </div>
-            <input type="text" id="nat-input" value="${resp.nat_value || ''}" placeholder="Enter numerical answer..." class="w-full border-2 border-slate-300 rounded-lg px-4 py-2.5 text-base font-mono font-bold text-pw-blue focus:border-pw-accent outline-none shadow-sm">
-          </div>
-          <!-- Virtual Numeric Keypad -->
-          <div class="grid grid-cols-4 gap-1.5 bg-slate-100 p-2.5 rounded-lg border text-sm font-bold text-slate-700">
-            <button type="button" onclick="appendNat('7')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">7</button>
-            <button type="button" onclick="appendNat('8')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">8</button>
-            <button type="button" onclick="appendNat('9')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">9</button>
-            <button type="button" onclick="backspaceNat()" class="p-2 bg-rose-50 text-rose-600 rounded shadow-sm hover:bg-rose-100 transition"><i class="fa-solid fa-delete-left"></i></button>
-            <button type="button" onclick="appendNat('4')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">4</button>
-            <button type="button" onclick="appendNat('5')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">5</button>
-            <button type="button" onclick="appendNat('6')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">6</button>
-            <button type="button" onclick="clearNat()" class="p-2 bg-slate-200 text-slate-600 rounded shadow-sm hover:bg-slate-300 transition">C</button>
-            <button type="button" onclick="appendNat('1')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">1</button>
-            <button type="button" onclick="appendNat('2')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">2</button>
-            <button type="button" onclick="appendNat('3')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">3</button>
-            <button type="button" onclick="appendNat('-')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">±</button>
-            <button type="button" onclick="appendNat('0')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition col-span-2">0</button>
-            <button type="button" onclick="appendNat('.')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">.</button>
-            <button type="button" onclick="appendNat('e')" class="p-2 bg-white rounded shadow-sm hover:bg-slate-50 transition">e</button>
-          </div>
-        `;
-        container.appendChild(wrapper);
-      }
-    }
-
-    // Keypad Helpers
-    function appendNat(char) {
-      const inp = document.getElementById('nat-input');
-      if (inp) inp.value += char;
-    }
-    function backspaceNat() {
-      const inp = document.getElementById('nat-input');
-      if (inp) inp.value = inp.value.slice(0, -1);
-    }
-    function clearNat() {
-      const inp = document.getElementById('nat-input');
-      if (inp) inp.value = '';
-    }
-
-    // Question Actions
-    function saveAndNext() {
-      saveCurrentState("ATTEMPTED");
-      if (currentQIndex < questionsList.length - 1) {
-        renderQuestion(currentQIndex + 1);
-      }
-    }
-
-    function markForReview() {
-      saveCurrentState("MARKED_REVIEW");
-      if (currentQIndex < questionsList.length - 1) {
-        renderQuestion(currentQIndex + 1);
-      }
-    }
-
-    function clearResponse() {
-      const q = questionsList[currentQIndex];
-      studentResponses[q.question_id] = {
-        status: "NOT_ATTEMPTED",
-        marked_options: [],
-        nat_value: null
-      };
-      renderQuestion(currentQIndex);
-      updatePaletteButton(currentQIndex);
-      updateCounters();
-    }
-
-    function prevQuestion() {
-      if (currentQIndex > 0) renderQuestion(currentQIndex - 1);
-    }
-
-    function saveCurrentState(desiredStatus) {
-      const q = questionsList[currentQIndex];
-      let hasAnswer = false;
-      let opts = [];
-      let natVal = null;
-
-      if (q.question_type === 'MCQ') {
-        const checked = document.querySelector('input[name="mcq-option"]:checked');
-        if (checked) {
-          opts = [checked.value];
-          hasAnswer = true;
-        }
-      } else if (q.question_type === 'MSQ') {
-        const checked = document.querySelectorAll('input[name="msq-option"]:checked');
-        if (checked.length > 0) {
-          opts = Array.from(checked).map(c => c.value);
-          hasAnswer = true;
-        }
-      } else if (q.question_type === 'NAT') {
-        const inp = document.getElementById('nat-input');
-        if (inp && inp.value.trim() !== '') {
-          natVal = inp.value.trim();
-          hasAnswer = true;
+        // MCQ single select
+        if (curr.marked_options.includes(opt)) {
+          curr.marked_options = []; // toggle off
+        } else {
+          curr.marked_options = [opt];
         }
       }
 
-      studentResponses[q.question_id] = {
-        status: hasAnswer ? desiredStatus : (desiredStatus === 'MARKED_REVIEW' ? 'MARKED_REVIEW' : 'NOT_ATTEMPTED'),
-        marked_options: opts,
-        nat_value: natVal
-      };
-
-      updatePaletteButton(currentQIndex);
-      updateCounters();
+      curr.status = curr.marked_options.length > 0 ? "ATTEMPTED" : "NOT_ATTEMPTED";
+      renderDigitalOmr();
     }
 
-    function updatePaletteButton(idx) {
-      const btn = document.getElementById(`palette-btn-${idx}`);
-      const q = questionsList[idx];
-      if (btn) btn.className = getPaletteBtnClass(q.question_id);
+    // Update NAT numerical value in OMR state
+    function updateOmrNat(qid, val) {
+      if (!studentResponses[qid]) {
+        studentResponses[qid] = { status: "NOT_ATTEMPTED", marked_options: [], nat_value: null };
+      }
+      const curr = studentResponses[qid];
+      curr.nat_value = val.trim();
+      curr.status = curr.nat_value !== "" ? "ATTEMPTED" : "NOT_ATTEMPTED";
+      updateOmrCounter();
     }
 
-    function updateCounters() {
-      let answered = 0;
+    // Update Counter badge
+    function updateOmrCounter() {
+      let count = 0;
       for (let k in studentResponses) {
-        if (studentResponses[k].status === "ATTEMPTED") answered++;
+        if (studentResponses[k].status === "ATTEMPTED") count++;
       }
-      document.getElementById('answered-counter').innerText = `${answered} / ${questionsList.length} Answered`;
+      const badge = document.getElementById('omr-counter-badge');
+      if (badge) {
+        badge.innerText = `${count} / ${questionsList.length} Questions Answered`;
+      }
     }
 
-    // Submit Exam Paper
-    async function submitExamPaper() {
-      saveCurrentState("ATTEMPTED");
+    // Clear All OMR Bubbles
+    function clearAllOmrResponses() {
+      for (let q of questionsList) {
+        studentResponses[q.question_id] = {
+          status: "NOT_ATTEMPTED",
+          marked_options: [],
+          nat_value: null
+        };
+      }
+      renderDigitalOmr();
+      showToast("All OMR responses cleared", "amber");
+    }
 
+    // Submit OMR Exam Paper
+    async function submitExamPaper() {
       const phone = document.getElementById('meta-phone').value.trim();
       const name = document.getElementById('meta-name').value.trim();
       const paper = document.getElementById('meta-paper').value;
       const cat = document.getElementById('meta-category').value;
-      const session = parseInt(document.getElementById('meta-session').value);
-      const btech = parseFloat(document.getElementById('meta-btech').value);
-      const age = parseInt(document.getElementById('meta-age').value);
+      const session = parseInt(document.getElementById('meta-session').value) || 1;
+      const btech = parseFloat(document.getElementById('meta-btech').value) || 72.5;
+      const age = parseInt(document.getElementById('meta-age').value) || 23;
 
       if (!phone || !phone.match(/^[6-9]\d{9}$/)) {
         showToast("Please enter a valid 10-digit Indian Mobile number", "red");
@@ -745,7 +688,101 @@
 
       const btn = document.getElementById('btn-submit-paper');
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Submitting Response...</span>`;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Submitting OMR Response...</span>`;
+
+      try {
+        const resp = await fetch('/api/v1/submissions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resp.ok) {
+          const errData = await resp.json();
+          throw new Error(errData.detail || "Submission failed");
+        }
+
+        const data = await resp.json();
+        lastEvaluatedPhone = phone;
+        renderResultsCard(data);
+        showToast("Response submitted! The PW counselling team will connect shortly.", "green");
+      } catch (err) {
+        showToast("Submission Error: " + err.message, "red");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit OMR Responses</span>`;
+      }
+    }
+
+    // Submit Direct Raw Score (Bypass OMR)
+    async function submitDirectScore() {
+      const phone = document.getElementById('meta-phone').value.trim();
+      const name = document.getElementById('meta-name').value.trim();
+      const paper = document.getElementById('meta-paper').value;
+      const cat = document.getElementById('meta-category').value;
+      const session = parseInt(document.getElementById('meta-session').value) || 1;
+      const btech = parseFloat(document.getElementById('meta-btech').value) || 72.5;
+      const age = parseInt(document.getElementById('meta-age').value) || 23;
+
+      if (!phone || !phone.match(/^[6-9]\d{9}$/)) {
+        showToast("Please enter a valid 10-digit Indian Mobile number", "red");
+        document.getElementById('meta-phone').focus();
+        return;
+      }
+      if (!name) {
+        showToast("Please enter the student full name", "red");
+        document.getElementById('meta-name').focus();
+        return;
+      }
+
+      const scoreInp = document.getElementById('direct-score-input');
+      const rawScore = parseFloat(scoreInp.value);
+      if (isNaN(rawScore) || rawScore < 0 || rawScore > 100) {
+        showToast("Please enter a valid GATE raw score between 0 and 100", "red");
+        scoreInp.focus();
+        return;
+      }
+
+      const payload = {
+        student_phone: phone,
+        student_name: name,
+        student_category: cat,
+        btech_percentage: btech,
+        candidate_age: age,
+        has_valid_ncl: cat === 'OBC_NCL',
+        paper_code: paper,
+        session_id: session,
+        direct_raw_score: rawScore,
+        responses: []
+      };
+
+      const btn = document.getElementById('btn-submit-direct');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Submitting Score...</span>`;
+
+      try {
+        const resp = await fetch('/api/v1/submissions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resp.ok) {
+          const errData = await resp.json();
+          throw new Error(errData.detail || "Submission failed");
+        }
+
+        const data = await resp.json();
+        lastEvaluatedPhone = phone;
+        renderResultsCard(data);
+        showToast("Score submitted! The PW counselling team will connect shortly.", "green");
+      } catch (err) {
+        showToast("Submission Error: " + err.message, "red");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit Score & Predict Admissions</span>`;
+      }
+    }
 
       try {
         const resp = await fetch('/api/v1/submissions', {

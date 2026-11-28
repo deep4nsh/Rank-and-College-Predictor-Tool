@@ -206,3 +206,34 @@ def test_sample_paper_interactive_student_submission():
     assert sub_data["predicted_air"] > 0
     assert "coap_options" in sub_data
     assert "psu_options" in sub_data
+
+
+def test_direct_score_student_submission():
+    """
+    Verifies that a student can bypass OMR sheet bubbling and submit their calculated
+    GATE raw marks directly (e.g. 74.5) to receive instant predicted AIR and college recommendations.
+    """
+    direct_payload = {
+        "student_phone": "9812345678",
+        "student_name": "Pooja Hegde",
+        "student_email": "pooja.h@example.com",
+        "student_category": "GEN",
+        "btech_percentage": 82.0,
+        "candidate_age": 22,
+        "has_valid_ncl": True,
+        "pw_batch_id": "PW_Direct_Score",
+        "paper_code": "CS",
+        "session_id": 1,
+        "direct_raw_score": 74.5,
+        "responses": [],
+    }
+
+    res = client.post("/api/v1/submissions", json=direct_payload)
+    assert res.status_code == 200
+    data = res.json()
+    assert data["status"] == "success"
+    assert data["raw_score_total"] == 74.5
+    assert data["predicted_air"] > 0
+    assert data["gate_score"] > 0
+    assert "coap_options" in data
+    assert "psu_options" in data

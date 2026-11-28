@@ -104,9 +104,84 @@ def submit_student_exam_paper(
     db.add(submission)
     db.flush()
 
+    # Mode A: Direct Raw Score Mode (Bypass OMR bubbling)
+    if payload.direct_raw_score is not None:
+        raw_score = float(payload.direct_raw_score)
+        live_scores = get_live_sessions_scores(clean_paper, db)
+        live_scores.setdefault(payload.session_id, []).append(raw_score)
+
+        norm_result = normalize_gate_score(
+            paper_code=clean_paper,
+            session_id=payload.session_id,
+            raw_score=raw_score,
+            all_sessions_scores=live_scores,
+        )
+
+        rank_engine = MonotonicRankEngine(clean_paper)
+        rank_pred = rank_engine.predict_rank(norm_result.normalized_marks)
+
+        rec_summary = match_options_for_student(
+            gate_score=norm_result.gate_score,
+            predicted_air=rank_pred.predicted_air,
+            paper_code=clean_paper,
+            category=payload.student_category,
+            btech_percentage=payload.btech_percentage,
+            candidate_age=payload.candidate_age,
+            has_valid_ncl=payload.has_valid_ncl,
+            historical_coap_data=get_coap_cutoffs(),
+            historical_ccmt_data=get_ccmt_cutoffs(),
+            historical_psu_data=get_psu_cutoffs(),
+            branch_matrix_data=get_branch_matrix(),
+        )
+
+        eval_model = EvaluationResultModel(
+            submission_id=submission.submission_id,
+            key_id=active_key.key_id if active_key else None,
+            raw_score_total=raw_score,
+            raw_score_aptitude=0.0,
+            raw_score_core=0.0,
+            marks_lost_to_negatives=0.0,
+            correct_count=0,
+            incorrect_count=0,
+            unattempted_count=0,
+            normalized_marks=norm_result.normalized_marks,
+            gate_score=norm_result.gate_score,
+            predicted_air=rank_pred.predicted_air,
+            air_range_min=rank_pred.air_range_min,
+            air_range_max=rank_pred.air_range_max,
+            lead_classification=rec_summary.lead_classification,
+        )
+        db.add(eval_model)
+        db.commit()
+
+        return {
+            "status": "success",
+            "submission_id": submission.submission_id,
+            "key_version": active_key.version if active_key else 1,
+            "key_type": active_key.key_type if active_key else "DIRECT_SCORE",
+            "raw_score_total": raw_score,
+            "raw_score_aptitude": 0.0,
+            "raw_score_core": 0.0,
+            "marks_lost_to_negatives": 0.0,
+            "normalized_marks": norm_result.normalized_marks,
+            "gate_score": norm_result.gate_score,
+            "predicted_air": rank_pred.predicted_air,
+            "air_range": f"{rank_pred.air_range_min} - {rank_pred.air_range_max}",
+            "lead_classification": rec_summary.lead_classification,
+            "coap_options": [o.__dict__ for o in rec_summary.coap_options],
+            "ccmt_options": [o.__dict__ for o in rec_summary.ccmt_options],
+            "psu_options": [o.__dict__ for o in rec_summary.psu_options],
+            "interdisciplinary_options": [o.__dict__ for o in rec_summary.interdisciplinary_options],
+            "coap_matches": [o.__dict__ for o in rec_summary.coap_options],
+            "ccmt_matches": [o.__dict__ for o in rec_summary.ccmt_options],
+            "psu_matches": [o.__dict__ for o in rec_summary.psu_options],
+            "interdisciplinary_matches": [o.__dict__ for o in rec_summary.interdisciplinary_options],
+        }
+
+    # Mode B: Digital OMR Response Sheet Mode
     # Deduplicate student responses by question_id (preserving latest)
     deduped_responses = {}
-    for resp in payload.responses:
+    for resp in (payload.responses or []):
         deduped_responses[resp.question_id] = resp
 
     # Ensure all question IDs exist in QuestionModel to satisfy foreign keys

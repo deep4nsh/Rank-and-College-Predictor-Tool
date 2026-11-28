@@ -20,7 +20,8 @@ class StudentSubmissionCreateSchema(BaseModel):
     pw_batch_id: Optional[str] = None
     paper_code: str
     session_id: int = Field(1, ge=1, le=4)
-    responses: List[ResponseItemSchema]
+    direct_raw_score: Optional[float] = Field(None, ge=0.0, le=100.0, description="Optional directly entered GATE raw score out of 100 to bypass OMR")
+    responses: Optional[List[ResponseItemSchema]] = Field(default_factory=list)
 
 
 class ResponseSheetParseUrlRequest(BaseModel):
