@@ -32,6 +32,7 @@ router = APIRouter(prefix="/ingest", tags=["Ingestion & Input Channels"])
 
 
 @router.post("/response-sheet/parse-url")
+@router.post("/parse-response-sheet-url")
 async def parse_response_sheet_url_endpoint(payload: ResponseSheetParseUrlRequest):
     """
     Parses live TCS iON Digialm response sheet URL without saving,
@@ -56,6 +57,7 @@ async def parse_response_sheet_url_endpoint(payload: ResponseSheetParseUrlReques
 
 
 @router.post("/response-sheet/parse-html")
+@router.post("/parse-response-sheet-html")
 def parse_response_sheet_html_endpoint(payload: ResponseSheetParseHtmlRequest):
     """
     Parses raw HTML text of a TCS iON response sheet without saving.
@@ -79,6 +81,7 @@ def parse_response_sheet_html_endpoint(payload: ResponseSheetParseHtmlRequest):
 
 
 @router.post("/response-sheet/submit")
+@router.post("/submit-response-sheet")
 async def submit_response_sheet_endpoint(
     payload: ResponseSheetSubmitRequest, db: Session = Depends(get_db)
 ):
