@@ -23,6 +23,9 @@ class CollegeOption:
     probability_pct: int
     is_interdisciplinary: bool
     counsellor_note: str
+    closing_2026: Optional[int] = None
+    closing_2025: Optional[int] = None
+    closing_2024: Optional[int] = None
 
 
 @dataclass
@@ -36,6 +39,9 @@ class PSUOption:
     probability_pct: int
     is_eligible: bool
     eligibility_note: str
+    cutoff_2026: Optional[int] = None
+    cutoff_2025: Optional[int] = None
+    cutoff_2024: Optional[int] = None
 
 
 @dataclass
@@ -192,6 +198,11 @@ def match_options_for_student(
         if is_interdisc:
             note = f"[Cross-Discipline] {note}"
 
+        hist = item.get("historical_scores", {})
+        c26 = get_cat_score_from_dict(hist.get("2026"), effective_cat)
+        c25 = get_cat_score_from_dict(hist.get("2025"), effective_cat)
+        c24 = get_cat_score_from_dict(hist.get("2024"), effective_cat)
+
         opt = CollegeOption(
             institution_name=item.get("institution", "IIT"),
             program_name=item_program,
@@ -202,6 +213,9 @@ def match_options_for_student(
             probability_pct=prob,
             is_interdisciplinary=is_interdisc,
             counsellor_note=note,
+            closing_2026=c26,
+            closing_2025=c25,
+            closing_2024=c24,
         )
 
         ckey = (opt.institution_name, opt.program_name, opt.counselling_body, opt.offer_type)
@@ -250,6 +264,11 @@ def match_options_for_student(
         if is_interdisc:
             note = f"[Cross-Discipline] {note}"
 
+        hist = item.get("historical_scores", {})
+        c26 = get_cat_score_from_dict(hist.get("2026"), effective_cat)
+        c25 = get_cat_score_from_dict(hist.get("2025"), effective_cat)
+        c24 = get_cat_score_from_dict(hist.get("2024"), effective_cat)
+
         opt = CollegeOption(
             institution_name=item.get("institution", "NIT"),
             program_name=item_program,
@@ -260,6 +279,9 @@ def match_options_for_student(
             probability_pct=prob,
             is_interdisciplinary=is_interdisc,
             counsellor_note=note,
+            closing_2026=c26,
+            closing_2025=c25,
+            closing_2024=c24,
         )
 
         ckey = (opt.institution_name, opt.program_name, opt.counselling_body, opt.offer_type)
@@ -314,6 +336,11 @@ def match_options_for_student(
 
         status_text = "Eligible for interview call shortlist." if is_eligible else "Disqualified: " + "; ".join(notes)
 
+        hist = item.get("historical_scores", {})
+        c26 = get_cat_score_from_dict(hist.get("2026"), effective_cat)
+        c25 = get_cat_score_from_dict(hist.get("2025"), effective_cat)
+        c24 = get_cat_score_from_dict(hist.get("2024"), effective_cat)
+
         psu_matches.append(
             PSUOption(
                 psu_name=item.get("psu_name", "PSU"),
@@ -325,6 +352,9 @@ def match_options_for_student(
                 probability_pct=prob,
                 is_eligible=is_eligible,
                 eligibility_note=status_text,
+                cutoff_2026=c26,
+                cutoff_2025=c25,
+                cutoff_2024=c24,
             )
         )
 

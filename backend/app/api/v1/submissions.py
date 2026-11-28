@@ -192,14 +192,37 @@ def submit_student_exam_paper(
     for resp in (payload.responses or []):
         deduped_responses[resp.question_id] = resp
 
+    # Build question rules from active key
+    key_items = db.query(AnswerKeyItemModel).filter(AnswerKeyItemModel.key_id == active_key.key_id).all()
+
     # Ensure all question IDs exist in QuestionModel to satisfy foreign keys
     existing_qids = {
-        q[0] for q in db.query(QuestionModel.question_id).filter(QuestionModel.paper_code == clean_paper).all()
+        q[0] for q in db.query(QuestionModel.question_id).all()
     }
     missing_qids = set(deduped_responses.keys()) - existing_qids
     if missing_qids:
         from backend.app.core.sample_questions import sync_sample_paper_to_db
         sync_sample_paper_to_db(db, clean_paper, payload.session_id or 1)
+        existing_qids = {
+            q[0] for q in db.query(QuestionModel.question_id).all()
+        }
+        still_missing = missing_qids - existing_qids
+        if still_missing:
+            for idx, mqid in enumerate(still_missing, start=1):
+                key_it = next((it for it in key_items if it.question_id == mqid), None)
+                q_type = "NAT" if (key_it and key_it.nat_min is not None) else "MCQ"
+                new_q = QuestionModel(
+                    question_id=mqid,
+                    paper_code=clean_paper,
+                    question_number=idx,
+                    section="CORE",
+                    question_type=q_type,
+                    marks_correct=1.0,
+                    marks_negative=0.0 if q_type in ["MSQ", "NAT"] else 0.33,
+                    subject_tag="Exam Paper",
+                )
+                db.add(new_q)
+            db.flush()
 
     # Store individual student responses
     for qid, resp in deduped_responses.items():
@@ -219,7 +242,12 @@ def submit_student_exam_paper(
     rules = []
     for item in key_items:
         q_meta = q_map.get(item.question_id)
-        q_type = q_meta.question_type if q_meta else "MCQ"
+        if item.nat_min is not None or item.nat_max is not None:
+            q_type = "NAT"
+        elif q_meta:
+            q_type = q_meta.question_type
+        else:
+            q_type = "MCQ"
         section = q_meta.section if q_meta else "CORE"
         marks_corr = Fraction(2, 1) if (q_meta and q_meta.marks_correct == 2.0) else Fraction(1, 1)
         marks_neg = Fraction(2, 3) if marks_corr == 2 else Fraction(1, 3)
@@ -262,6 +290,57 @@ def submit_student_exam_paper(
 
     # Evaluate paper
     summary = grade_paper(rules, student_answers)
+
+    # Build human-readable key display map for auditable student scorecard
+    key_display_map = {}
+    for item in key_items:
+        if item.is_mta:
+            key_display_map[item.question_id] = "MTA (Marks to All)"
+        elif item.valid_options_json:
+            try:
+                parsed = json.loads(item.valid_options_json)
+                if parsed and isinstance(parsed, list):
+                    if isinstance(parsed[0], list):
+                        key_display_map[item.question_id] = " or ".join([", ".join(opt_set) for opt_set in parsed])
+                    else:
+                        key_display_map[item.question_id] = ", ".join(parsed)
+            except Exception:
+                key_display_map[item.question_id] = str(item.valid_options_json)
+        elif item.nat_min is not None and item.nat_max is not None:
+            if item.nat_min == item.nat_max:
+                key_display_map[item.question_id] = f"{item.nat_min}"
+            else:
+                key_display_map[item.question_id] = f"{item.nat_min} to {item.nat_max}"
+        else:
+            key_display_map[item.question_id] = "--"
+
+    # Build question breakdown
+    question_breakdown = []
+    for qr in summary.question_results:
+        q_meta = q_map.get(qr.question_id)
+        resp = deduped_responses.get(qr.question_id)
+        student_ans = "--"
+        if resp:
+            if resp.marked_options:
+                student_ans = ", ".join(resp.marked_options)
+            elif resp.nat_value:
+                student_ans = str(resp.nat_value)
+
+        question_breakdown.append({
+            "question_number": qr.question_number,
+            "question_id": qr.question_id,
+            "question_type": qr.question_type,
+            "section": qr.section,
+            "subject_tag": q_meta.subject_tag if q_meta and q_meta.subject_tag else "Core Engineering",
+            "is_attempted": qr.is_attempted,
+            "is_correct": qr.is_correct,
+            "is_negative": qr.is_negative,
+            "is_mta": qr.is_mta,
+            "marks_awarded": float(qr.marks_awarded),
+            "marks_lost": float(qr.marks_lost),
+            "student_answer": student_ans,
+            "official_key": key_display_map.get(qr.question_id, "--"),
+        })
 
     # Fetch live session scores from DB to dynamically calculate shift stats
     live_scores = get_live_sessions_scores(clean_paper, db)
@@ -345,4 +424,5 @@ def submit_student_exam_paper(
         "ambitious": [o.__dict__ for o in rec_summary.coap_options + rec_summary.ccmt_options if o.match_tier == "AMBITIOUS"],
         "target": [o.__dict__ for o in rec_summary.coap_options + rec_summary.ccmt_options if o.match_tier == "TARGET"],
         "safe": [o.__dict__ for o in rec_summary.coap_options + rec_summary.ccmt_options if o.match_tier == "SAFE"],
+        "question_breakdown": question_breakdown,
     }

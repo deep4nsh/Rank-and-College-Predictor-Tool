@@ -132,16 +132,60 @@ class RankPrediction:
     air_range_max: int
     drift_factor: float
     confidence_level: str  # "HIGH", "MODERATE", "ESTIMATED"
+    target_year: int = 2026
+
+
+# Multi-year calibrated benchmarks up to 2026
+HISTORICAL_ANCHORS_BY_YEAR: Dict[int, Dict[str, List[Tuple[float, int]]]] = {
+    2026: HISTORICAL_ANCHORS,
+    2025: {
+        "CS": [
+            (95.0, 1), (88.0, 10), (82.0, 48), (76.0, 115), (70.0, 275), (65.0, 580),
+            (60.0, 1080), (55.0, 1950), (50.0, 3500), (45.0, 6100), (40.0, 10300),
+            (35.0, 16800), (30.0, 25500), (25.0, 37500)
+        ],
+        "DA": [
+            (94.0, 1), (87.0, 8), (81.0, 35), (75.0, 95), (69.0, 240), (63.0, 520),
+            (57.0, 1100), (51.0, 2100), (45.0, 3900), (39.0, 7000), (33.0, 12500), (27.0, 19000)
+        ],
+        "ME": HISTORICAL_ANCHORS["ME"],
+        "CE": HISTORICAL_ANCHORS["CE"],
+        "EE": HISTORICAL_ANCHORS["EE"],
+        "EC": HISTORICAL_ANCHORS["EC"],
+        "CH": HISTORICAL_ANCHORS["CH"],
+        "IN": HISTORICAL_ANCHORS["IN"],
+    },
+    2024: {
+        "CS": [
+            (95.0, 1), (88.0, 12), (82.0, 55), (76.0, 130), (70.0, 300), (65.0, 630),
+            (60.0, 1150), (55.0, 2100), (50.0, 3800), (45.0, 6500), (40.0, 11000),
+            (35.0, 17500), (30.0, 27000), (25.0, 39000)
+        ],
+        "DA": [
+            (94.0, 1), (86.0, 15), (79.0, 60), (73.0, 150), (67.0, 360), (61.0, 800),
+            (55.0, 1600), (49.0, 3000), (43.0, 5500), (37.0, 9500), (31.0, 16000)
+        ],
+        "ME": HISTORICAL_ANCHORS["ME"],
+        "CE": HISTORICAL_ANCHORS["CE"],
+        "EE": HISTORICAL_ANCHORS["EE"],
+        "EC": HISTORICAL_ANCHORS["EC"],
+        "CH": HISTORICAL_ANCHORS["CH"],
+        "IN": HISTORICAL_ANCHORS["IN"],
+    }
+}
 
 
 class MonotonicRankEngine:
     """
     Fits a PCHIP interpolator on (Score, ln(AIR)) for strict monotonicity.
+    Supports multi-year benchmarks up to 2026.
     """
 
-    def __init__(self, paper_code: str):
+    def __init__(self, paper_code: str, target_year: int = 2026):
         self.paper_code = paper_code.upper().strip()
-        anchors = HISTORICAL_ANCHORS.get(self.paper_code, HISTORICAL_ANCHORS["CS"])
+        self.target_year = target_year if target_year in HISTORICAL_ANCHORS_BY_YEAR else 2026
+        year_anchors = HISTORICAL_ANCHORS_BY_YEAR.get(self.target_year, HISTORICAL_ANCHORS)
+        anchors = year_anchors.get(self.paper_code, year_anchors.get("CS", HISTORICAL_ANCHORS["CS"]))
         
         # Sort by score ascending for PCHIP
         sorted_anchors = sorted(anchors, key=lambda x: x[0])
@@ -202,4 +246,5 @@ class MonotonicRankEngine:
             air_range_max=air_max,
             drift_factor=round(drift, 3),
             confidence_level=confidence,
+            target_year=self.target_year,
         )

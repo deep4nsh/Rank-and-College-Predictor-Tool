@@ -5,11 +5,52 @@
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 775, "OBC_NCL": 700, "EWS": 725, "SC": 520, "ST": 410 },
+    "cutoffs": {
+      "GEN": 780,
+      "OBC_NCL": 705,
+      "EWS": 730,
+      "SC": 525,
+      "ST": 415,
+      "PWD": 507
+    },
     "historical_scores": {
-      "2024": { "GEN": 775, "OBC_NCL": 700, "EWS": 725, "SC": 520, "ST": 410 },
-      "2023": { "GEN": 765, "OBC_NCL": 690, "EWS": 715, "SC": 510, "ST": 400 },
-      "2022": { "GEN": 780, "OBC_NCL": 705, "EWS": 730, "SC": 525, "ST": 415 }
+      "2024": {
+        "GEN": 775,
+        "OBC_NCL": 700,
+        "EWS": 725,
+        "SC": 520,
+        "ST": 410
+      },
+      "2023": {
+        "GEN": 765,
+        "OBC_NCL": 690,
+        "EWS": 715,
+        "SC": 510,
+        "ST": 400
+      },
+      "2022": {
+        "GEN": 780,
+        "OBC_NCL": 705,
+        "EWS": 730,
+        "SC": 525,
+        "ST": 415
+      },
+      "2025": {
+        "GEN": 777,
+        "OBC_NCL": 702,
+        "EWS": 727,
+        "SC": 522,
+        "ST": 412,
+        "PWD": 503
+      },
+      "2026": {
+        "GEN": 780,
+        "OBC_NCL": 705,
+        "EWS": 730,
+        "SC": 525,
+        "ST": 415,
+        "PWD": 507
+      }
     }
   },
   {
@@ -18,11 +59,52 @@
     "paper_code": "CS",
     "offer_type": "INTERVIEW_CALL",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 750, "OBC_NCL": 670, "EWS": 700, "SC": 500, "ST": 390 },
+    "cutoffs": {
+      "GEN": 755,
+      "OBC_NCL": 675,
+      "EWS": 705,
+      "SC": 505,
+      "ST": 395,
+      "PWD": 490
+    },
     "historical_scores": {
-      "2024": { "GEN": 750, "OBC_NCL": 670, "EWS": 700, "SC": 500, "ST": 390 },
-      "2023": { "GEN": 740, "OBC_NCL": 660, "EWS": 690, "SC": 490, "ST": 380 },
-      "2022": { "GEN": 755, "OBC_NCL": 675, "EWS": 705, "SC": 505, "ST": 395 }
+      "2024": {
+        "GEN": 750,
+        "OBC_NCL": 670,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 390
+      },
+      "2023": {
+        "GEN": 740,
+        "OBC_NCL": 660,
+        "EWS": 690,
+        "SC": 490,
+        "ST": 380
+      },
+      "2022": {
+        "GEN": 755,
+        "OBC_NCL": 675,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 395
+      },
+      "2025": {
+        "GEN": 752,
+        "OBC_NCL": 672,
+        "EWS": 702,
+        "SC": 502,
+        "ST": 392,
+        "PWD": 487
+      },
+      "2026": {
+        "GEN": 755,
+        "OBC_NCL": 675,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 395,
+        "PWD": 490
+      }
     }
   },
   {
@@ -31,11 +113,52 @@
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 760, "OBC_NCL": 685, "EWS": 710, "SC": 510, "ST": 400 },
+    "cutoffs": {
+      "GEN": 765,
+      "OBC_NCL": 690,
+      "EWS": 715,
+      "SC": 515,
+      "ST": 405,
+      "PWD": 497
+    },
     "historical_scores": {
-      "2024": { "GEN": 760, "OBC_NCL": 685, "EWS": 710, "SC": 510, "ST": 400 },
-      "2023": { "GEN": 750, "OBC_NCL": 675, "EWS": 700, "SC": 500, "ST": 390 },
-      "2022": { "GEN": 765, "OBC_NCL": 690, "EWS": 715, "SC": 515, "ST": 405 }
+      "2024": {
+        "GEN": 760,
+        "OBC_NCL": 685,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 400
+      },
+      "2023": {
+        "GEN": 750,
+        "OBC_NCL": 675,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 390
+      },
+      "2022": {
+        "GEN": 765,
+        "OBC_NCL": 690,
+        "EWS": 715,
+        "SC": 515,
+        "ST": 405
+      },
+      "2025": {
+        "GEN": 762,
+        "OBC_NCL": 687,
+        "EWS": 712,
+        "SC": 512,
+        "ST": 402,
+        "PWD": 494
+      },
+      "2026": {
+        "GEN": 765,
+        "OBC_NCL": 690,
+        "EWS": 715,
+        "SC": 515,
+        "ST": 405,
+        "PWD": 497
+      }
     }
   },
   {
@@ -44,11 +167,52 @@
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 755, "OBC_NCL": 680, "EWS": 705, "SC": 505, "ST": 395 },
+    "cutoffs": {
+      "GEN": 760,
+      "OBC_NCL": 685,
+      "EWS": 710,
+      "SC": 510,
+      "ST": 400,
+      "PWD": 494
+    },
     "historical_scores": {
-      "2024": { "GEN": 755, "OBC_NCL": 680, "EWS": 705, "SC": 505, "ST": 395 },
-      "2023": { "GEN": 745, "OBC_NCL": 670, "EWS": 695, "SC": 495, "ST": 385 },
-      "2022": { "GEN": 760, "OBC_NCL": 685, "EWS": 710, "SC": 510, "ST": 400 }
+      "2024": {
+        "GEN": 755,
+        "OBC_NCL": 680,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 395
+      },
+      "2023": {
+        "GEN": 745,
+        "OBC_NCL": 670,
+        "EWS": 695,
+        "SC": 495,
+        "ST": 385
+      },
+      "2022": {
+        "GEN": 760,
+        "OBC_NCL": 685,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 400
+      },
+      "2025": {
+        "GEN": 757,
+        "OBC_NCL": 682,
+        "EWS": 707,
+        "SC": 507,
+        "ST": 397,
+        "PWD": 490
+      },
+      "2026": {
+        "GEN": 760,
+        "OBC_NCL": 685,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 400,
+        "PWD": 494
+      }
     }
   },
   {
@@ -57,11 +221,52 @@
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 745, "OBC_NCL": 670, "EWS": 695, "SC": 490, "ST": 380 },
+    "cutoffs": {
+      "GEN": 750,
+      "OBC_NCL": 675,
+      "EWS": 700,
+      "SC": 495,
+      "ST": 385,
+      "PWD": 487
+    },
     "historical_scores": {
-      "2024": { "GEN": 745, "OBC_NCL": 670, "EWS": 695, "SC": 490, "ST": 380 },
-      "2023": { "GEN": 735, "OBC_NCL": 660, "EWS": 685, "SC": 480, "ST": 370 },
-      "2022": { "GEN": 750, "OBC_NCL": 675, "EWS": 700, "SC": 495, "ST": 385 }
+      "2024": {
+        "GEN": 745,
+        "OBC_NCL": 670,
+        "EWS": 695,
+        "SC": 490,
+        "ST": 380
+      },
+      "2023": {
+        "GEN": 735,
+        "OBC_NCL": 660,
+        "EWS": 685,
+        "SC": 480,
+        "ST": 370
+      },
+      "2022": {
+        "GEN": 750,
+        "OBC_NCL": 675,
+        "EWS": 700,
+        "SC": 495,
+        "ST": 385
+      },
+      "2025": {
+        "GEN": 747,
+        "OBC_NCL": 672,
+        "EWS": 697,
+        "SC": 492,
+        "ST": 382,
+        "PWD": 484
+      },
+      "2026": {
+        "GEN": 750,
+        "OBC_NCL": 675,
+        "EWS": 700,
+        "SC": 495,
+        "ST": 385,
+        "PWD": 487
+      }
     }
   },
   {
@@ -70,11 +275,52 @@
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 480, "ST": 370 },
+    "cutoffs": {
+      "GEN": 735,
+      "OBC_NCL": 660,
+      "EWS": 685,
+      "SC": 485,
+      "ST": 375,
+      "PWD": 477
+    },
     "historical_scores": {
-      "2024": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 480, "ST": 370 },
-      "2023": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 470, "ST": 360 },
-      "2022": { "GEN": 735, "OBC_NCL": 660, "EWS": 685, "SC": 485, "ST": 375 }
+      "2024": {
+        "GEN": 730,
+        "OBC_NCL": 655,
+        "EWS": 680,
+        "SC": 480,
+        "ST": 370
+      },
+      "2023": {
+        "GEN": 720,
+        "OBC_NCL": 645,
+        "EWS": 670,
+        "SC": 470,
+        "ST": 360
+      },
+      "2022": {
+        "GEN": 735,
+        "OBC_NCL": 660,
+        "EWS": 685,
+        "SC": 485,
+        "ST": 375
+      },
+      "2025": {
+        "GEN": 732,
+        "OBC_NCL": 657,
+        "EWS": 682,
+        "SC": 482,
+        "ST": 372,
+        "PWD": 474
+      },
+      "2026": {
+        "GEN": 735,
+        "OBC_NCL": 660,
+        "EWS": 685,
+        "SC": 485,
+        "ST": 375,
+        "PWD": 477
+      }
     }
   },
   {
@@ -83,11 +329,52 @@
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 715, "OBC_NCL": 640, "EWS": 665, "SC": 470, "ST": 360 },
+    "cutoffs": {
+      "GEN": 720,
+      "OBC_NCL": 645,
+      "EWS": 670,
+      "SC": 475,
+      "ST": 365,
+      "PWD": 468
+    },
     "historical_scores": {
-      "2024": { "GEN": 715, "OBC_NCL": 640, "EWS": 665, "SC": 470, "ST": 360 },
-      "2023": { "GEN": 705, "OBC_NCL": 630, "EWS": 655, "SC": 460, "ST": 350 },
-      "2022": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 475, "ST": 365 }
+      "2024": {
+        "GEN": 715,
+        "OBC_NCL": 640,
+        "EWS": 665,
+        "SC": 470,
+        "ST": 360
+      },
+      "2023": {
+        "GEN": 705,
+        "OBC_NCL": 630,
+        "EWS": 655,
+        "SC": 460,
+        "ST": 350
+      },
+      "2022": {
+        "GEN": 720,
+        "OBC_NCL": 645,
+        "EWS": 670,
+        "SC": 475,
+        "ST": 365
+      },
+      "2025": {
+        "GEN": 717,
+        "OBC_NCL": 642,
+        "EWS": 667,
+        "SC": 472,
+        "ST": 362,
+        "PWD": 464
+      },
+      "2026": {
+        "GEN": 720,
+        "OBC_NCL": 645,
+        "EWS": 670,
+        "SC": 475,
+        "ST": 365,
+        "PWD": 468
+      }
     }
   },
   {
@@ -96,11 +383,52 @@
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 700, "OBC_NCL": 630, "EWS": 650, "SC": 455, "ST": 350 },
+    "cutoffs": {
+      "GEN": 705,
+      "OBC_NCL": 635,
+      "EWS": 655,
+      "SC": 460,
+      "ST": 355,
+      "PWD": 458
+    },
     "historical_scores": {
-      "2024": { "GEN": 700, "OBC_NCL": 630, "EWS": 650, "SC": 455, "ST": 350 },
-      "2023": { "GEN": 690, "OBC_NCL": 620, "EWS": 640, "SC": 445, "ST": 340 },
-      "2022": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 460, "ST": 355 }
+      "2024": {
+        "GEN": 700,
+        "OBC_NCL": 630,
+        "EWS": 650,
+        "SC": 455,
+        "ST": 350
+      },
+      "2023": {
+        "GEN": 690,
+        "OBC_NCL": 620,
+        "EWS": 640,
+        "SC": 445,
+        "ST": 340
+      },
+      "2022": {
+        "GEN": 705,
+        "OBC_NCL": 635,
+        "EWS": 655,
+        "SC": 460,
+        "ST": 355
+      },
+      "2025": {
+        "GEN": 702,
+        "OBC_NCL": 632,
+        "EWS": 652,
+        "SC": 457,
+        "ST": 352,
+        "PWD": 455
+      },
+      "2026": {
+        "GEN": 705,
+        "OBC_NCL": 635,
+        "EWS": 655,
+        "SC": 460,
+        "ST": 355,
+        "PWD": 458
+      }
     }
   },
   {
@@ -109,11 +437,52 @@
     "paper_code": "CS",
     "offer_type": "INTERVIEW_CALL",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 690, "OBC_NCL": 620, "EWS": 640, "SC": 450, "ST": 340 },
+    "cutoffs": {
+      "GEN": 695,
+      "OBC_NCL": 625,
+      "EWS": 645,
+      "SC": 455,
+      "ST": 345,
+      "PWD": 451
+    },
     "historical_scores": {
-      "2024": { "GEN": 690, "OBC_NCL": 620, "EWS": 640, "SC": 450, "ST": 340 },
-      "2023": { "GEN": 680, "OBC_NCL": 610, "EWS": 630, "SC": 440, "ST": 330 },
-      "2022": { "GEN": 695, "OBC_NCL": 625, "EWS": 645, "SC": 455, "ST": 345 }
+      "2024": {
+        "GEN": 690,
+        "OBC_NCL": 620,
+        "EWS": 640,
+        "SC": 450,
+        "ST": 340
+      },
+      "2023": {
+        "GEN": 680,
+        "OBC_NCL": 610,
+        "EWS": 630,
+        "SC": 440,
+        "ST": 330
+      },
+      "2022": {
+        "GEN": 695,
+        "OBC_NCL": 625,
+        "EWS": 645,
+        "SC": 455,
+        "ST": 345
+      },
+      "2025": {
+        "GEN": 692,
+        "OBC_NCL": 622,
+        "EWS": 642,
+        "SC": 452,
+        "ST": 342,
+        "PWD": 448
+      },
+      "2026": {
+        "GEN": 695,
+        "OBC_NCL": 625,
+        "EWS": 645,
+        "SC": 455,
+        "ST": 345,
+        "PWD": 451
+      }
     }
   },
   {
@@ -122,11 +491,52 @@
     "paper_code": "CS",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 685, "OBC_NCL": 615, "EWS": 635, "SC": 445, "ST": 335 },
+    "cutoffs": {
+      "GEN": 690,
+      "OBC_NCL": 620,
+      "EWS": 640,
+      "SC": 450,
+      "ST": 340,
+      "PWD": 448
+    },
     "historical_scores": {
-      "2024": { "GEN": 685, "OBC_NCL": 615, "EWS": 635, "SC": 445, "ST": 335 },
-      "2023": { "GEN": 675, "OBC_NCL": 605, "EWS": 625, "SC": 435, "ST": 325 },
-      "2022": { "GEN": 690, "OBC_NCL": 620, "EWS": 640, "SC": 450, "ST": 340 }
+      "2024": {
+        "GEN": 685,
+        "OBC_NCL": 615,
+        "EWS": 635,
+        "SC": 445,
+        "ST": 335
+      },
+      "2023": {
+        "GEN": 675,
+        "OBC_NCL": 605,
+        "EWS": 625,
+        "SC": 435,
+        "ST": 325
+      },
+      "2022": {
+        "GEN": 690,
+        "OBC_NCL": 620,
+        "EWS": 640,
+        "SC": 450,
+        "ST": 340
+      },
+      "2025": {
+        "GEN": 687,
+        "OBC_NCL": 617,
+        "EWS": 637,
+        "SC": 447,
+        "ST": 337,
+        "PWD": 445
+      },
+      "2026": {
+        "GEN": 690,
+        "OBC_NCL": 620,
+        "EWS": 640,
+        "SC": 450,
+        "ST": 340,
+        "PWD": 448
+      }
     }
   },
   {
@@ -135,11 +545,52 @@
     "paper_code": "ME",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 380 },
+    "cutoffs": {
+      "GEN": 765,
+      "OBC_NCL": 695,
+      "EWS": 715,
+      "SC": 515,
+      "ST": 385,
+      "PWD": 497
+    },
     "historical_scores": {
-      "2024": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 380 },
-      "2023": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 370 },
-      "2022": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 385 }
+      "2024": {
+        "GEN": 760,
+        "OBC_NCL": 690,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 380
+      },
+      "2023": {
+        "GEN": 750,
+        "OBC_NCL": 680,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 370
+      },
+      "2022": {
+        "GEN": 765,
+        "OBC_NCL": 695,
+        "EWS": 715,
+        "SC": 515,
+        "ST": 385
+      },
+      "2025": {
+        "GEN": 762,
+        "OBC_NCL": 692,
+        "EWS": 712,
+        "SC": 512,
+        "ST": 382,
+        "PWD": 494
+      },
+      "2026": {
+        "GEN": 765,
+        "OBC_NCL": 695,
+        "EWS": 715,
+        "SC": 515,
+        "ST": 385,
+        "PWD": 497
+      }
     }
   },
   {
@@ -148,11 +599,52 @@
     "paper_code": "ME",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 495, "ST": 370 },
+    "cutoffs": {
+      "GEN": 755,
+      "OBC_NCL": 685,
+      "EWS": 705,
+      "SC": 500,
+      "ST": 375,
+      "PWD": 490
+    },
     "historical_scores": {
-      "2024": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 495, "ST": 370 },
-      "2023": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 485, "ST": 360 },
-      "2022": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 500, "ST": 375 }
+      "2024": {
+        "GEN": 750,
+        "OBC_NCL": 680,
+        "EWS": 700,
+        "SC": 495,
+        "ST": 370
+      },
+      "2023": {
+        "GEN": 740,
+        "OBC_NCL": 670,
+        "EWS": 690,
+        "SC": 485,
+        "ST": 360
+      },
+      "2022": {
+        "GEN": 755,
+        "OBC_NCL": 685,
+        "EWS": 705,
+        "SC": 500,
+        "ST": 375
+      },
+      "2025": {
+        "GEN": 752,
+        "OBC_NCL": 682,
+        "EWS": 702,
+        "SC": 497,
+        "ST": 372,
+        "PWD": 487
+      },
+      "2026": {
+        "GEN": 755,
+        "OBC_NCL": 685,
+        "EWS": 705,
+        "SC": 500,
+        "ST": 375,
+        "PWD": 490
+      }
     }
   },
   {
@@ -161,11 +653,52 @@
     "paper_code": "ME",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 485, "ST": 360 },
+    "cutoffs": {
+      "GEN": 745,
+      "OBC_NCL": 675,
+      "EWS": 695,
+      "SC": 490,
+      "ST": 365,
+      "PWD": 484
+    },
     "historical_scores": {
-      "2024": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 485, "ST": 360 },
-      "2023": { "GEN": 730, "OBC_NCL": 660, "EWS": 680, "SC": 475, "ST": 350 },
-      "2022": { "GEN": 745, "OBC_NCL": 675, "EWS": 695, "SC": 490, "ST": 365 }
+      "2024": {
+        "GEN": 740,
+        "OBC_NCL": 670,
+        "EWS": 690,
+        "SC": 485,
+        "ST": 360
+      },
+      "2023": {
+        "GEN": 730,
+        "OBC_NCL": 660,
+        "EWS": 680,
+        "SC": 475,
+        "ST": 350
+      },
+      "2022": {
+        "GEN": 745,
+        "OBC_NCL": 675,
+        "EWS": 695,
+        "SC": 490,
+        "ST": 365
+      },
+      "2025": {
+        "GEN": 742,
+        "OBC_NCL": 672,
+        "EWS": 692,
+        "SC": 487,
+        "ST": 362,
+        "PWD": 481
+      },
+      "2026": {
+        "GEN": 745,
+        "OBC_NCL": 675,
+        "EWS": 695,
+        "SC": 490,
+        "ST": 365,
+        "PWD": 484
+      }
     }
   },
   {
@@ -174,11 +707,52 @@
     "paper_code": "ME",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 450, "ST": 340 },
+    "cutoffs": {
+      "GEN": 710,
+      "OBC_NCL": 640,
+      "EWS": 660,
+      "SC": 455,
+      "ST": 345,
+      "PWD": 461
+    },
     "historical_scores": {
-      "2024": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 450, "ST": 340 },
-      "2023": { "GEN": 695, "OBC_NCL": 625, "EWS": 645, "SC": 440, "ST": 330 },
-      "2022": { "GEN": 710, "OBC_NCL": 640, "EWS": 660, "SC": 455, "ST": 345 }
+      "2024": {
+        "GEN": 705,
+        "OBC_NCL": 635,
+        "EWS": 655,
+        "SC": 450,
+        "ST": 340
+      },
+      "2023": {
+        "GEN": 695,
+        "OBC_NCL": 625,
+        "EWS": 645,
+        "SC": 440,
+        "ST": 330
+      },
+      "2022": {
+        "GEN": 710,
+        "OBC_NCL": 640,
+        "EWS": 660,
+        "SC": 455,
+        "ST": 345
+      },
+      "2025": {
+        "GEN": 707,
+        "OBC_NCL": 637,
+        "EWS": 657,
+        "SC": 452,
+        "ST": 342,
+        "PWD": 458
+      },
+      "2026": {
+        "GEN": 710,
+        "OBC_NCL": 640,
+        "EWS": 660,
+        "SC": 455,
+        "ST": 345,
+        "PWD": 461
+      }
     }
   },
   {
@@ -187,11 +761,52 @@
     "paper_code": "ME",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 695, "OBC_NCL": 625, "EWS": 645, "SC": 440, "ST": 330 },
+    "cutoffs": {
+      "GEN": 700,
+      "OBC_NCL": 630,
+      "EWS": 650,
+      "SC": 445,
+      "ST": 335,
+      "PWD": 455
+    },
     "historical_scores": {
-      "2024": { "GEN": 695, "OBC_NCL": 625, "EWS": 645, "SC": 440, "ST": 330 },
-      "2023": { "GEN": 685, "OBC_NCL": 615, "EWS": 635, "SC": 430, "ST": 320 },
-      "2022": { "GEN": 700, "OBC_NCL": 630, "EWS": 650, "SC": 445, "ST": 335 }
+      "2024": {
+        "GEN": 695,
+        "OBC_NCL": 625,
+        "EWS": 645,
+        "SC": 440,
+        "ST": 330
+      },
+      "2023": {
+        "GEN": 685,
+        "OBC_NCL": 615,
+        "EWS": 635,
+        "SC": 430,
+        "ST": 320
+      },
+      "2022": {
+        "GEN": 700,
+        "OBC_NCL": 630,
+        "EWS": 650,
+        "SC": 445,
+        "ST": 335
+      },
+      "2025": {
+        "GEN": 697,
+        "OBC_NCL": 627,
+        "EWS": 647,
+        "SC": 442,
+        "ST": 332,
+        "PWD": 451
+      },
+      "2026": {
+        "GEN": 700,
+        "OBC_NCL": 630,
+        "EWS": 650,
+        "SC": 445,
+        "ST": 335,
+        "PWD": 455
+      }
     }
   },
   {
@@ -200,11 +815,52 @@
     "paper_code": "EE",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 780, "OBC_NCL": 710, "EWS": 735, "SC": 530, "ST": 420 },
+    "cutoffs": {
+      "GEN": 785,
+      "OBC_NCL": 715,
+      "EWS": 740,
+      "SC": 535,
+      "ST": 425,
+      "PWD": 510
+    },
     "historical_scores": {
-      "2024": { "GEN": 780, "OBC_NCL": 710, "EWS": 735, "SC": 530, "ST": 420 },
-      "2023": { "GEN": 770, "OBC_NCL": 700, "EWS": 725, "SC": 520, "ST": 410 },
-      "2022": { "GEN": 785, "OBC_NCL": 715, "EWS": 740, "SC": 535, "ST": 425 }
+      "2024": {
+        "GEN": 780,
+        "OBC_NCL": 710,
+        "EWS": 735,
+        "SC": 530,
+        "ST": 420
+      },
+      "2023": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 725,
+        "SC": 520,
+        "ST": 410
+      },
+      "2022": {
+        "GEN": 785,
+        "OBC_NCL": 715,
+        "EWS": 740,
+        "SC": 535,
+        "ST": 425
+      },
+      "2025": {
+        "GEN": 782,
+        "OBC_NCL": 712,
+        "EWS": 737,
+        "SC": 532,
+        "ST": 422,
+        "PWD": 507
+      },
+      "2026": {
+        "GEN": 785,
+        "OBC_NCL": 715,
+        "EWS": 740,
+        "SC": 535,
+        "ST": 425,
+        "PWD": 510
+      }
     }
   },
   {
@@ -213,11 +869,52 @@
     "paper_code": "EE",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 735, "OBC_NCL": 660, "EWS": 685, "SC": 480, "ST": 370 },
+    "cutoffs": {
+      "GEN": 740,
+      "OBC_NCL": 665,
+      "EWS": 690,
+      "SC": 485,
+      "ST": 375,
+      "PWD": 481
+    },
     "historical_scores": {
-      "2024": { "GEN": 735, "OBC_NCL": 660, "EWS": 685, "SC": 480, "ST": 370 },
-      "2023": { "GEN": 725, "OBC_NCL": 650, "EWS": 675, "SC": 470, "ST": 360 },
-      "2022": { "GEN": 740, "OBC_NCL": 665, "EWS": 690, "SC": 485, "ST": 375 }
+      "2024": {
+        "GEN": 735,
+        "OBC_NCL": 660,
+        "EWS": 685,
+        "SC": 480,
+        "ST": 370
+      },
+      "2023": {
+        "GEN": 725,
+        "OBC_NCL": 650,
+        "EWS": 675,
+        "SC": 470,
+        "ST": 360
+      },
+      "2022": {
+        "GEN": 740,
+        "OBC_NCL": 665,
+        "EWS": 690,
+        "SC": 485,
+        "ST": 375
+      },
+      "2025": {
+        "GEN": 737,
+        "OBC_NCL": 662,
+        "EWS": 687,
+        "SC": 482,
+        "ST": 372,
+        "PWD": 477
+      },
+      "2026": {
+        "GEN": 740,
+        "OBC_NCL": 665,
+        "EWS": 690,
+        "SC": 485,
+        "ST": 375,
+        "PWD": 481
+      }
     }
   },
   {
@@ -226,11 +923,52 @@
     "paper_code": "EE",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 475, "ST": 365 },
+    "cutoffs": {
+      "GEN": 735,
+      "OBC_NCL": 660,
+      "EWS": 685,
+      "SC": 480,
+      "ST": 370,
+      "PWD": 477
+    },
     "historical_scores": {
-      "2024": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 475, "ST": 365 },
-      "2023": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 465, "ST": 355 },
-      "2022": { "GEN": 735, "OBC_NCL": 660, "EWS": 685, "SC": 480, "ST": 370 }
+      "2024": {
+        "GEN": 730,
+        "OBC_NCL": 655,
+        "EWS": 680,
+        "SC": 475,
+        "ST": 365
+      },
+      "2023": {
+        "GEN": 720,
+        "OBC_NCL": 645,
+        "EWS": 670,
+        "SC": 465,
+        "ST": 355
+      },
+      "2022": {
+        "GEN": 735,
+        "OBC_NCL": 660,
+        "EWS": 685,
+        "SC": 480,
+        "ST": 370
+      },
+      "2025": {
+        "GEN": 732,
+        "OBC_NCL": 657,
+        "EWS": 682,
+        "SC": 477,
+        "ST": 367,
+        "PWD": 474
+      },
+      "2026": {
+        "GEN": 735,
+        "OBC_NCL": 660,
+        "EWS": 685,
+        "SC": 480,
+        "ST": 370,
+        "PWD": 477
+      }
     }
   },
   {
@@ -239,11 +977,52 @@
     "paper_code": "EC",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
+    "cutoffs": {
+      "GEN": 770,
+      "OBC_NCL": 700,
+      "EWS": 720,
+      "SC": 520,
+      "ST": 410,
+      "PWD": 500
+    },
     "historical_scores": {
-      "2024": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
-      "2023": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 },
-      "2022": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 }
+      "2024": {
+        "GEN": 765,
+        "OBC_NCL": 695,
+        "EWS": 715,
+        "SC": 515,
+        "ST": 405
+      },
+      "2023": {
+        "GEN": 755,
+        "OBC_NCL": 685,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 395
+      },
+      "2022": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 720,
+        "SC": 520,
+        "ST": 410
+      },
+      "2025": {
+        "GEN": 767,
+        "OBC_NCL": 697,
+        "EWS": 717,
+        "SC": 517,
+        "ST": 407,
+        "PWD": 497
+      },
+      "2026": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 720,
+        "SC": 520,
+        "ST": 410,
+        "PWD": 500
+      }
     }
   },
   {
@@ -252,11 +1031,52 @@
     "paper_code": "EC",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
+    "cutoffs": {
+      "GEN": 775,
+      "OBC_NCL": 705,
+      "EWS": 725,
+      "SC": 525,
+      "ST": 415,
+      "PWD": 503
+    },
     "historical_scores": {
-      "2024": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
-      "2023": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 400 },
-      "2022": { "GEN": 775, "OBC_NCL": 705, "EWS": 725, "SC": 525, "ST": 415 }
+      "2024": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 720,
+        "SC": 520,
+        "ST": 410
+      },
+      "2023": {
+        "GEN": 760,
+        "OBC_NCL": 690,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 400
+      },
+      "2022": {
+        "GEN": 775,
+        "OBC_NCL": 705,
+        "EWS": 725,
+        "SC": 525,
+        "ST": 415
+      },
+      "2025": {
+        "GEN": 772,
+        "OBC_NCL": 702,
+        "EWS": 722,
+        "SC": 522,
+        "ST": 412,
+        "PWD": 500
+      },
+      "2026": {
+        "GEN": 775,
+        "OBC_NCL": 705,
+        "EWS": 725,
+        "SC": 525,
+        "ST": 415,
+        "PWD": 503
+      }
     }
   },
   {
@@ -265,11 +1085,52 @@
     "paper_code": "CE",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 750, "OBC_NCL": 675, "EWS": 700, "SC": 500, "ST": 380 },
+    "cutoffs": {
+      "GEN": 755,
+      "OBC_NCL": 680,
+      "EWS": 705,
+      "SC": 505,
+      "ST": 385,
+      "PWD": 490
+    },
     "historical_scores": {
-      "2024": { "GEN": 750, "OBC_NCL": 675, "EWS": 700, "SC": 500, "ST": 380 },
-      "2023": { "GEN": 740, "OBC_NCL": 665, "EWS": 690, "SC": 490, "ST": 370 },
-      "2022": { "GEN": 755, "OBC_NCL": 680, "EWS": 705, "SC": 505, "ST": 385 }
+      "2024": {
+        "GEN": 750,
+        "OBC_NCL": 675,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 380
+      },
+      "2023": {
+        "GEN": 740,
+        "OBC_NCL": 665,
+        "EWS": 690,
+        "SC": 490,
+        "ST": 370
+      },
+      "2022": {
+        "GEN": 755,
+        "OBC_NCL": 680,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 385
+      },
+      "2025": {
+        "GEN": 752,
+        "OBC_NCL": 677,
+        "EWS": 702,
+        "SC": 502,
+        "ST": 382,
+        "PWD": 487
+      },
+      "2026": {
+        "GEN": 755,
+        "OBC_NCL": 680,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 385,
+        "PWD": 490
+      }
     }
   },
   {
@@ -278,11 +1139,52 @@
     "paper_code": "CE",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 470, "ST": 350 },
+    "cutoffs": {
+      "GEN": 725,
+      "OBC_NCL": 650,
+      "EWS": 675,
+      "SC": 475,
+      "ST": 355,
+      "PWD": 471
+    },
     "historical_scores": {
-      "2024": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 470, "ST": 350 },
-      "2023": { "GEN": 710, "OBC_NCL": 635, "EWS": 660, "SC": 460, "ST": 340 },
-      "2022": { "GEN": 725, "OBC_NCL": 650, "EWS": 675, "SC": 475, "ST": 355 }
+      "2024": {
+        "GEN": 720,
+        "OBC_NCL": 645,
+        "EWS": 670,
+        "SC": 470,
+        "ST": 350
+      },
+      "2023": {
+        "GEN": 710,
+        "OBC_NCL": 635,
+        "EWS": 660,
+        "SC": 460,
+        "ST": 340
+      },
+      "2022": {
+        "GEN": 725,
+        "OBC_NCL": 650,
+        "EWS": 675,
+        "SC": 475,
+        "ST": 355
+      },
+      "2025": {
+        "GEN": 722,
+        "OBC_NCL": 647,
+        "EWS": 672,
+        "SC": 472,
+        "ST": 352,
+        "PWD": 468
+      },
+      "2026": {
+        "GEN": 725,
+        "OBC_NCL": 650,
+        "EWS": 675,
+        "SC": 475,
+        "ST": 355,
+        "PWD": 471
+      }
     }
   },
   {
@@ -291,10 +1193,45 @@
     "paper_code": "DA",
     "offer_type": "INTERVIEW_CALL",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 480, "ST": 370 },
+    "cutoffs": {
+      "GEN": 735,
+      "OBC_NCL": 660,
+      "EWS": 685,
+      "SC": 485,
+      "ST": 375,
+      "PWD": 477
+    },
     "historical_scores": {
-      "2024": { "GEN": 730, "OBC_NCL": 655, "EWS": 680, "SC": 480, "ST": 370 },
-      "2023": { "GEN": 720, "OBC_NCL": 645, "EWS": 670, "SC": 470, "ST": 360 }
+      "2024": {
+        "GEN": 730,
+        "OBC_NCL": 655,
+        "EWS": 680,
+        "SC": 480,
+        "ST": 370
+      },
+      "2023": {
+        "GEN": 720,
+        "OBC_NCL": 645,
+        "EWS": 670,
+        "SC": 470,
+        "ST": 360
+      },
+      "2025": {
+        "GEN": 732,
+        "OBC_NCL": 657,
+        "EWS": 682,
+        "SC": 482,
+        "ST": 372,
+        "PWD": 474
+      },
+      "2026": {
+        "GEN": 735,
+        "OBC_NCL": 660,
+        "EWS": 685,
+        "SC": 485,
+        "ST": 375,
+        "PWD": 477
+      }
     }
   },
   {
@@ -303,10 +1240,331 @@
     "paper_code": "DA",
     "offer_type": "DIRECT_OFFER",
     "round": "Rounds 1-5",
-    "cutoffs": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 455, "ST": 350 },
+    "cutoffs": {
+      "GEN": 710,
+      "OBC_NCL": 640,
+      "EWS": 660,
+      "SC": 460,
+      "ST": 355,
+      "PWD": 461
+    },
     "historical_scores": {
-      "2024": { "GEN": 705, "OBC_NCL": 635, "EWS": 655, "SC": 455, "ST": 350 },
-      "2023": { "GEN": 695, "OBC_NCL": 625, "EWS": 645, "SC": 445, "ST": 340 }
+      "2024": {
+        "GEN": 705,
+        "OBC_NCL": 635,
+        "EWS": 655,
+        "SC": 455,
+        "ST": 350
+      },
+      "2023": {
+        "GEN": 695,
+        "OBC_NCL": 625,
+        "EWS": 645,
+        "SC": 445,
+        "ST": 340
+      },
+      "2025": {
+        "GEN": 707,
+        "OBC_NCL": 637,
+        "EWS": 657,
+        "SC": 457,
+        "ST": 352,
+        "PWD": 458
+      },
+      "2026": {
+        "GEN": 710,
+        "OBC_NCL": 640,
+        "EWS": 660,
+        "SC": 460,
+        "ST": 355,
+        "PWD": 461
+      }
+    }
+  },
+  {
+    "institution": "IISc Bangalore",
+    "program": "Computer Science & Automation (CSA)",
+    "paper_code": "CS",
+    "offer_type": "INTERVIEW_CALL",
+    "round": "Rounds 1-5",
+    "cutoffs": {
+      "GEN": 840,
+      "OBC_NCL": 765,
+      "EWS": 790,
+      "SC": 580,
+      "ST": 460,
+      "PWD": 546
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 840,
+        "OBC_NCL": 765,
+        "EWS": 790,
+        "SC": 580,
+        "ST": 460,
+        "PWD": 546
+      },
+      "2025": {
+        "GEN": 835,
+        "OBC_NCL": 760,
+        "EWS": 785,
+        "SC": 575,
+        "ST": 455,
+        "PWD": 542
+      },
+      "2024": {
+        "GEN": 830,
+        "OBC_NCL": 755,
+        "EWS": 780,
+        "SC": 570,
+        "ST": 450,
+        "PWD": 540
+      },
+      "2023": {
+        "GEN": 825,
+        "OBC_NCL": 750,
+        "EWS": 775,
+        "SC": 565,
+        "ST": 445,
+        "PWD": 536
+      },
+      "2022": {
+        "GEN": 835,
+        "OBC_NCL": 760,
+        "EWS": 785,
+        "SC": 575,
+        "ST": 455,
+        "PWD": 542
+      }
+    }
+  },
+  {
+    "institution": "IISc Bangalore",
+    "program": "Computational & Data Sciences (CDS)",
+    "paper_code": "DA",
+    "offer_type": "INTERVIEW_CALL",
+    "round": "Rounds 1-5",
+    "cutoffs": {
+      "GEN": 815,
+      "OBC_NCL": 740,
+      "EWS": 765,
+      "SC": 560,
+      "ST": 440,
+      "PWD": 530
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 815,
+        "OBC_NCL": 740,
+        "EWS": 765,
+        "SC": 560,
+        "ST": 440,
+        "PWD": 530
+      },
+      "2025": {
+        "GEN": 810,
+        "OBC_NCL": 735,
+        "EWS": 760,
+        "SC": 555,
+        "ST": 435,
+        "PWD": 526
+      },
+      "2024": {
+        "GEN": 800,
+        "OBC_NCL": 725,
+        "EWS": 750,
+        "SC": 545,
+        "ST": 430,
+        "PWD": 520
+      }
+    }
+  },
+  {
+    "institution": "IIT Delhi",
+    "program": "Machine Intelligence & Data Science (MINDS)",
+    "paper_code": "DA",
+    "offer_type": "INTERVIEW_CALL",
+    "round": "Rounds 1-5",
+    "cutoffs": {
+      "GEN": 795,
+      "OBC_NCL": 720,
+      "EWS": 745,
+      "SC": 540,
+      "ST": 430,
+      "PWD": 517
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 795,
+        "OBC_NCL": 720,
+        "EWS": 745,
+        "SC": 540,
+        "ST": 430,
+        "PWD": 517
+      },
+      "2025": {
+        "GEN": 790,
+        "OBC_NCL": 715,
+        "EWS": 740,
+        "SC": 535,
+        "ST": 425,
+        "PWD": 513
+      },
+      "2024": {
+        "GEN": 785,
+        "OBC_NCL": 710,
+        "EWS": 735,
+        "SC": 530,
+        "ST": 420,
+        "PWD": 510
+      }
+    }
+  },
+  {
+    "institution": "IIT Kanpur",
+    "program": "Cyber Security",
+    "paper_code": "CS",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": {
+      "GEN": 745,
+      "OBC_NCL": 675,
+      "EWS": 700,
+      "SC": 500,
+      "ST": 390,
+      "PWD": 484
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 745,
+        "OBC_NCL": 675,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 390,
+        "PWD": 484
+      },
+      "2025": {
+        "GEN": 740,
+        "OBC_NCL": 670,
+        "EWS": 695,
+        "SC": 495,
+        "ST": 385,
+        "PWD": 481
+      },
+      "2024": {
+        "GEN": 735,
+        "OBC_NCL": 665,
+        "EWS": 690,
+        "SC": 490,
+        "ST": 380,
+        "PWD": 478
+      },
+      "2023": {
+        "GEN": 730,
+        "OBC_NCL": 660,
+        "EWS": 685,
+        "SC": 485,
+        "ST": 375,
+        "PWD": 474
+      }
+    }
+  },
+  {
+    "institution": "IIT Bombay",
+    "program": "Chemical Engineering",
+    "paper_code": "CH",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": {
+      "GEN": 670,
+      "OBC_NCL": 600,
+      "EWS": 625,
+      "SC": 430,
+      "ST": 340,
+      "PWD": 435
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 670,
+        "OBC_NCL": 600,
+        "EWS": 625,
+        "SC": 430,
+        "ST": 340,
+        "PWD": 435
+      },
+      "2025": {
+        "GEN": 665,
+        "OBC_NCL": 595,
+        "EWS": 620,
+        "SC": 425,
+        "ST": 335,
+        "PWD": 432
+      },
+      "2024": {
+        "GEN": 660,
+        "OBC_NCL": 590,
+        "EWS": 615,
+        "SC": 420,
+        "ST": 330,
+        "PWD": 429
+      },
+      "2023": {
+        "GEN": 650,
+        "OBC_NCL": 580,
+        "EWS": 605,
+        "SC": 415,
+        "ST": 325,
+        "PWD": 422
+      }
+    }
+  },
+  {
+    "institution": "IIT Kharagpur",
+    "program": "Instrumentation & Signal Processing",
+    "paper_code": "IN",
+    "offer_type": "DIRECT_OFFER",
+    "round": "Rounds 1-5",
+    "cutoffs": {
+      "GEN": 690,
+      "OBC_NCL": 620,
+      "EWS": 645,
+      "SC": 445,
+      "ST": 355,
+      "PWD": 448
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 690,
+        "OBC_NCL": 620,
+        "EWS": 645,
+        "SC": 445,
+        "ST": 355,
+        "PWD": 448
+      },
+      "2025": {
+        "GEN": 685,
+        "OBC_NCL": 615,
+        "EWS": 640,
+        "SC": 440,
+        "ST": 350,
+        "PWD": 445
+      },
+      "2024": {
+        "GEN": 680,
+        "OBC_NCL": 610,
+        "EWS": 635,
+        "SC": 435,
+        "ST": 345,
+        "PWD": 442
+      },
+      "2023": {
+        "GEN": 675,
+        "OBC_NCL": 605,
+        "EWS": 630,
+        "SC": 430,
+        "ST": 340,
+        "PWD": 438
+      }
     }
   }
 ]

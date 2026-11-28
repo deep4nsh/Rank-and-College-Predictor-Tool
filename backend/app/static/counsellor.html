@@ -1033,7 +1033,7 @@
                   </div>
                   <div class="text-[11px] text-slate-600 font-semibold mt-1">${c.program_name}</div>
                   <div class="flex items-center justify-between text-[10px] text-slate-400 mt-2 pt-1.5 border-t border-slate-100">
-                    <span>Cutoff Score: <strong class="text-slate-700">${c.historical_closing_score}</strong></span>
+                    <span>Cutoff Score: <strong class="text-slate-700">${c.closing_2026 || c.historical_closing_score}</strong> <span class="text-[9px] text-slate-400 font-mono">(2026)</span></span>
                     <span class="font-semibold text-pw-accent">${c.offer_type}</span>
                   </div>
                 </div>
@@ -1062,7 +1062,7 @@
                   </div>
                   <div class="text-[11px] text-slate-600 font-semibold mt-1">${c.program_name}</div>
                   <div class="flex items-center justify-between text-[10px] text-slate-400 mt-2 pt-1.5 border-t border-slate-100">
-                    <span>Cutoff Score: <strong class="text-slate-700">${c.historical_closing_score}</strong></span>
+                    <span>Cutoff Score: <strong class="text-slate-700">${c.closing_2026 || c.historical_closing_score}</strong> <span class="text-[9px] text-slate-400 font-mono">(2026)</span></span>
                     <span class="font-semibold text-pw-accent">${c.offer_type}</span>
                   </div>
                 </div>
@@ -1092,7 +1092,7 @@
                   <div class="text-[11px] text-slate-700 font-bold mt-1">${p.post_name}</div>
                   <p class="text-[10px] text-slate-500 mt-1">${p.eligibility_note || ''}</p>
                   <div class="flex items-center justify-between text-[10px] text-slate-400 mt-2 pt-1.5 border-t border-slate-100">
-                    <span>Min Score: <strong class="text-slate-700">${p.min_gate_score}</strong></span>
+                    <span>Min Score: <strong class="text-slate-700">${p.cutoff_2026 || p.min_gate_score}</strong> <span class="text-[9px] text-slate-400 font-mono">(2026)</span></span>
                     <span class="font-bold text-pw-accent">${p.probability_pct}% Shortlist</span>
                   </div>
                 </div>
@@ -1189,7 +1189,7 @@
                     </div>
                     <div class="text-[11px] text-slate-600 font-medium mt-0.5">${c.program_name}</div>
                     <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1 pt-1 border-t border-slate-100">
-                      <span>Cutoff: <strong class="text-slate-700">${c.historical_closing_score}</strong></span>
+                      <span>Cutoff '26: <strong class="text-slate-700">${c.closing_2026 || c.historical_closing_score}</strong> ${c.closing_2025 ? `<span class="text-[9px] text-slate-400 font-mono">('25: ${c.closing_2025})</span>` : ''}</span>
                       <span class="font-bold text-pw-accent">${c.probability_pct}% Prob.</span>
                     </div>
                   </div>
@@ -1216,7 +1216,7 @@
                     </div>
                     <div class="text-[11px] text-slate-600 font-medium mt-0.5">${c.program_name}</div>
                     <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1 pt-1 border-t border-slate-100">
-                      <span>Cutoff: <strong class="text-slate-700">${c.historical_closing_score}</strong></span>
+                      <span>Cutoff '26: <strong class="text-slate-700">${c.closing_2026 || c.historical_closing_score}</strong> ${c.closing_2025 ? `<span class="text-[9px] text-slate-400 font-mono">('25: ${c.closing_2025})</span>` : ''}</span>
                       <span class="font-bold text-pw-accent">${c.probability_pct}% Prob.</span>
                     </div>
                   </div>

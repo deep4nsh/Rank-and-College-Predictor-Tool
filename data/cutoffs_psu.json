@@ -7,10 +7,45 @@
     "max_age_general": 26,
     "gate_weightage_pct": 85,
     "interview_weightage_pct": 15,
-    "cutoffs": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 410 },
+    "cutoffs": {
+      "GEN": 765,
+      "OBC_NCL": 695,
+      "EWS": 715,
+      "SC": 515,
+      "ST": 415,
+      "PWD": 497
+    },
     "historical_scores": {
-      "2024": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 410 },
-      "2023": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 400 }
+      "2024": {
+        "GEN": 760,
+        "OBC_NCL": 690,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 410
+      },
+      "2023": {
+        "GEN": 750,
+        "OBC_NCL": 680,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 400
+      },
+      "2025": {
+        "GEN": 763,
+        "OBC_NCL": 693,
+        "EWS": 713,
+        "SC": 513,
+        "ST": 413,
+        "PWD": 494
+      },
+      "2026": {
+        "GEN": 765,
+        "OBC_NCL": 695,
+        "EWS": 715,
+        "SC": 515,
+        "ST": 415,
+        "PWD": 497
+      }
     }
   },
   {
@@ -21,10 +56,45 @@
     "max_age_general": 28,
     "gate_weightage_pct": 60,
     "interview_weightage_pct": 25,
-    "cutoffs": { "GEN": 780, "OBC_NCL": 710, "EWS": 730, "SC": 530, "ST": 420 },
+    "cutoffs": {
+      "GEN": 785,
+      "OBC_NCL": 715,
+      "EWS": 735,
+      "SC": 535,
+      "ST": 425,
+      "PWD": 510
+    },
     "historical_scores": {
-      "2024": { "GEN": 780, "OBC_NCL": 710, "EWS": 730, "SC": 530, "ST": 420 },
-      "2023": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 }
+      "2024": {
+        "GEN": 780,
+        "OBC_NCL": 710,
+        "EWS": 730,
+        "SC": 530,
+        "ST": 420
+      },
+      "2023": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 720,
+        "SC": 520,
+        "ST": 410
+      },
+      "2025": {
+        "GEN": 783,
+        "OBC_NCL": 713,
+        "EWS": 733,
+        "SC": 533,
+        "ST": 423,
+        "PWD": 507
+      },
+      "2026": {
+        "GEN": 785,
+        "OBC_NCL": 715,
+        "EWS": 735,
+        "SC": 535,
+        "ST": 425,
+        "PWD": 510
+      }
     }
   },
   {
@@ -35,10 +105,45 @@
     "max_age_general": 27,
     "gate_weightage_pct": 85,
     "interview_weightage_pct": 15,
-    "cutoffs": { "GEN": 730, "OBC_NCL": 660, "EWS": 680, "SC": 480, "ST": 380 },
+    "cutoffs": {
+      "GEN": 735,
+      "OBC_NCL": 665,
+      "EWS": 685,
+      "SC": 485,
+      "ST": 385,
+      "PWD": 477
+    },
     "historical_scores": {
-      "2024": { "GEN": 730, "OBC_NCL": 660, "EWS": 680, "SC": 480, "ST": 380 },
-      "2023": { "GEN": 720, "OBC_NCL": 650, "EWS": 670, "SC": 470, "ST": 370 }
+      "2024": {
+        "GEN": 730,
+        "OBC_NCL": 660,
+        "EWS": 680,
+        "SC": 480,
+        "ST": 380
+      },
+      "2023": {
+        "GEN": 720,
+        "OBC_NCL": 650,
+        "EWS": 670,
+        "SC": 470,
+        "ST": 370
+      },
+      "2025": {
+        "GEN": 733,
+        "OBC_NCL": 663,
+        "EWS": 683,
+        "SC": 483,
+        "ST": 383,
+        "PWD": 474
+      },
+      "2026": {
+        "GEN": 735,
+        "OBC_NCL": 665,
+        "EWS": 685,
+        "SC": 485,
+        "ST": 385,
+        "PWD": 477
+      }
     }
   },
   {
@@ -49,10 +154,45 @@
     "max_age_general": 26,
     "gate_weightage_pct": 85,
     "interview_weightage_pct": 15,
-    "cutoffs": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
+    "cutoffs": {
+      "GEN": 770,
+      "OBC_NCL": 700,
+      "EWS": 720,
+      "SC": 520,
+      "ST": 410,
+      "PWD": 500
+    },
     "historical_scores": {
-      "2024": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
-      "2023": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 }
+      "2024": {
+        "GEN": 765,
+        "OBC_NCL": 695,
+        "EWS": 715,
+        "SC": 515,
+        "ST": 405
+      },
+      "2023": {
+        "GEN": 755,
+        "OBC_NCL": 685,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 395
+      },
+      "2025": {
+        "GEN": 768,
+        "OBC_NCL": 698,
+        "EWS": 718,
+        "SC": 518,
+        "ST": 408,
+        "PWD": 497
+      },
+      "2026": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 720,
+        "SC": 520,
+        "ST": 410,
+        "PWD": 500
+      }
     }
   },
   {
@@ -63,10 +203,45 @@
     "max_age_general": 28,
     "gate_weightage_pct": 60,
     "interview_weightage_pct": 25,
-    "cutoffs": { "GEN": 785, "OBC_NCL": 715, "EWS": 735, "SC": 535, "ST": 425 },
+    "cutoffs": {
+      "GEN": 790,
+      "OBC_NCL": 720,
+      "EWS": 740,
+      "SC": 540,
+      "ST": 430,
+      "PWD": 513
+    },
     "historical_scores": {
-      "2024": { "GEN": 785, "OBC_NCL": 715, "EWS": 735, "SC": 535, "ST": 425 },
-      "2023": { "GEN": 775, "OBC_NCL": 705, "EWS": 725, "SC": 525, "ST": 415 }
+      "2024": {
+        "GEN": 785,
+        "OBC_NCL": 715,
+        "EWS": 735,
+        "SC": 535,
+        "ST": 425
+      },
+      "2023": {
+        "GEN": 775,
+        "OBC_NCL": 705,
+        "EWS": 725,
+        "SC": 525,
+        "ST": 415
+      },
+      "2025": {
+        "GEN": 788,
+        "OBC_NCL": 718,
+        "EWS": 738,
+        "SC": 538,
+        "ST": 428,
+        "PWD": 510
+      },
+      "2026": {
+        "GEN": 790,
+        "OBC_NCL": 720,
+        "EWS": 740,
+        "SC": 540,
+        "ST": 430,
+        "PWD": 513
+      }
     }
   },
   {
@@ -77,10 +252,45 @@
     "max_age_general": 27,
     "gate_weightage_pct": 75,
     "interview_weightage_pct": 25,
-    "cutoffs": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
+    "cutoffs": {
+      "GEN": 775,
+      "OBC_NCL": 705,
+      "EWS": 725,
+      "SC": 525,
+      "ST": 415,
+      "PWD": 503
+    },
     "historical_scores": {
-      "2024": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
-      "2023": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 400 }
+      "2024": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 720,
+        "SC": 520,
+        "ST": 410
+      },
+      "2023": {
+        "GEN": 760,
+        "OBC_NCL": 690,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 400
+      },
+      "2025": {
+        "GEN": 773,
+        "OBC_NCL": 703,
+        "EWS": 723,
+        "SC": 523,
+        "ST": 413,
+        "PWD": 500
+      },
+      "2026": {
+        "GEN": 775,
+        "OBC_NCL": 705,
+        "EWS": 725,
+        "SC": 525,
+        "ST": 415,
+        "PWD": 503
+      }
     }
   },
   {
@@ -91,10 +301,45 @@
     "max_age_general": 26,
     "gate_weightage_pct": 0,
     "interview_weightage_pct": 100,
-    "cutoffs": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 490, "ST": 380 },
+    "cutoffs": {
+      "GEN": 745,
+      "OBC_NCL": 675,
+      "EWS": 695,
+      "SC": 495,
+      "ST": 385,
+      "PWD": 484
+    },
     "historical_scores": {
-      "2024": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 490, "ST": 380 },
-      "2023": { "GEN": 730, "OBC_NCL": 660, "EWS": 680, "SC": 480, "ST": 370 }
+      "2024": {
+        "GEN": 740,
+        "OBC_NCL": 670,
+        "EWS": 690,
+        "SC": 490,
+        "ST": 380
+      },
+      "2023": {
+        "GEN": 730,
+        "OBC_NCL": 660,
+        "EWS": 680,
+        "SC": 480,
+        "ST": 370
+      },
+      "2025": {
+        "GEN": 743,
+        "OBC_NCL": 673,
+        "EWS": 693,
+        "SC": 493,
+        "ST": 383,
+        "PWD": 481
+      },
+      "2026": {
+        "GEN": 745,
+        "OBC_NCL": 675,
+        "EWS": 695,
+        "SC": 495,
+        "ST": 385,
+        "PWD": 484
+      }
     }
   },
   {
@@ -105,10 +350,45 @@
     "max_age_general": 26,
     "gate_weightage_pct": 85,
     "interview_weightage_pct": 15,
-    "cutoffs": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 },
+    "cutoffs": {
+      "GEN": 760,
+      "OBC_NCL": 690,
+      "EWS": 710,
+      "SC": 510,
+      "ST": 400,
+      "PWD": 494
+    },
     "historical_scores": {
-      "2024": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 },
-      "2023": { "GEN": 745, "OBC_NCL": 675, "EWS": 695, "SC": 495, "ST": 385 }
+      "2024": {
+        "GEN": 755,
+        "OBC_NCL": 685,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 395
+      },
+      "2023": {
+        "GEN": 745,
+        "OBC_NCL": 675,
+        "EWS": 695,
+        "SC": 495,
+        "ST": 385
+      },
+      "2025": {
+        "GEN": 758,
+        "OBC_NCL": 688,
+        "EWS": 708,
+        "SC": 508,
+        "ST": 398,
+        "PWD": 490
+      },
+      "2026": {
+        "GEN": 760,
+        "OBC_NCL": 690,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 400,
+        "PWD": 494
+      }
     }
   },
   {
@@ -119,10 +399,45 @@
     "max_age_general": 28,
     "gate_weightage_pct": 85,
     "interview_weightage_pct": 15,
-    "cutoffs": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
+    "cutoffs": {
+      "GEN": 770,
+      "OBC_NCL": 700,
+      "EWS": 720,
+      "SC": 520,
+      "ST": 410,
+      "PWD": 500
+    },
     "historical_scores": {
-      "2024": { "GEN": 765, "OBC_NCL": 695, "EWS": 715, "SC": 515, "ST": 405 },
-      "2023": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 }
+      "2024": {
+        "GEN": 765,
+        "OBC_NCL": 695,
+        "EWS": 715,
+        "SC": 515,
+        "ST": 405
+      },
+      "2023": {
+        "GEN": 755,
+        "OBC_NCL": 685,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 395
+      },
+      "2025": {
+        "GEN": 768,
+        "OBC_NCL": 698,
+        "EWS": 718,
+        "SC": 518,
+        "ST": 408,
+        "PWD": 497
+      },
+      "2026": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 720,
+        "SC": 520,
+        "ST": 410,
+        "PWD": 500
+      }
     }
   },
   {
@@ -133,10 +448,45 @@
     "max_age_general": 27,
     "gate_weightage_pct": 85,
     "interview_weightage_pct": 15,
-    "cutoffs": { "GEN": 745, "OBC_NCL": 675, "EWS": 695, "SC": 495, "ST": 385 },
+    "cutoffs": {
+      "GEN": 750,
+      "OBC_NCL": 680,
+      "EWS": 700,
+      "SC": 500,
+      "ST": 390,
+      "PWD": 487
+    },
     "historical_scores": {
-      "2024": { "GEN": 745, "OBC_NCL": 675, "EWS": 695, "SC": 495, "ST": 385 },
-      "2023": { "GEN": 735, "OBC_NCL": 665, "EWS": 685, "SC": 485, "ST": 375 }
+      "2024": {
+        "GEN": 745,
+        "OBC_NCL": 675,
+        "EWS": 695,
+        "SC": 495,
+        "ST": 385
+      },
+      "2023": {
+        "GEN": 735,
+        "OBC_NCL": 665,
+        "EWS": 685,
+        "SC": 485,
+        "ST": 375
+      },
+      "2025": {
+        "GEN": 748,
+        "OBC_NCL": 678,
+        "EWS": 698,
+        "SC": 498,
+        "ST": 388,
+        "PWD": 484
+      },
+      "2026": {
+        "GEN": 750,
+        "OBC_NCL": 680,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 390,
+        "PWD": 487
+      }
     }
   },
   {
@@ -147,10 +497,45 @@
     "max_age_general": 26,
     "gate_weightage_pct": 85,
     "interview_weightage_pct": 15,
-    "cutoffs": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 390 },
+    "cutoffs": {
+      "GEN": 755,
+      "OBC_NCL": 685,
+      "EWS": 705,
+      "SC": 505,
+      "ST": 395,
+      "PWD": 490
+    },
     "historical_scores": {
-      "2024": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 390 },
-      "2023": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 490, "ST": 380 }
+      "2024": {
+        "GEN": 750,
+        "OBC_NCL": 680,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 390
+      },
+      "2023": {
+        "GEN": 740,
+        "OBC_NCL": 670,
+        "EWS": 690,
+        "SC": 490,
+        "ST": 380
+      },
+      "2025": {
+        "GEN": 753,
+        "OBC_NCL": 683,
+        "EWS": 703,
+        "SC": 503,
+        "ST": 393,
+        "PWD": 487
+      },
+      "2026": {
+        "GEN": 755,
+        "OBC_NCL": 685,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 395,
+        "PWD": 490
+      }
     }
   },
   {
@@ -161,10 +546,45 @@
     "max_age_general": 28,
     "gate_weightage_pct": 60,
     "interview_weightage_pct": 25,
-    "cutoffs": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
+    "cutoffs": {
+      "GEN": 775,
+      "OBC_NCL": 705,
+      "EWS": 725,
+      "SC": 525,
+      "ST": 415,
+      "PWD": 503
+    },
     "historical_scores": {
-      "2024": { "GEN": 770, "OBC_NCL": 700, "EWS": 720, "SC": 520, "ST": 410 },
-      "2023": { "GEN": 760, "OBC_NCL": 690, "EWS": 710, "SC": 510, "ST": 400 }
+      "2024": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 720,
+        "SC": 520,
+        "ST": 410
+      },
+      "2023": {
+        "GEN": 760,
+        "OBC_NCL": 690,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 400
+      },
+      "2025": {
+        "GEN": 773,
+        "OBC_NCL": 703,
+        "EWS": 723,
+        "SC": 523,
+        "ST": 413,
+        "PWD": 500
+      },
+      "2026": {
+        "GEN": 775,
+        "OBC_NCL": 705,
+        "EWS": 725,
+        "SC": 525,
+        "ST": 415,
+        "PWD": 503
+      }
     }
   },
   {
@@ -175,10 +595,45 @@
     "max_age_general": 27,
     "gate_weightage_pct": 75,
     "interview_weightage_pct": 25,
-    "cutoffs": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 },
+    "cutoffs": {
+      "GEN": 760,
+      "OBC_NCL": 690,
+      "EWS": 710,
+      "SC": 510,
+      "ST": 400,
+      "PWD": 494
+    },
     "historical_scores": {
-      "2024": { "GEN": 755, "OBC_NCL": 685, "EWS": 705, "SC": 505, "ST": 395 },
-      "2023": { "GEN": 745, "OBC_NCL": 675, "EWS": 695, "SC": 495, "ST": 385 }
+      "2024": {
+        "GEN": 755,
+        "OBC_NCL": 685,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 395
+      },
+      "2023": {
+        "GEN": 745,
+        "OBC_NCL": 675,
+        "EWS": 695,
+        "SC": 495,
+        "ST": 385
+      },
+      "2025": {
+        "GEN": 758,
+        "OBC_NCL": 688,
+        "EWS": 708,
+        "SC": 508,
+        "ST": 398,
+        "PWD": 490
+      },
+      "2026": {
+        "GEN": 760,
+        "OBC_NCL": 690,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 400,
+        "PWD": 494
+      }
     }
   },
   {
@@ -189,10 +644,45 @@
     "max_age_general": 26,
     "gate_weightage_pct": 85,
     "interview_weightage_pct": 15,
-    "cutoffs": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 390 },
+    "cutoffs": {
+      "GEN": 755,
+      "OBC_NCL": 685,
+      "EWS": 705,
+      "SC": 505,
+      "ST": 395,
+      "PWD": 490
+    },
     "historical_scores": {
-      "2024": { "GEN": 750, "OBC_NCL": 680, "EWS": 700, "SC": 500, "ST": 390 },
-      "2023": { "GEN": 740, "OBC_NCL": 670, "EWS": 690, "SC": 490, "ST": 380 }
+      "2024": {
+        "GEN": 750,
+        "OBC_NCL": 680,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 390
+      },
+      "2023": {
+        "GEN": 740,
+        "OBC_NCL": 670,
+        "EWS": 690,
+        "SC": 490,
+        "ST": 380
+      },
+      "2025": {
+        "GEN": 753,
+        "OBC_NCL": 683,
+        "EWS": 703,
+        "SC": 503,
+        "ST": 393,
+        "PWD": 487
+      },
+      "2026": {
+        "GEN": 755,
+        "OBC_NCL": 685,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 395,
+        "PWD": 490
+      }
     }
   },
   {
@@ -203,10 +693,303 @@
     "max_age_general": 26,
     "gate_weightage_pct": 85,
     "interview_weightage_pct": 15,
-    "cutoffs": { "GEN": 735, "OBC_NCL": 665, "EWS": 685, "SC": 485, "ST": 375 },
+    "cutoffs": {
+      "GEN": 740,
+      "OBC_NCL": 670,
+      "EWS": 690,
+      "SC": 490,
+      "ST": 380,
+      "PWD": 481
+    },
     "historical_scores": {
-      "2024": { "GEN": 735, "OBC_NCL": 665, "EWS": 685, "SC": 485, "ST": 375 },
-      "2023": { "GEN": 725, "OBC_NCL": 655, "EWS": 675, "SC": 475, "ST": 365 }
+      "2024": {
+        "GEN": 735,
+        "OBC_NCL": 665,
+        "EWS": 685,
+        "SC": 485,
+        "ST": 375
+      },
+      "2023": {
+        "GEN": 725,
+        "OBC_NCL": 655,
+        "EWS": 675,
+        "SC": 475,
+        "ST": 365
+      },
+      "2025": {
+        "GEN": 738,
+        "OBC_NCL": 668,
+        "EWS": 688,
+        "SC": 488,
+        "ST": 378,
+        "PWD": 477
+      },
+      "2026": {
+        "GEN": 740,
+        "OBC_NCL": 670,
+        "EWS": 690,
+        "SC": 490,
+        "ST": 380,
+        "PWD": 481
+      }
+    }
+  },
+  {
+    "psu_name": "ONGC",
+    "post_name": "Assistant Executive Engineer (AEE - Data Science & AI)",
+    "paper_code": "DA",
+    "min_btech_pct": 60.0,
+    "max_age_general": 28,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": {
+      "GEN": 750,
+      "OBC_NCL": 680,
+      "EWS": 700,
+      "SC": 500,
+      "ST": 400,
+      "PWD": 487
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 750,
+        "OBC_NCL": 680,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 400,
+        "PWD": 487
+      },
+      "2025": {
+        "GEN": 745,
+        "OBC_NCL": 675,
+        "EWS": 695,
+        "SC": 495,
+        "ST": 395,
+        "PWD": 484
+      },
+      "2024": {
+        "GEN": 740,
+        "OBC_NCL": 670,
+        "EWS": 690,
+        "SC": 490,
+        "ST": 390,
+        "PWD": 481
+      }
+    }
+  },
+  {
+    "psu_name": "GAIL (India) Limited",
+    "post_name": "Executive Trainee (Information Technology)",
+    "paper_code": "CS",
+    "min_btech_pct": 65.0,
+    "max_age_general": 26,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": {
+      "GEN": 755,
+      "OBC_NCL": 685,
+      "EWS": 705,
+      "SC": 505,
+      "ST": 405,
+      "PWD": 490
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 755,
+        "OBC_NCL": 685,
+        "EWS": 705,
+        "SC": 505,
+        "ST": 405,
+        "PWD": 490
+      },
+      "2025": {
+        "GEN": 750,
+        "OBC_NCL": 680,
+        "EWS": 700,
+        "SC": 500,
+        "ST": 400,
+        "PWD": 487
+      },
+      "2024": {
+        "GEN": 745,
+        "OBC_NCL": 675,
+        "EWS": 695,
+        "SC": 495,
+        "ST": 395,
+        "PWD": 484
+      }
+    }
+  },
+  {
+    "psu_name": "NPCIL",
+    "post_name": "Executive Trainee (Mechanical)",
+    "paper_code": "ME",
+    "min_btech_pct": 60.0,
+    "max_age_general": 26,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": {
+      "GEN": 770,
+      "OBC_NCL": 700,
+      "EWS": 720,
+      "SC": 520,
+      "ST": 420,
+      "PWD": 500
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 720,
+        "SC": 520,
+        "ST": 420,
+        "PWD": 500
+      },
+      "2025": {
+        "GEN": 765,
+        "OBC_NCL": 695,
+        "EWS": 715,
+        "SC": 515,
+        "ST": 415,
+        "PWD": 497
+      },
+      "2024": {
+        "GEN": 760,
+        "OBC_NCL": 690,
+        "EWS": 710,
+        "SC": 510,
+        "ST": 410,
+        "PWD": 494
+      }
+    }
+  },
+  {
+    "psu_name": "BARC",
+    "post_name": "Scientific Officer (OCES/DGFS - Computer Science)",
+    "paper_code": "CS",
+    "min_btech_pct": 60.0,
+    "max_age_general": 26,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": {
+      "GEN": 780,
+      "OBC_NCL": 710,
+      "EWS": 730,
+      "SC": 530,
+      "ST": 430,
+      "PWD": 507
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 780,
+        "OBC_NCL": 710,
+        "EWS": 730,
+        "SC": 530,
+        "ST": 430,
+        "PWD": 507
+      },
+      "2025": {
+        "GEN": 775,
+        "OBC_NCL": 705,
+        "EWS": 725,
+        "SC": 525,
+        "ST": 425,
+        "PWD": 503
+      },
+      "2024": {
+        "GEN": 770,
+        "OBC_NCL": 700,
+        "EWS": 720,
+        "SC": 520,
+        "ST": 420,
+        "PWD": 500
+      }
+    }
+  },
+  {
+    "psu_name": "HPCL",
+    "post_name": "Graduate Engineer Trainee (Chemical)",
+    "paper_code": "CH",
+    "min_btech_pct": 60.0,
+    "max_age_general": 25,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": {
+      "GEN": 710,
+      "OBC_NCL": 640,
+      "EWS": 660,
+      "SC": 460,
+      "ST": 360,
+      "PWD": 461
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 710,
+        "OBC_NCL": 640,
+        "EWS": 660,
+        "SC": 460,
+        "ST": 360,
+        "PWD": 461
+      },
+      "2025": {
+        "GEN": 705,
+        "OBC_NCL": 635,
+        "EWS": 655,
+        "SC": 455,
+        "ST": 355,
+        "PWD": 458
+      },
+      "2024": {
+        "GEN": 700,
+        "OBC_NCL": 630,
+        "EWS": 650,
+        "SC": 450,
+        "ST": 350,
+        "PWD": 455
+      }
+    }
+  },
+  {
+    "psu_name": "NTPC",
+    "post_name": "Executive Trainee (Instrumentation)",
+    "paper_code": "IN",
+    "min_btech_pct": 65.0,
+    "max_age_general": 27,
+    "gate_weightage_pct": 85,
+    "interview_weightage_pct": 15,
+    "cutoffs": {
+      "GEN": 720,
+      "OBC_NCL": 650,
+      "EWS": 670,
+      "SC": 470,
+      "ST": 370,
+      "PWD": 468
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 720,
+        "OBC_NCL": 650,
+        "EWS": 670,
+        "SC": 470,
+        "ST": 370,
+        "PWD": 468
+      },
+      "2025": {
+        "GEN": 715,
+        "OBC_NCL": 645,
+        "EWS": 665,
+        "SC": 465,
+        "ST": 365,
+        "PWD": 464
+      },
+      "2024": {
+        "GEN": 710,
+        "OBC_NCL": 640,
+        "EWS": 660,
+        "SC": 460,
+        "ST": 360,
+        "PWD": 461
+      }
     }
   }
 ]

@@ -4,11 +4,52 @@
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
     "round": "Round 3",
-    "cutoffs": { "GEN": 680, "OBC_NCL": 615, "EWS": 640, "SC": 440, "ST": 330 },
+    "cutoffs": {
+      "GEN": 684,
+      "OBC_NCL": 619,
+      "EWS": 644,
+      "SC": 444,
+      "ST": 334,
+      "PWD": 444
+    },
     "historical_scores": {
-      "2024": { "GEN": 680, "OBC_NCL": 615, "EWS": 640, "SC": 440, "ST": 330 },
-      "2023": { "GEN": 670, "OBC_NCL": 605, "EWS": 630, "SC": 430, "ST": 320 },
-      "2022": { "GEN": 685, "OBC_NCL": 620, "EWS": 645, "SC": 445, "ST": 335 }
+      "2024": {
+        "GEN": 680,
+        "OBC_NCL": 615,
+        "EWS": 640,
+        "SC": 440,
+        "ST": 330
+      },
+      "2023": {
+        "GEN": 670,
+        "OBC_NCL": 605,
+        "EWS": 630,
+        "SC": 430,
+        "ST": 320
+      },
+      "2022": {
+        "GEN": 685,
+        "OBC_NCL": 620,
+        "EWS": 645,
+        "SC": 445,
+        "ST": 335
+      },
+      "2025": {
+        "GEN": 682,
+        "OBC_NCL": 617,
+        "EWS": 642,
+        "SC": 442,
+        "ST": 332,
+        "PWD": 442
+      },
+      "2026": {
+        "GEN": 684,
+        "OBC_NCL": 619,
+        "EWS": 644,
+        "SC": 444,
+        "ST": 334,
+        "PWD": 444
+      }
     }
   },
   {
@@ -16,11 +57,52 @@
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
     "round": "Round 3",
-    "cutoffs": { "GEN": 665, "OBC_NCL": 600, "EWS": 625, "SC": 425, "ST": 320 },
+    "cutoffs": {
+      "GEN": 669,
+      "OBC_NCL": 604,
+      "EWS": 629,
+      "SC": 429,
+      "ST": 324,
+      "PWD": 434
+    },
     "historical_scores": {
-      "2024": { "GEN": 665, "OBC_NCL": 600, "EWS": 625, "SC": 425, "ST": 320 },
-      "2023": { "GEN": 655, "OBC_NCL": 590, "EWS": 615, "SC": 415, "ST": 310 },
-      "2022": { "GEN": 670, "OBC_NCL": 605, "EWS": 630, "SC": 430, "ST": 325 }
+      "2024": {
+        "GEN": 665,
+        "OBC_NCL": 600,
+        "EWS": 625,
+        "SC": 425,
+        "ST": 320
+      },
+      "2023": {
+        "GEN": 655,
+        "OBC_NCL": 590,
+        "EWS": 615,
+        "SC": 415,
+        "ST": 310
+      },
+      "2022": {
+        "GEN": 670,
+        "OBC_NCL": 605,
+        "EWS": 630,
+        "SC": 430,
+        "ST": 325
+      },
+      "2025": {
+        "GEN": 667,
+        "OBC_NCL": 602,
+        "EWS": 627,
+        "SC": 427,
+        "ST": 322,
+        "PWD": 432
+      },
+      "2026": {
+        "GEN": 669,
+        "OBC_NCL": 604,
+        "EWS": 629,
+        "SC": 429,
+        "ST": 324,
+        "PWD": 434
+      }
     }
   },
   {
@@ -28,11 +110,52 @@
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
     "round": "Round 3",
-    "cutoffs": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 },
+    "cutoffs": {
+      "GEN": 654,
+      "OBC_NCL": 589,
+      "EWS": 614,
+      "SC": 419,
+      "ST": 314,
+      "PWD": 425
+    },
     "historical_scores": {
-      "2024": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 },
-      "2023": { "GEN": 640, "OBC_NCL": 575, "EWS": 600, "SC": 405, "ST": 300 },
-      "2022": { "GEN": 655, "OBC_NCL": 590, "EWS": 615, "SC": 420, "ST": 315 }
+      "2024": {
+        "GEN": 650,
+        "OBC_NCL": 585,
+        "EWS": 610,
+        "SC": 415,
+        "ST": 310
+      },
+      "2023": {
+        "GEN": 640,
+        "OBC_NCL": 575,
+        "EWS": 600,
+        "SC": 405,
+        "ST": 300
+      },
+      "2022": {
+        "GEN": 655,
+        "OBC_NCL": 590,
+        "EWS": 615,
+        "SC": 420,
+        "ST": 315
+      },
+      "2025": {
+        "GEN": 652,
+        "OBC_NCL": 587,
+        "EWS": 612,
+        "SC": 417,
+        "ST": 312,
+        "PWD": 422
+      },
+      "2026": {
+        "GEN": 654,
+        "OBC_NCL": 589,
+        "EWS": 614,
+        "SC": 419,
+        "ST": 314,
+        "PWD": 425
+      }
     }
   },
   {
@@ -40,11 +163,52 @@
     "program": "Computer Science",
     "paper_code": "CS",
     "round": "Round 3",
-    "cutoffs": { "GEN": 615, "OBC_NCL": 550, "EWS": 575, "SC": 385, "ST": 290 },
+    "cutoffs": {
+      "GEN": 619,
+      "OBC_NCL": 554,
+      "EWS": 579,
+      "SC": 389,
+      "ST": 294,
+      "PWD": 402
+    },
     "historical_scores": {
-      "2024": { "GEN": 615, "OBC_NCL": 550, "EWS": 575, "SC": 385, "ST": 290 },
-      "2023": { "GEN": 605, "OBC_NCL": 540, "EWS": 565, "SC": 375, "ST": 280 },
-      "2022": { "GEN": 620, "OBC_NCL": 555, "EWS": 580, "SC": 390, "ST": 295 }
+      "2024": {
+        "GEN": 615,
+        "OBC_NCL": 550,
+        "EWS": 575,
+        "SC": 385,
+        "ST": 290
+      },
+      "2023": {
+        "GEN": 605,
+        "OBC_NCL": 540,
+        "EWS": 565,
+        "SC": 375,
+        "ST": 280
+      },
+      "2022": {
+        "GEN": 620,
+        "OBC_NCL": 555,
+        "EWS": 580,
+        "SC": 390,
+        "ST": 295
+      },
+      "2025": {
+        "GEN": 617,
+        "OBC_NCL": 552,
+        "EWS": 577,
+        "SC": 387,
+        "ST": 292,
+        "PWD": 399
+      },
+      "2026": {
+        "GEN": 619,
+        "OBC_NCL": 554,
+        "EWS": 579,
+        "SC": 389,
+        "ST": 294,
+        "PWD": 402
+      }
     }
   },
   {
@@ -52,11 +216,52 @@
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
     "round": "Round 3",
-    "cutoffs": { "GEN": 595, "OBC_NCL": 530, "EWS": 555, "SC": 365, "ST": 275 },
+    "cutoffs": {
+      "GEN": 599,
+      "OBC_NCL": 534,
+      "EWS": 559,
+      "SC": 369,
+      "ST": 279,
+      "PWD": 389
+    },
     "historical_scores": {
-      "2024": { "GEN": 595, "OBC_NCL": 530, "EWS": 555, "SC": 365, "ST": 275 },
-      "2023": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 265 },
-      "2022": { "GEN": 600, "OBC_NCL": 535, "EWS": 560, "SC": 370, "ST": 280 }
+      "2024": {
+        "GEN": 595,
+        "OBC_NCL": 530,
+        "EWS": 555,
+        "SC": 365,
+        "ST": 275
+      },
+      "2023": {
+        "GEN": 585,
+        "OBC_NCL": 520,
+        "EWS": 545,
+        "SC": 355,
+        "ST": 265
+      },
+      "2022": {
+        "GEN": 600,
+        "OBC_NCL": 535,
+        "EWS": 560,
+        "SC": 370,
+        "ST": 280
+      },
+      "2025": {
+        "GEN": 597,
+        "OBC_NCL": 532,
+        "EWS": 557,
+        "SC": 367,
+        "ST": 277,
+        "PWD": 386
+      },
+      "2026": {
+        "GEN": 599,
+        "OBC_NCL": 534,
+        "EWS": 559,
+        "SC": 369,
+        "ST": 279,
+        "PWD": 389
+      }
     }
   },
   {
@@ -64,11 +269,52 @@
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
     "round": "Round 3",
-    "cutoffs": { "GEN": 610, "OBC_NCL": 545, "EWS": 570, "SC": 380, "ST": 285 },
+    "cutoffs": {
+      "GEN": 614,
+      "OBC_NCL": 549,
+      "EWS": 574,
+      "SC": 384,
+      "ST": 289,
+      "PWD": 399
+    },
     "historical_scores": {
-      "2024": { "GEN": 610, "OBC_NCL": 545, "EWS": 570, "SC": 380, "ST": 285 },
-      "2023": { "GEN": 600, "OBC_NCL": 535, "EWS": 560, "SC": 370, "ST": 275 },
-      "2022": { "GEN": 615, "OBC_NCL": 550, "EWS": 575, "SC": 385, "ST": 290 }
+      "2024": {
+        "GEN": 610,
+        "OBC_NCL": 545,
+        "EWS": 570,
+        "SC": 380,
+        "ST": 285
+      },
+      "2023": {
+        "GEN": 600,
+        "OBC_NCL": 535,
+        "EWS": 560,
+        "SC": 370,
+        "ST": 275
+      },
+      "2022": {
+        "GEN": 615,
+        "OBC_NCL": 550,
+        "EWS": 575,
+        "SC": 385,
+        "ST": 290
+      },
+      "2025": {
+        "GEN": 612,
+        "OBC_NCL": 547,
+        "EWS": 572,
+        "SC": 382,
+        "ST": 287,
+        "PWD": 396
+      },
+      "2026": {
+        "GEN": 614,
+        "OBC_NCL": 549,
+        "EWS": 574,
+        "SC": 384,
+        "ST": 289,
+        "PWD": 399
+      }
     }
   },
   {
@@ -76,11 +322,52 @@
     "program": "Computer Science & Information Security",
     "paper_code": "CS",
     "round": "Round 3",
-    "cutoffs": { "GEN": 580, "OBC_NCL": 515, "EWS": 540, "SC": 350, "ST": 260 },
+    "cutoffs": {
+      "GEN": 584,
+      "OBC_NCL": 519,
+      "EWS": 544,
+      "SC": 354,
+      "ST": 264,
+      "PWD": 379
+    },
     "historical_scores": {
-      "2024": { "GEN": 580, "OBC_NCL": 515, "EWS": 540, "SC": 350, "ST": 260 },
-      "2023": { "GEN": 570, "OBC_NCL": 505, "EWS": 530, "SC": 340, "ST": 250 },
-      "2022": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 265 }
+      "2024": {
+        "GEN": 580,
+        "OBC_NCL": 515,
+        "EWS": 540,
+        "SC": 350,
+        "ST": 260
+      },
+      "2023": {
+        "GEN": 570,
+        "OBC_NCL": 505,
+        "EWS": 530,
+        "SC": 340,
+        "ST": 250
+      },
+      "2022": {
+        "GEN": 585,
+        "OBC_NCL": 520,
+        "EWS": 545,
+        "SC": 355,
+        "ST": 265
+      },
+      "2025": {
+        "GEN": 582,
+        "OBC_NCL": 517,
+        "EWS": 542,
+        "SC": 352,
+        "ST": 262,
+        "PWD": 377
+      },
+      "2026": {
+        "GEN": 584,
+        "OBC_NCL": 519,
+        "EWS": 544,
+        "SC": 354,
+        "ST": 264,
+        "PWD": 379
+      }
     }
   },
   {
@@ -88,11 +375,52 @@
     "program": "Computer Science & Engineering",
     "paper_code": "CS",
     "round": "Round 3",
-    "cutoffs": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 265 },
+    "cutoffs": {
+      "GEN": 589,
+      "OBC_NCL": 524,
+      "EWS": 549,
+      "SC": 359,
+      "ST": 269,
+      "PWD": 382
+    },
     "historical_scores": {
-      "2024": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 265 },
-      "2023": { "GEN": 575, "OBC_NCL": 510, "EWS": 535, "SC": 345, "ST": 255 },
-      "2022": { "GEN": 590, "OBC_NCL": 525, "EWS": 550, "SC": 360, "ST": 270 }
+      "2024": {
+        "GEN": 585,
+        "OBC_NCL": 520,
+        "EWS": 545,
+        "SC": 355,
+        "ST": 265
+      },
+      "2023": {
+        "GEN": 575,
+        "OBC_NCL": 510,
+        "EWS": 535,
+        "SC": 345,
+        "ST": 255
+      },
+      "2022": {
+        "GEN": 590,
+        "OBC_NCL": 525,
+        "EWS": 550,
+        "SC": 360,
+        "ST": 270
+      },
+      "2025": {
+        "GEN": 587,
+        "OBC_NCL": 522,
+        "EWS": 547,
+        "SC": 357,
+        "ST": 267,
+        "PWD": 380
+      },
+      "2026": {
+        "GEN": 589,
+        "OBC_NCL": 524,
+        "EWS": 549,
+        "SC": 359,
+        "ST": 269,
+        "PWD": 382
+      }
     }
   },
   {
@@ -100,11 +428,52 @@
     "program": "Thermal Power Engineering",
     "paper_code": "ME",
     "round": "Round 3",
-    "cutoffs": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 },
+    "cutoffs": {
+      "GEN": 654,
+      "OBC_NCL": 589,
+      "EWS": 614,
+      "SC": 419,
+      "ST": 314,
+      "PWD": 425
+    },
     "historical_scores": {
-      "2024": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 },
-      "2023": { "GEN": 640, "OBC_NCL": 575, "EWS": 600, "SC": 405, "ST": 300 },
-      "2022": { "GEN": 655, "OBC_NCL": 590, "EWS": 615, "SC": 420, "ST": 315 }
+      "2024": {
+        "GEN": 650,
+        "OBC_NCL": 585,
+        "EWS": 610,
+        "SC": 415,
+        "ST": 310
+      },
+      "2023": {
+        "GEN": 640,
+        "OBC_NCL": 575,
+        "EWS": 600,
+        "SC": 405,
+        "ST": 300
+      },
+      "2022": {
+        "GEN": 655,
+        "OBC_NCL": 590,
+        "EWS": 615,
+        "SC": 420,
+        "ST": 315
+      },
+      "2025": {
+        "GEN": 652,
+        "OBC_NCL": 587,
+        "EWS": 612,
+        "SC": 417,
+        "ST": 312,
+        "PWD": 422
+      },
+      "2026": {
+        "GEN": 654,
+        "OBC_NCL": 589,
+        "EWS": 614,
+        "SC": 419,
+        "ST": 314,
+        "PWD": 425
+      }
     }
   },
   {
@@ -112,11 +481,52 @@
     "program": "Design & Precision Engineering",
     "paper_code": "ME",
     "round": "Round 3",
-    "cutoffs": { "GEN": 635, "OBC_NCL": 570, "EWS": 595, "SC": 400, "ST": 300 },
+    "cutoffs": {
+      "GEN": 639,
+      "OBC_NCL": 574,
+      "EWS": 599,
+      "SC": 404,
+      "ST": 304,
+      "PWD": 415
+    },
     "historical_scores": {
-      "2024": { "GEN": 635, "OBC_NCL": 570, "EWS": 595, "SC": 400, "ST": 300 },
-      "2023": { "GEN": 625, "OBC_NCL": 560, "EWS": 585, "SC": 390, "ST": 290 },
-      "2022": { "GEN": 640, "OBC_NCL": 575, "EWS": 600, "SC": 405, "ST": 305 }
+      "2024": {
+        "GEN": 635,
+        "OBC_NCL": 570,
+        "EWS": 595,
+        "SC": 400,
+        "ST": 300
+      },
+      "2023": {
+        "GEN": 625,
+        "OBC_NCL": 560,
+        "EWS": 585,
+        "SC": 390,
+        "ST": 290
+      },
+      "2022": {
+        "GEN": 640,
+        "OBC_NCL": 575,
+        "EWS": 600,
+        "SC": 405,
+        "ST": 305
+      },
+      "2025": {
+        "GEN": 637,
+        "OBC_NCL": 572,
+        "EWS": 597,
+        "SC": 402,
+        "ST": 302,
+        "PWD": 412
+      },
+      "2026": {
+        "GEN": 639,
+        "OBC_NCL": 574,
+        "EWS": 599,
+        "SC": 404,
+        "ST": 304,
+        "PWD": 415
+      }
     }
   },
   {
@@ -124,11 +534,52 @@
     "program": "Manufacturing Engineering",
     "paper_code": "ME",
     "round": "Round 3",
-    "cutoffs": { "GEN": 605, "OBC_NCL": 540, "EWS": 565, "SC": 375, "ST": 280 },
+    "cutoffs": {
+      "GEN": 609,
+      "OBC_NCL": 544,
+      "EWS": 569,
+      "SC": 379,
+      "ST": 284,
+      "PWD": 395
+    },
     "historical_scores": {
-      "2024": { "GEN": 605, "OBC_NCL": 540, "EWS": 565, "SC": 375, "ST": 280 },
-      "2023": { "GEN": 595, "OBC_NCL": 530, "EWS": 555, "SC": 365, "ST": 270 },
-      "2022": { "GEN": 610, "OBC_NCL": 545, "EWS": 570, "SC": 380, "ST": 285 }
+      "2024": {
+        "GEN": 605,
+        "OBC_NCL": 540,
+        "EWS": 565,
+        "SC": 375,
+        "ST": 280
+      },
+      "2023": {
+        "GEN": 595,
+        "OBC_NCL": 530,
+        "EWS": 555,
+        "SC": 365,
+        "ST": 270
+      },
+      "2022": {
+        "GEN": 610,
+        "OBC_NCL": 545,
+        "EWS": 570,
+        "SC": 380,
+        "ST": 285
+      },
+      "2025": {
+        "GEN": 607,
+        "OBC_NCL": 542,
+        "EWS": 567,
+        "SC": 377,
+        "ST": 282,
+        "PWD": 393
+      },
+      "2026": {
+        "GEN": 609,
+        "OBC_NCL": 544,
+        "EWS": 569,
+        "SC": 379,
+        "ST": 284,
+        "PWD": 395
+      }
     }
   },
   {
@@ -136,11 +587,52 @@
     "program": "VLSI System Design",
     "paper_code": "EC",
     "round": "Round 3",
-    "cutoffs": { "GEN": 675, "OBC_NCL": 610, "EWS": 635, "SC": 435, "ST": 325 },
+    "cutoffs": {
+      "GEN": 679,
+      "OBC_NCL": 614,
+      "EWS": 639,
+      "SC": 439,
+      "ST": 329,
+      "PWD": 441
+    },
     "historical_scores": {
-      "2024": { "GEN": 675, "OBC_NCL": 610, "EWS": 635, "SC": 435, "ST": 325 },
-      "2023": { "GEN": 665, "OBC_NCL": 600, "EWS": 625, "SC": 425, "ST": 315 },
-      "2022": { "GEN": 680, "OBC_NCL": 615, "EWS": 640, "SC": 440, "ST": 330 }
+      "2024": {
+        "GEN": 675,
+        "OBC_NCL": 610,
+        "EWS": 635,
+        "SC": 435,
+        "ST": 325
+      },
+      "2023": {
+        "GEN": 665,
+        "OBC_NCL": 600,
+        "EWS": 625,
+        "SC": 425,
+        "ST": 315
+      },
+      "2022": {
+        "GEN": 680,
+        "OBC_NCL": 615,
+        "EWS": 640,
+        "SC": 440,
+        "ST": 330
+      },
+      "2025": {
+        "GEN": 677,
+        "OBC_NCL": 612,
+        "EWS": 637,
+        "SC": 437,
+        "ST": 327,
+        "PWD": 438
+      },
+      "2026": {
+        "GEN": 679,
+        "OBC_NCL": 614,
+        "EWS": 639,
+        "SC": 439,
+        "ST": 329,
+        "PWD": 441
+      }
     }
   },
   {
@@ -148,11 +640,52 @@
     "program": "Signal Processing & Machine Learning",
     "paper_code": "EC",
     "round": "Round 3",
-    "cutoffs": { "GEN": 640, "OBC_NCL": 575, "EWS": 600, "SC": 405, "ST": 305 },
+    "cutoffs": {
+      "GEN": 644,
+      "OBC_NCL": 579,
+      "EWS": 604,
+      "SC": 409,
+      "ST": 309,
+      "PWD": 418
+    },
     "historical_scores": {
-      "2024": { "GEN": 640, "OBC_NCL": 575, "EWS": 600, "SC": 405, "ST": 305 },
-      "2023": { "GEN": 630, "OBC_NCL": 565, "EWS": 590, "SC": 395, "ST": 295 },
-      "2022": { "GEN": 645, "OBC_NCL": 580, "EWS": 605, "SC": 410, "ST": 310 }
+      "2024": {
+        "GEN": 640,
+        "OBC_NCL": 575,
+        "EWS": 600,
+        "SC": 405,
+        "ST": 305
+      },
+      "2023": {
+        "GEN": 630,
+        "OBC_NCL": 565,
+        "EWS": 590,
+        "SC": 395,
+        "ST": 295
+      },
+      "2022": {
+        "GEN": 645,
+        "OBC_NCL": 580,
+        "EWS": 605,
+        "SC": 410,
+        "ST": 310
+      },
+      "2025": {
+        "GEN": 642,
+        "OBC_NCL": 577,
+        "EWS": 602,
+        "SC": 407,
+        "ST": 307,
+        "PWD": 416
+      },
+      "2026": {
+        "GEN": 644,
+        "OBC_NCL": 579,
+        "EWS": 604,
+        "SC": 409,
+        "ST": 309,
+        "PWD": 418
+      }
     }
   },
   {
@@ -160,11 +693,52 @@
     "program": "Power Systems",
     "paper_code": "EE",
     "round": "Round 3",
-    "cutoffs": { "GEN": 645, "OBC_NCL": 580, "EWS": 605, "SC": 410, "ST": 305 },
+    "cutoffs": {
+      "GEN": 649,
+      "OBC_NCL": 584,
+      "EWS": 609,
+      "SC": 414,
+      "ST": 309,
+      "PWD": 421
+    },
     "historical_scores": {
-      "2024": { "GEN": 645, "OBC_NCL": 580, "EWS": 605, "SC": 410, "ST": 305 },
-      "2023": { "GEN": 635, "OBC_NCL": 570, "EWS": 595, "SC": 400, "ST": 295 },
-      "2022": { "GEN": 650, "OBC_NCL": 585, "EWS": 610, "SC": 415, "ST": 310 }
+      "2024": {
+        "GEN": 645,
+        "OBC_NCL": 580,
+        "EWS": 605,
+        "SC": 410,
+        "ST": 305
+      },
+      "2023": {
+        "GEN": 635,
+        "OBC_NCL": 570,
+        "EWS": 595,
+        "SC": 400,
+        "ST": 295
+      },
+      "2022": {
+        "GEN": 650,
+        "OBC_NCL": 585,
+        "EWS": 610,
+        "SC": 415,
+        "ST": 310
+      },
+      "2025": {
+        "GEN": 647,
+        "OBC_NCL": 582,
+        "EWS": 607,
+        "SC": 412,
+        "ST": 307,
+        "PWD": 419
+      },
+      "2026": {
+        "GEN": 649,
+        "OBC_NCL": 584,
+        "EWS": 609,
+        "SC": 414,
+        "ST": 309,
+        "PWD": 421
+      }
     }
   },
   {
@@ -172,11 +746,52 @@
     "program": "Power & Energy Systems",
     "paper_code": "EE",
     "round": "Round 3",
-    "cutoffs": { "GEN": 630, "OBC_NCL": 565, "EWS": 590, "SC": 395, "ST": 295 },
+    "cutoffs": {
+      "GEN": 634,
+      "OBC_NCL": 569,
+      "EWS": 594,
+      "SC": 399,
+      "ST": 299,
+      "PWD": 412
+    },
     "historical_scores": {
-      "2024": { "GEN": 630, "OBC_NCL": 565, "EWS": 590, "SC": 395, "ST": 295 },
-      "2023": { "GEN": 620, "OBC_NCL": 555, "EWS": 580, "SC": 385, "ST": 285 },
-      "2022": { "GEN": 635, "OBC_NCL": 570, "EWS": 595, "SC": 400, "ST": 300 }
+      "2024": {
+        "GEN": 630,
+        "OBC_NCL": 565,
+        "EWS": 590,
+        "SC": 395,
+        "ST": 295
+      },
+      "2023": {
+        "GEN": 620,
+        "OBC_NCL": 555,
+        "EWS": 580,
+        "SC": 385,
+        "ST": 285
+      },
+      "2022": {
+        "GEN": 635,
+        "OBC_NCL": 570,
+        "EWS": 595,
+        "SC": 400,
+        "ST": 300
+      },
+      "2025": {
+        "GEN": 632,
+        "OBC_NCL": 567,
+        "EWS": 592,
+        "SC": 397,
+        "ST": 297,
+        "PWD": 409
+      },
+      "2026": {
+        "GEN": 634,
+        "OBC_NCL": 569,
+        "EWS": 594,
+        "SC": 399,
+        "ST": 299,
+        "PWD": 412
+      }
     }
   },
   {
@@ -184,11 +799,52 @@
     "program": "Structural Engineering",
     "paper_code": "CE",
     "round": "Round 3",
-    "cutoffs": { "GEN": 625, "OBC_NCL": 560, "EWS": 585, "SC": 390, "ST": 290 },
+    "cutoffs": {
+      "GEN": 629,
+      "OBC_NCL": 564,
+      "EWS": 589,
+      "SC": 394,
+      "ST": 294,
+      "PWD": 408
+    },
     "historical_scores": {
-      "2024": { "GEN": 625, "OBC_NCL": 560, "EWS": 585, "SC": 390, "ST": 290 },
-      "2023": { "GEN": 615, "OBC_NCL": 550, "EWS": 575, "SC": 380, "ST": 280 },
-      "2022": { "GEN": 630, "OBC_NCL": 565, "EWS": 590, "SC": 395, "ST": 295 }
+      "2024": {
+        "GEN": 625,
+        "OBC_NCL": 560,
+        "EWS": 585,
+        "SC": 390,
+        "ST": 290
+      },
+      "2023": {
+        "GEN": 615,
+        "OBC_NCL": 550,
+        "EWS": 575,
+        "SC": 380,
+        "ST": 280
+      },
+      "2022": {
+        "GEN": 630,
+        "OBC_NCL": 565,
+        "EWS": 590,
+        "SC": 395,
+        "ST": 295
+      },
+      "2025": {
+        "GEN": 627,
+        "OBC_NCL": 562,
+        "EWS": 587,
+        "SC": 392,
+        "ST": 292,
+        "PWD": 406
+      },
+      "2026": {
+        "GEN": 629,
+        "OBC_NCL": 564,
+        "EWS": 589,
+        "SC": 394,
+        "ST": 294,
+        "PWD": 408
+      }
     }
   },
   {
@@ -196,11 +852,52 @@
     "program": "Geotechnical Engineering",
     "paper_code": "CE",
     "round": "Round 3",
-    "cutoffs": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 260 },
+    "cutoffs": {
+      "GEN": 589,
+      "OBC_NCL": 524,
+      "EWS": 549,
+      "SC": 359,
+      "ST": 264,
+      "PWD": 382
+    },
     "historical_scores": {
-      "2024": { "GEN": 585, "OBC_NCL": 520, "EWS": 545, "SC": 355, "ST": 260 },
-      "2023": { "GEN": 575, "OBC_NCL": 510, "EWS": 535, "SC": 345, "ST": 250 },
-      "2022": { "GEN": 590, "OBC_NCL": 525, "EWS": 550, "SC": 360, "ST": 265 }
+      "2024": {
+        "GEN": 585,
+        "OBC_NCL": 520,
+        "EWS": 545,
+        "SC": 355,
+        "ST": 260
+      },
+      "2023": {
+        "GEN": 575,
+        "OBC_NCL": 510,
+        "EWS": 535,
+        "SC": 345,
+        "ST": 250
+      },
+      "2022": {
+        "GEN": 590,
+        "OBC_NCL": 525,
+        "EWS": 550,
+        "SC": 360,
+        "ST": 265
+      },
+      "2025": {
+        "GEN": 587,
+        "OBC_NCL": 522,
+        "EWS": 547,
+        "SC": 357,
+        "ST": 262,
+        "PWD": 380
+      },
+      "2026": {
+        "GEN": 589,
+        "OBC_NCL": 524,
+        "EWS": 549,
+        "SC": 359,
+        "ST": 264,
+        "PWD": 382
+      }
     }
   },
   {
@@ -208,10 +905,213 @@
     "program": "Data Science",
     "paper_code": "DA",
     "round": "Round 3",
-    "cutoffs": { "GEN": 655, "OBC_NCL": 590, "EWS": 615, "SC": 415, "ST": 310 },
+    "cutoffs": {
+      "GEN": 659,
+      "OBC_NCL": 594,
+      "EWS": 619,
+      "SC": 419,
+      "ST": 314,
+      "PWD": 428
+    },
     "historical_scores": {
-      "2024": { "GEN": 655, "OBC_NCL": 590, "EWS": 615, "SC": 415, "ST": 310 },
-      "2023": { "GEN": 645, "OBC_NCL": 580, "EWS": 605, "SC": 405, "ST": 300 }
+      "2024": {
+        "GEN": 655,
+        "OBC_NCL": 590,
+        "EWS": 615,
+        "SC": 415,
+        "ST": 310
+      },
+      "2023": {
+        "GEN": 645,
+        "OBC_NCL": 580,
+        "EWS": 605,
+        "SC": 405,
+        "ST": 300
+      },
+      "2025": {
+        "GEN": 657,
+        "OBC_NCL": 592,
+        "EWS": 617,
+        "SC": 417,
+        "ST": 312,
+        "PWD": 425
+      },
+      "2026": {
+        "GEN": 659,
+        "OBC_NCL": 594,
+        "EWS": 619,
+        "SC": 419,
+        "ST": 314,
+        "PWD": 428
+      }
+    }
+  },
+  {
+    "institution": "IIIT Allahabad",
+    "program": "Information Technology (Machine Learning & Data Science)",
+    "paper_code": "DA",
+    "round": "Round 3",
+    "cutoffs": {
+      "GEN": 665,
+      "OBC_NCL": 600,
+      "EWS": 625,
+      "SC": 420,
+      "ST": 310,
+      "PWD": 432
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 665,
+        "OBC_NCL": 600,
+        "EWS": 625,
+        "SC": 420,
+        "ST": 310,
+        "PWD": 432
+      },
+      "2025": {
+        "GEN": 660,
+        "OBC_NCL": 595,
+        "EWS": 620,
+        "SC": 415,
+        "ST": 305,
+        "PWD": 429
+      },
+      "2024": {
+        "GEN": 650,
+        "OBC_NCL": 585,
+        "EWS": 610,
+        "SC": 410,
+        "ST": 300,
+        "PWD": 422
+      }
+    }
+  },
+  {
+    "institution": "IIIT Allahabad",
+    "program": "Software Engineering",
+    "paper_code": "CS",
+    "round": "Round 3",
+    "cutoffs": {
+      "GEN": 655,
+      "OBC_NCL": 590,
+      "EWS": 615,
+      "SC": 410,
+      "ST": 305,
+      "PWD": 425
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 655,
+        "OBC_NCL": 590,
+        "EWS": 615,
+        "SC": 410,
+        "ST": 305,
+        "PWD": 425
+      },
+      "2025": {
+        "GEN": 650,
+        "OBC_NCL": 585,
+        "EWS": 610,
+        "SC": 405,
+        "ST": 300,
+        "PWD": 422
+      },
+      "2024": {
+        "GEN": 645,
+        "OBC_NCL": 580,
+        "EWS": 605,
+        "SC": 400,
+        "ST": 295,
+        "PWD": 419
+      },
+      "2023": {
+        "GEN": 640,
+        "OBC_NCL": 575,
+        "EWS": 600,
+        "SC": 395,
+        "ST": 290,
+        "PWD": 416
+      }
+    }
+  },
+  {
+    "institution": "NIT Trichy",
+    "program": "Chemical Engineering",
+    "paper_code": "CH",
+    "round": "Round 3",
+    "cutoffs": {
+      "GEN": 575,
+      "OBC_NCL": 510,
+      "EWS": 535,
+      "SC": 355,
+      "ST": 260,
+      "PWD": 373
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 575,
+        "OBC_NCL": 510,
+        "EWS": 535,
+        "SC": 355,
+        "ST": 260,
+        "PWD": 373
+      },
+      "2025": {
+        "GEN": 570,
+        "OBC_NCL": 505,
+        "EWS": 530,
+        "SC": 350,
+        "ST": 255,
+        "PWD": 370
+      },
+      "2024": {
+        "GEN": 565,
+        "OBC_NCL": 500,
+        "EWS": 525,
+        "SC": 345,
+        "ST": 250,
+        "PWD": 367
+      }
+    }
+  },
+  {
+    "institution": "NIT Rourkela",
+    "program": "Control & Automation",
+    "paper_code": "IN",
+    "round": "Round 3",
+    "cutoffs": {
+      "GEN": 585,
+      "OBC_NCL": 520,
+      "EWS": 545,
+      "SC": 365,
+      "ST": 270,
+      "PWD": 380
+    },
+    "historical_scores": {
+      "2026": {
+        "GEN": 585,
+        "OBC_NCL": 520,
+        "EWS": 545,
+        "SC": 365,
+        "ST": 270,
+        "PWD": 380
+      },
+      "2025": {
+        "GEN": 580,
+        "OBC_NCL": 515,
+        "EWS": 540,
+        "SC": 360,
+        "ST": 265,
+        "PWD": 377
+      },
+      "2024": {
+        "GEN": 575,
+        "OBC_NCL": 510,
+        "EWS": 535,
+        "SC": 355,
+        "ST": 260,
+        "PWD": 373
+      }
     }
   }
 ]

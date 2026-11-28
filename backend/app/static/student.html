@@ -371,6 +371,45 @@
               <!-- Rendered via JS -->
             </div>
           </div>
+
+          <!-- Official Answer Key & PYQ Evaluation Audit Section -->
+          <div id="grading-audit-section" class="hidden mt-8 pt-6 border-t border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div>
+                <h3 class="text-base font-extrabold text-slate-800 flex items-center space-x-2">
+                  <i class="fa-solid fa-list-check text-pw-accent"></i>
+                  <span>Official Answer Key & PYQ Evaluation Audit</span>
+                </h3>
+                <p class="text-xs text-slate-500 mt-0.5">Transparent question-by-question marks breakdown against faculty published answer key.</p>
+              </div>
+              <div class="flex items-center space-x-1.5 text-xs font-semibold">
+                <button type="button" onclick="filterAuditTable('ALL')" id="audit-filter-all" class="px-2.5 py-1 rounded-md bg-slate-800 text-white transition">All (65)</button>
+                <button type="button" onclick="filterAuditTable('CORRECT')" id="audit-filter-correct" class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition">Correct</button>
+                <button type="button" onclick="filterAuditTable('INCORRECT')" id="audit-filter-incorrect" class="px-2.5 py-1 rounded-md bg-rose-50 text-rose-700 hover:bg-rose-100 transition">Incorrect</button>
+                <button type="button" onclick="filterAuditTable('UNATTEMPTED')" id="audit-filter-unattempted" class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Unattempted</button>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-slate-200">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider font-bold border-b border-slate-200 text-[10px]">
+                  <tr>
+                    <th class="py-2.5 px-3 whitespace-nowrap">Q#</th>
+                    <th class="py-2.5 px-2.5 whitespace-nowrap">Section</th>
+                    <th class="py-2.5 px-3 whitespace-nowrap">Subject / Topic</th>
+                    <th class="py-2.5 px-2.5 whitespace-nowrap">Type</th>
+                    <th class="py-2.5 px-3 whitespace-nowrap">Your Marked Response</th>
+                    <th class="py-2.5 px-3 whitespace-nowrap">Official Faculty Key</th>
+                    <th class="py-2.5 px-2.5 whitespace-nowrap">Status</th>
+                    <th class="py-2.5 px-3 text-right whitespace-nowrap">Net Marks</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-table-body" class="divide-y divide-slate-100 font-sans">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -581,14 +620,27 @@
           `;
         }
 
+        const subject = q.subject_tag || (q.section === 'APTITUDE' ? 'Aptitude' : 'Core');
+        const hasText = Boolean(q.question_text);
+
         card.innerHTML = `
           <div class="flex items-center justify-between text-[11px] pb-1 border-b border-slate-100">
-            <span class="font-extrabold text-slate-800 font-mono">Q.${qNum}</span>
+            <div class="flex items-center space-x-1.5 overflow-hidden">
+              <span class="font-extrabold text-slate-800 font-mono">Q.${qNum}</span>
+              <span class="text-[9px] text-slate-400 font-semibold truncate max-w-[75px]" title="${subject}">${subject}</span>
+            </div>
             <div class="flex items-center space-x-1">
-              <span class="text-[9px] px-1.5 py-0.2 rounded font-bold ${isTwoMark ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'}">${isTwoMark ? '2M' : '1M'}</span>
-              <span class="text-[9px] px-1.5 py-0.2 rounded font-semibold ${q.question_type === 'MSQ' ? 'bg-purple-100 text-purple-800' : (q.question_type === 'NAT' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-50 text-blue-700')}">${q.question_type}</span>
+              <span class="text-[9px] px-1 py-0.2 rounded font-bold ${isTwoMark ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'}">${isTwoMark ? '2M' : '1M'}</span>
+              <span class="text-[9px] px-1 py-0.2 rounded font-semibold ${q.question_type === 'MSQ' ? 'bg-purple-100 text-purple-800' : (q.question_type === 'NAT' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-50 text-blue-700')}">${q.question_type}</span>
+              ${hasText ? `<button type="button" onclick="toggleQuestionPreview('${q.question_id}')" class="text-[9px] px-1.5 py-0.2 rounded bg-blue-50 text-pw-blue hover:bg-blue-100 font-bold border border-blue-200 transition flex items-center space-x-0.5" title="Preview PYQ Question"><i class="fa-solid fa-eye text-[8px]"></i><span>PYQ</span></button>` : ''}
             </div>
           </div>
+          ${hasText ? `
+            <div id="preview-${q.question_id}" class="hidden mt-2 p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-slate-700 text-left transition">
+              <div class="font-medium text-slate-800 leading-snug">${q.question_text}</div>
+              ${q.options ? `<div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[10px] text-slate-600 mt-2 pt-1.5 border-t border-slate-200">${Object.entries(q.options).map(([k, v]) => `<div><strong class="text-slate-800 font-mono">${k}:</strong> ${v}</div>`).join('')}</div>` : ''}
+            </div>
+          ` : ''}
           ${inputHtml}
         `;
 
@@ -600,6 +652,14 @@
       });
 
       updateOmrCounter();
+    }
+
+    // Toggle authentic PYQ problem statement preview
+    function toggleQuestionPreview(qid) {
+      const el = document.getElementById(`preview-${qid}`);
+      if (el) {
+        el.classList.toggle('hidden');
+      }
     }
 
     // Toggle OMR Bubble on Click
@@ -900,7 +960,84 @@
         }
       }
 
+      // Render Official Answer Key Grading Audit Breakdown
+      if (data.question_breakdown && data.question_breakdown.length) {
+        activeBreakdown = data.question_breakdown;
+        const auditSec = document.getElementById('grading-audit-section');
+        if (auditSec) {
+          auditSec.classList.remove('hidden');
+          renderAuditTable('ALL');
+        }
+      } else {
+        const auditSec = document.getElementById('grading-audit-section');
+        if (auditSec) auditSec.classList.add('hidden');
+      }
+
       card.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    let activeBreakdown = [];
+
+    function renderAuditTable(filter = 'ALL') {
+      const tbody = document.getElementById('audit-table-body');
+      if (!tbody) return;
+
+      ['all', 'correct', 'incorrect', 'unattempted'].forEach(f => {
+        const btn = document.getElementById(`audit-filter-${f}`);
+        if (btn) {
+          if (f.toUpperCase() === filter) {
+            btn.className = "px-2.5 py-1 rounded-md bg-slate-800 text-white transition";
+          } else {
+            btn.className = "px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+          }
+        }
+      });
+
+      let items = activeBreakdown;
+      if (filter === 'CORRECT') items = items.filter(i => i.is_correct);
+      else if (filter === 'INCORRECT') items = items.filter(i => i.is_negative || (!i.is_correct && i.is_attempted));
+      else if (filter === 'UNATTEMPTED') items = items.filter(i => !i.is_attempted);
+
+      if (!items || items.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-slate-400 italic">No questions match this filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = items.map(i => {
+        const qNum = i.question_number < 10 ? `0${i.question_number}` : i.question_number;
+        let statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-500 border border-slate-200">SKIPPED</span>`;
+        let marksDisplay = `<span class="font-mono text-slate-400">0.00</span>`;
+
+        if (i.is_mta) {
+          statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 border border-purple-200">MTA</span>`;
+          marksDisplay = `<span class="font-black text-emerald-600 font-mono">+${Number(i.marks_awarded).toFixed(2)}</span>`;
+        } else if (i.is_correct) {
+          statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">CORRECT</span>`;
+          marksDisplay = `<span class="font-black text-emerald-600 font-mono">+${Number(i.marks_awarded).toFixed(2)}</span>`;
+        } else if (i.is_attempted) {
+          statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">INCORRECT</span>`;
+          marksDisplay = `<span class="font-black text-rose-600 font-mono">-${Number(i.marks_lost).toFixed(2)}</span>`;
+        }
+
+        return `
+          <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+            <td class="py-2.5 px-3 font-mono font-extrabold text-slate-800 whitespace-nowrap">Q.${qNum}</td>
+            <td class="py-2.5 px-2.5 font-medium text-slate-600 whitespace-nowrap">${i.section === 'APTITUDE' ? 'Aptitude' : 'Core'}</td>
+            <td class="py-2.5 px-3 font-semibold text-slate-700 whitespace-nowrap">${i.subject_tag || 'Discipline'}</td>
+            <td class="py-2.5 px-2.5 font-mono text-[11px] font-bold text-slate-500 whitespace-nowrap">${i.question_type}</td>
+            <td class="py-2.5 px-3 font-mono font-bold whitespace-nowrap ${i.is_correct ? 'text-emerald-700' : (i.is_attempted ? 'text-rose-700' : 'text-slate-400')}">${i.student_answer || '--'}</td>
+            <td class="py-2.5 px-3 whitespace-nowrap">
+              <span class="font-mono font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 text-xs">${i.official_key || '--'}</span>
+            </td>
+            <td class="py-2.5 px-2.5 whitespace-nowrap">${statusBadge}</td>
+            <td class="py-2.5 px-3 text-right whitespace-nowrap">${marksDisplay}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterAuditTable(f) {
+      renderAuditTable(f);
     }
 
     function downloadStudentPdfDirect() {
