@@ -66,6 +66,13 @@ if STATIC_DIR.exists():
 PORTAL_MODE = os.getenv("PORTAL_MODE", "both").lower().strip()
 
 
+NO_CACHE_HEADERS = {
+    "Cache-Control": "no-cache, no-store, must-revalidate",
+    "Pragma": "no-cache",
+    "Expires": "0",
+}
+
+
 @app.api_route("/", methods=["GET", "HEAD"])
 def serve_root():
     """
@@ -92,10 +99,10 @@ def serve_student_portal():
         )
     student_file = STATIC_DIR / "student.html"
     if student_file.exists():
-        return FileResponse(str(student_file))
+        return FileResponse(str(student_file), headers=NO_CACHE_HEADERS)
     index_file = STATIC_DIR / "index.html"
     if index_file.exists():
-        return FileResponse(str(index_file))
+        return FileResponse(str(index_file), headers=NO_CACHE_HEADERS)
     return {
         "status": "healthy",
         "system": "PW GATE Predictor & In-House Ops Engine - Student Portal",
@@ -117,7 +124,7 @@ def serve_counsellor_portal():
         )
     counsellor_file = STATIC_DIR / "counsellor.html"
     if counsellor_file.exists():
-        return FileResponse(str(counsellor_file))
+        return FileResponse(str(counsellor_file), headers=NO_CACHE_HEADERS)
     return {
         "status": "healthy",
         "system": "PW GATE Predictor & In-House Ops Engine - Counsellor Portal",
