@@ -132,6 +132,7 @@ def serve_counsellor_portal():
     }
 
 
+@app.api_route("/health", methods=["GET", "HEAD"])
 @app.api_route("/api/health", methods=["GET", "HEAD"])
 def health_check():
     return {

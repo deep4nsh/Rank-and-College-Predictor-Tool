@@ -94,22 +94,18 @@
 
       <!-- Navigation Tabs & Session Controls -->
       <div class="flex items-center space-x-2 sm:space-x-4 mt-2 sm:mt-0 text-sm font-medium">
-        <nav class="flex items-center space-x-1.5">
+        <nav class="flex items-center space-x-1.5 bg-black/15 p-1 rounded-lg border border-white/10">
           <button onclick="switchTab('counsellor-tab')" id="nav-counsellor" class="px-3 py-1.5 rounded-md bg-white/20 text-white flex items-center space-x-1.5 transition">
-            <i class="fa-solid fa-headset"></i>
+            <i class="fa-solid fa-headset text-xs"></i>
             <span>Lead Triage</span>
           </button>
           <button onclick="switchTab('predictor-tab')" id="nav-predictor" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
-            <i class="fa-solid fa-building-columns text-amber-400"></i>
+            <i class="fa-solid fa-building-columns text-amber-400 text-xs"></i>
             <span>College & PSU Predictor</span>
           </button>
           <button onclick="switchTab('admin-tab')" id="nav-admin" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
-            <i class="fa-solid fa-key"></i>
+            <i class="fa-solid fa-key text-xs"></i>
             <span>Answer Keys</span>
-          </button>
-          <button onclick="triggerSeedSampleData()" class="px-3 py-1.5 rounded-md bg-amber-400 hover:bg-amber-300 text-slate-900 flex items-center space-x-1.5 transition text-xs font-black shadow" title="Populate 15 Realistic Sample Student Leads">
-            <i class="fa-solid fa-database"></i>
-            <span>Seed Demo Leads</span>
           </button>
         </nav>
 
@@ -162,34 +158,24 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-5">
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 overflow-hidden">
+        <!-- Table Toolbar -->
+        <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3 bg-slate-50/50">
           <div>
-            <h2 class="text-base font-bold text-slate-800">Counsellor Lead Management & Diagnostics</h2>
-            <p class="text-xs text-slate-500">Prioritized triage by GATE Score, AIR band, call dispositions, and negative marks.</p>
+            <h2 class="text-sm sm:text-base font-extrabold text-slate-800">Candidate Leads & Priority Triage</h2>
+            <p class="text-xs text-slate-500">Live scorecards, predicted AIR bands, and direct admission counselling.</p>
           </div>
 
-          <!-- Filters -->
+          <!-- Compact Filter Bar -->
           <div class="flex flex-wrap items-center gap-2">
-            <input type="text" id="counsellor-search" oninput="loadCounsellorStudents()" placeholder="Search phone, name..." class="border rounded px-3 py-1.5 text-xs focus:ring-2 focus:ring-pw-accent outline-none w-36">
-            <select id="counsellor-filter-lead" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-pw-accent outline-none">
-              <option value="">All Priorities</option>
-              <option value="SUPER_TOPPER">SUPER_TOPPER (AIR &lt; 100)</option>
-              <option value="PSU_AND_TOP_IIT">PSU_AND_TOP_IIT (AIR 100-500)</option>
-              <option value="NIT_PROSPECT">NIT_PROSPECT (AIR 500-2500)</option>
-              <option value="NURTURE_REPEATER">NURTURE_REPEATER (AIR &gt; 5000)</option>
-            </select>
-            <select id="counsellor-filter-disp" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-pw-accent outline-none">
-              <option value="">All Dispositions</option>
-              <option value="PENDING">Pending Call</option>
-              <option value="INTERESTED_IN_BATCH">Interested in Batch</option>
-              <option value="COAP_COUNSELLING_BOOKED">COAP Booked</option>
-              <option value="PSU_GDPI_BOOKED">PSU GD/PI Booked</option>
-              <option value="CONNECTED_FOLLOW_UP">Follow Up</option>
-              <option value="NOT_REACHABLE">Not Reachable</option>
-              <option value="NOT_INTERESTED">Not Interested</option>
-            </select>
-            <select id="counsellor-filter-paper" onchange="loadCounsellorStudents()" class="border rounded px-2 py-1.5 text-xs focus:ring-2 focus:ring-pw-accent outline-none">
+            <!-- Search -->
+            <div class="relative w-44 sm:w-52">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+              <input type="text" id="counsellor-search" oninput="loadCounsellorStudents()" placeholder="Search name, phone..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-pw-accent outline-none">
+            </div>
+
+            <!-- Branch -->
+            <select id="counsellor-filter-paper" onchange="loadCounsellorStudents()" class="border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-white focus:ring-2 focus:ring-pw-accent outline-none">
               <option value="">All Branches</option>
               <option value="CS">CS</option>
               <option value="DA">DA</option>
@@ -198,19 +184,48 @@
               <option value="EE">EE</option>
               <option value="EC">EC</option>
             </select>
-            <label class="flex items-center space-x-1.5 text-xs font-bold text-amber-700 bg-amber-50 px-2 py-1.5 rounded border border-amber-200 cursor-pointer">
-              <input type="checkbox" id="counsellor-high-neg" onchange="loadCounsellorStudents()" class="rounded text-amber-600">
+
+            <!-- Priority -->
+            <select id="counsellor-filter-lead" onchange="loadCounsellorStudents()" class="border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-white focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="">All Priorities</option>
+              <option value="SUPER_TOPPER">Top 100</option>
+              <option value="PSU_AND_TOP_IIT">PSU & IIT</option>
+              <option value="NIT_PROSPECT">NIT Tier</option>
+              <option value="NURTURE_REPEATER">Repeater</option>
+            </select>
+
+            <!-- Disposition -->
+            <select id="counsellor-filter-disp" onchange="loadCounsellorStudents()" class="border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-white focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="">All Dispositions</option>
+              <option value="PENDING">Pending Call</option>
+              <option value="INTERESTED_IN_BATCH">Interested</option>
+              <option value="COAP_COUNSELLING_BOOKED">COAP Booked</option>
+              <option value="PSU_GDPI_BOOKED">PSU GD/PI</option>
+              <option value="CONNECTED_FOLLOW_UP">Follow Up</option>
+              <option value="NOT_REACHABLE">Not Reachable</option>
+              <option value="NOT_INTERESTED">Not Interested</option>
+            </select>
+
+            <!-- High Neg Filter -->
+            <label class="flex items-center space-x-1 text-xs font-semibold text-amber-800 bg-amber-50 px-2.5 py-1.5 rounded-lg border border-amber-200 cursor-pointer">
+              <input type="checkbox" id="counsellor-high-neg" onchange="loadCounsellorStudents()" class="rounded text-amber-600 text-xs">
               <span>Neg &gt; 8</span>
             </label>
-            <button onclick="exportLeadsCsv()" title="Export Filtered Leads to CSV" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold transition flex items-center space-x-1">
-              <i class="fa-solid fa-file-excel"></i>
-              <span>Export CSV</span>
+
+            <!-- Export -->
+            <button onclick="exportLeadsCsv()" title="Export Filtered Leads to CSV" class="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 shadow-xs">
+              <i class="fa-solid fa-file-excel text-emerald-600"></i>
+              <span>Export</span>
             </button>
-            <button onclick="triggerSeedSampleData()" title="Load Sample Demo Leads" class="px-2.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-bold transition flex items-center space-x-1">
-              <i class="fa-solid fa-database"></i>
-              <span>Seed Demo Leads</span>
+
+            <!-- Seed Demo Leads -->
+            <button onclick="triggerSeedSampleData()" title="Populate Demo Leads" class="px-2.5 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold transition flex items-center space-x-1">
+              <i class="fa-solid fa-database text-xs"></i>
+              <span>Demo</span>
             </button>
-            <button onclick="loadCounsellorStudents(); loadCounsellorAnalytics();" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-xs font-semibold transition" title="Refresh List">
+
+            <!-- Refresh -->
+            <button onclick="loadCounsellorStudents(); loadCounsellorAnalytics();" class="p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 rounded-lg text-xs transition" title="Refresh List">
               <i class="fa-solid fa-rotate"></i>
             </button>
           </div>
@@ -219,22 +234,22 @@
         <!-- Student Leads Table -->
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-50 text-slate-600 font-bold border-b">
+            <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider font-bold border-b border-slate-200 text-[10px]">
               <tr>
-                <th class="py-2.5 px-3">Student Name</th>
-                <th class="py-2.5 px-3">Mobile No.</th>
-                <th class="py-2.5 px-3">Branch</th>
-                <th class="py-2.5 px-3">Category</th>
-                <th class="py-2.5 px-3">Raw Score</th>
-                <th class="py-2.5 px-3">Neg. Lost</th>
-                <th class="py-2.5 px-3">GATE Score</th>
-                <th class="py-2.5 px-3">AIR Band</th>
-                <th class="py-2.5 px-3">Priority</th>
-                <th class="py-2.5 px-3">Disposition</th>
-                <th class="py-2.5 px-3 text-right">Actions</th>
+                <th class="py-3 px-3.5 whitespace-nowrap">Student</th>
+                <th class="py-3 px-3 whitespace-nowrap">Mobile</th>
+                <th class="py-3 px-2.5 whitespace-nowrap">Branch</th>
+                <th class="py-3 px-2.5 whitespace-nowrap">Category</th>
+                <th class="py-3 px-3 whitespace-nowrap">Raw Score</th>
+                <th class="py-3 px-2.5 whitespace-nowrap">Neg. Lost</th>
+                <th class="py-3 px-3 whitespace-nowrap">GATE Score</th>
+                <th class="py-3 px-3 whitespace-nowrap">AIR Band</th>
+                <th class="py-3 px-3 whitespace-nowrap">Priority</th>
+                <th class="py-3 px-3 whitespace-nowrap">Disposition</th>
+                <th class="py-3 px-3.5 text-right whitespace-nowrap">Quick Actions</th>
               </tr>
             </thead>
-            <tbody id="counsellor-table-body" class="divide-y text-slate-700">
+            <tbody id="counsellor-table-body" class="divide-y divide-slate-100 text-slate-700">
               <!-- Rendered via JS -->
             </tbody>
           </table>
@@ -791,13 +806,42 @@
           const studentCategory = s.category || s.student_category || 'GEN';
           const airBand = s.air_range || s.air_prediction_range || (s.predicted_air ? `AIR ${s.predicted_air}` : '--');
 
-          const priorityColor = leadPriority === 'SUPER_TOPPER' ? 'bg-purple-100 text-purple-800 border-purple-200' :
-                               (leadPriority === 'PSU_AND_TOP_IIT' ? 'bg-indigo-100 text-indigo-800 border-indigo-200' :
-                               (leadPriority === 'NIT_PROSPECT' ? 'bg-blue-100 text-blue-800 border-blue-200' : 'bg-slate-100 text-slate-700 border-slate-200'));
+          // Clean compact priority pills
+          let priorityLabel = 'Lead';
+          let priorityClass = 'bg-slate-50 text-slate-600 border-slate-200';
+          if (leadPriority === 'SUPER_TOPPER') {
+            priorityLabel = 'Top 100';
+            priorityClass = 'bg-purple-50 text-purple-700 border-purple-200';
+          } else if (leadPriority === 'PSU_AND_TOP_IIT') {
+            priorityLabel = 'PSU / IIT';
+            priorityClass = 'bg-indigo-50 text-indigo-700 border-indigo-200';
+          } else if (leadPriority === 'NIT_PROSPECT') {
+            priorityLabel = 'NIT Tier';
+            priorityClass = 'bg-blue-50 text-blue-700 border-blue-200';
+          } else if (leadPriority === 'NURTURE_REPEATER') {
+            priorityLabel = 'Repeater';
+            priorityClass = 'bg-slate-50 text-slate-600 border-slate-200';
+          }
 
-          const dispColor = s.call_disposition === 'INTERESTED_IN_BATCH' ? 'bg-emerald-100 text-emerald-800' :
-                           (s.call_disposition === 'COAP_COUNSELLING_BOOKED' ? 'bg-sky-100 text-sky-800' :
-                           (s.call_disposition === 'CONNECTED_FOLLOW_UP' ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'));
+          // Clean compact disposition pills
+          let dispLabel = (s.call_disposition || 'PENDING').replace(/_/g, ' ');
+          let dispClass = 'bg-slate-50 text-slate-600 border-slate-200';
+          if (s.call_disposition === 'COAP_COUNSELLING_BOOKED') {
+            dispLabel = 'COAP Booked';
+            dispClass = 'bg-sky-50 text-sky-700 border-sky-200';
+          } else if (s.call_disposition === 'PSU_GDPI_BOOKED') {
+            dispLabel = 'PSU GD/PI';
+            dispClass = 'bg-purple-50 text-purple-700 border-purple-200';
+          } else if (s.call_disposition === 'INTERESTED_IN_BATCH') {
+            dispLabel = 'Interested';
+            dispClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+          } else if (s.call_disposition === 'CONNECTED_FOLLOW_UP') {
+            dispLabel = 'Follow Up';
+            dispClass = 'bg-amber-50 text-amber-700 border-amber-200';
+          } else if (s.call_disposition === 'PENDING') {
+            dispLabel = 'Pending';
+            dispClass = 'bg-slate-100 text-slate-500 border-slate-200';
+          }
 
           const safeName = (s.student_name || 'Candidate').replace(/'/g, "\\'");
           const safeEmail = (s.student_email || '').replace(/'/g, "\\'");
@@ -808,51 +852,56 @@
 
           const isDirect = s.submission_mode === 'DIRECT_SCORE' || (s.pw_batch_id && s.pw_batch_id.includes('Direct'));
           const negLostDisplay = isDirect ?
-            `<span class="text-slate-400 font-semibold text-[10px] bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200" title="Student entered final calculated marks directly without bubbling questions">Direct Score</span>` :
-            `<span class="${negMarksVal > 5 ? 'text-rose-600 font-bold' : 'text-slate-500'}">-${negMarksVal.toFixed(2)}</span>`;
+            `<span class="text-slate-400 text-xs font-mono">--</span>` :
+            `<span class="${negMarksVal > 5 ? 'text-rose-600 font-bold' : 'text-slate-600 font-medium'}">-${negMarksVal.toFixed(2)}</span>`;
 
           const rawScoreDisplay = isDirect ?
-            `<span class="font-bold text-slate-800">${rawScoreVal.toFixed(2)}</span> <span class="text-[9px] font-bold text-amber-700 bg-amber-50 px-1 py-0.5 rounded border border-amber-200 ml-1" title="Direct Score Entry (Bypassed OMR)">Direct</span>` :
+            `<span class="font-bold text-slate-800">${rawScoreVal.toFixed(2)}</span> <span class="text-[9px] font-bold text-amber-700 bg-amber-50 px-1 py-0.5 rounded border border-amber-200" title="Direct Score Entry">Direct</span>` :
             `<span class="font-bold text-slate-800">${rawScoreVal.toFixed(2)}</span>`;
 
           return `
-            <tr class="hover:bg-slate-50 transition border-b">
-              <td class="py-2.5 px-3 font-semibold text-slate-800">${s.student_name}</td>
-              <td class="py-2.5 px-3">
-                <button type="button" onclick="openContactModal('${s.student_phone}', '${safeName}', '${s.paper_code}', ${rawScoreVal}, '${safeAir}', '${studentCategory}', '${leadPriority}', '${s.call_disposition || 'PENDING'}', ${gateScoreVal}, ${negMarksVal}, '${safeEmail}')" class="font-mono text-pw-blue hover:text-blue-800 font-bold hover:underline flex items-center space-x-1" title="View Candidate Contact Details">
-                  <i class="fa-solid fa-address-card text-[11px] text-slate-400"></i>
+            <tr class="hover:bg-blue-50/30 transition border-b border-slate-100 group">
+              <td class="py-2.5 px-3.5 whitespace-nowrap">
+                <span class="font-bold text-slate-900 group-hover:text-pw-blue transition">${s.student_name}</span>
+              </td>
+              <td class="py-2.5 px-3 whitespace-nowrap">
+                <button type="button" onclick="openContactModal('${s.student_phone}', '${safeName}', '${s.paper_code}', ${rawScoreVal}, '${safeAir}', '${studentCategory}', '${leadPriority}', '${s.call_disposition || 'PENDING'}', ${gateScoreVal}, ${negMarksVal}, '${safeEmail}')" class="font-mono text-slate-600 hover:text-pw-blue font-semibold hover:underline flex items-center space-x-1" title="Open Contact Details">
                   <span>${s.student_phone}</span>
                 </button>
               </td>
-              <td class="py-2.5 px-3 font-mono font-bold">${s.paper_code}</td>
-              <td class="py-2.5 px-3 font-semibold text-slate-700">${studentCategory}</td>
+              <td class="py-2.5 px-2.5 whitespace-nowrap font-mono font-bold text-slate-800">${s.paper_code}</td>
+              <td class="py-2.5 px-2.5 whitespace-nowrap font-medium text-slate-600">${studentCategory}</td>
               <td class="py-2.5 px-3 whitespace-nowrap">${rawScoreDisplay}</td>
-              <td class="py-2.5 px-3 whitespace-nowrap">${negLostDisplay}</td>
-              <td class="py-2.5 px-3 font-black text-emerald-600">${gateScoreVal ? gateScoreVal.toFixed(0) : '--'}</td>
-              <td class="py-2.5 px-3 font-semibold text-pw-blue">${airBand}</td>
-              <td class="py-2.5 px-3">
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${priorityColor}">
-                  ${leadPriority.replace(/_/g, ' ')}
+              <td class="py-2.5 px-2.5 whitespace-nowrap">${negLostDisplay}</td>
+              <td class="py-2.5 px-3 whitespace-nowrap font-black text-emerald-600">${gateScoreVal ? gateScoreVal.toFixed(0) : '--'}</td>
+              <td class="py-2.5 px-3 whitespace-nowrap font-mono font-bold text-pw-blue">${airBand}</td>
+              <td class="py-2.5 px-3 whitespace-nowrap">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${priorityClass}">
+                  ${priorityLabel}
                 </span>
               </td>
-              <td class="py-2.5 px-3">
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${dispColor}">
-                  ${(s.call_disposition || 'PENDING').replace(/_/g, ' ')}
+              <td class="py-2.5 px-3 whitespace-nowrap">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold border ${dispClass}">
+                  ${dispLabel}
                 </span>
               </td>
-              <td class="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">
-                <button type="button" onclick="openStudentPredictionsModal('${s.student_phone}', '${safeName}', '${s.paper_code}', '${studentCategory}', ${gateScoreVal}, '${safeAir}')" class="px-2 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-[11px] font-bold shadow-sm transition" title="View Predicted Colleges, IITs & PSUs">
-                  <i class="fa-solid fa-building-columns mr-1"></i>Predictor
-                </button>
-                <button type="button" onclick="openContactModal('${s.student_phone}', '${safeName}', '${s.paper_code}', ${rawScoreVal}, '${safeAir}', '${studentCategory}', '${leadPriority}', '${s.call_disposition || 'PENDING'}', ${gateScoreVal}, ${negMarksVal}, '${safeEmail}')" class="px-2 py-1 bg-pw-blue hover:bg-blue-900 text-white rounded text-[11px] font-bold shadow-sm transition" title="Open Contact Details & Call Log">
-                  <i class="fa-solid fa-phone mr-1"></i>Contact
-                </button>
-                <button type="button" onclick="copyStudentWhatsApp('${s.student_phone}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[11px] font-bold transition" title="Copy WhatsApp Report">
-                  <i class="fa-brands fa-whatsapp"></i>
-                </button>
-                <button type="button" onclick="downloadStudentPdf('${s.student_phone}')" class="px-2 py-1 bg-slate-700 hover:bg-slate-800 text-white rounded text-[11px] font-bold transition" title="Download Official 1-Page PDF">
-                  <i class="fa-solid fa-file-pdf"></i>
-                </button>
+              <td class="py-2.5 px-3.5 text-right whitespace-nowrap">
+                <div class="flex items-center justify-end space-x-1.5">
+                  <button type="button" onclick="openStudentPredictionsModal('${s.student_phone}', '${safeName}', '${s.paper_code}', '${studentCategory}', ${gateScoreVal}, '${safeAir}')" class="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-bold transition flex items-center space-x-1" title="View Eligible Colleges, IITs & PSUs">
+                    <i class="fa-solid fa-building-columns text-[10px]"></i>
+                    <span>Predictor</span>
+                  </button>
+                  <button type="button" onclick="openContactModal('${s.student_phone}', '${safeName}', '${s.paper_code}', ${rawScoreVal}, '${safeAir}', '${studentCategory}', '${leadPriority}', '${s.call_disposition || 'PENDING'}', ${gateScoreVal}, ${negMarksVal}, '${safeEmail}')" class="px-2.5 py-1 bg-pw-blue hover:bg-blue-900 text-white rounded-lg text-xs font-bold transition flex items-center space-x-1 shadow-xs" title="Open Contact Details & Call Log">
+                    <i class="fa-solid fa-phone text-[10px]"></i>
+                    <span>Contact</span>
+                  </button>
+                  <button type="button" onclick="copyStudentWhatsApp('${s.student_phone}')" class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200 hover:border-emerald-600 transition flex items-center justify-center text-xs" title="Copy WhatsApp Report">
+                    <i class="fa-brands fa-whatsapp"></i>
+                  </button>
+                  <button type="button" onclick="downloadStudentPdf('${s.student_phone}')" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-800 text-slate-600 hover:text-white border border-slate-200 hover:border-slate-800 transition flex items-center justify-center text-xs" title="Download Official 1-Page PDF">
+                    <i class="fa-solid fa-file-pdf"></i>
+                  </button>
+                </div>
               </td>
             </tr>
           `;
