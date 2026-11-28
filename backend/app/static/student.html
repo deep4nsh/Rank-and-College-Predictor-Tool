@@ -528,8 +528,8 @@
       const paper = document.getElementById('meta-paper').value;
       const sessionSelect = document.getElementById('meta-session');
       
-      // Auto-adjust session for single-session GATE branches
-      const singleSessionPapers = ['DA', 'EE', 'EC', 'IN', 'CH'];
+      // Auto-adjust session for single-session GATE 2026 branches (CS & CE are multi-session)
+      const singleSessionPapers = ['DA', 'ME', 'EE', 'EC', 'IN', 'CH'];
       if (singleSessionPapers.includes(paper) && sessionSelect.value === '2') {
         sessionSelect.value = '1';
         showToast(`${paper} is conducted in a single session (Session 1 Forenoon)`, "blue");

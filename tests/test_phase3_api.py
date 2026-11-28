@@ -155,17 +155,19 @@ def test_sample_paper_branch_and_session_diversity():
     assert res_da.status_code == 200
     da_data = res_da.json()
     assert da_data["total_questions"] == 65
-    # Verify DA-specific tags
+    # Verify DA-specific 2026 paper
+    assert da_data.get("year") == 2026
     da_tags = {q.get("subject_tag") for q in da_data["questions"]}
-    assert "Machine Learning" in da_tags or "Linear Algebra" in da_tags
+    assert "DA Core" in da_tags
 
     # 3. Test ME (Mechanical)
     res_me = client.get("/api/v1/ingest/sample-paper/ME?session_id=1")
     assert res_me.status_code == 200
     me_data = res_me.json()
     assert me_data["total_questions"] == 65
+    assert me_data.get("year") == 2026
     me_tags = {q.get("subject_tag") for q in me_data["questions"]}
-    assert "Thermodynamics" in me_tags or "Fluid Mechanics" in me_tags
+    assert "ME Core" in me_tags
 
 
 def test_sample_paper_interactive_student_submission():

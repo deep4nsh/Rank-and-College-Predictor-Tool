@@ -94,6 +94,39 @@ def seed_demo_leads(
     return {"status": "success", "message": f"Successfully populated {count} sample student leads", "count": count}
 
 
+@router.post("/clear-mock-data")
+def clear_mock_data(
+    db: Session = Depends(get_db),
+    _auth: str = Depends(verify_counsellor_access),
+):
+    """
+    Clears all student submissions, evaluation results, call logs, and legacy
+    paper/key rows so the system starts clean with real GATE 2026 data only.
+    """
+    from backend.app.db.models import (
+        AnswerKeyItemModel,
+        AnswerKeyModel,
+        PaperModel,
+        QuestionModel,
+        StudentResponseModel,
+    )
+
+    deleted_calls = db.query(CounsellorCallLogModel).delete()
+    deleted_evals = db.query(EvaluationResultModel).delete()
+    db.query(StudentResponseModel).delete()
+    deleted_subs = db.query(StudentSubmissionModel).delete()
+    db.query(AnswerKeyItemModel).delete()
+    db.query(AnswerKeyModel).delete()
+    db.query(QuestionModel).delete()
+    db.query(PaperModel).delete()
+    db.commit()
+    return {
+        "status": "success",
+        "message": f"Cleared {deleted_subs} student leads, {deleted_evals} evaluations, {deleted_calls} call logs, and reset papers/keys to GATE 2026.",
+        "deleted_submissions": deleted_subs,
+    }
+
+
 @router.get("/students")
 def list_students(
     search: Optional[str] = Query(None, description="Search by phone, name, or email"),

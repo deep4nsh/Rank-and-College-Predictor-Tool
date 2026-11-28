@@ -218,10 +218,10 @@
               <span>Export</span>
             </button>
 
-            <!-- Seed Demo Leads -->
-            <button onclick="triggerSeedSampleData()" title="Populate Demo Leads" class="px-2.5 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold transition flex items-center space-x-1">
-              <i class="fa-solid fa-database text-xs"></i>
-              <span>Demo</span>
+            <!-- Clear Mock / Test Leads -->
+            <button onclick="triggerClearMockData()" title="Clear All Mock & Test Leads" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg text-xs font-semibold transition flex items-center space-x-1">
+              <i class="fa-solid fa-trash-can text-xs"></i>
+              <span>Clear Mock</span>
             </button>
 
             <!-- Refresh -->
@@ -787,13 +787,9 @@
                     <i class="fa-solid fa-users"></i>
                   </div>
                   <div>
-                    <h4 class="font-bold text-slate-800 text-sm">No Student Leads Found</h4>
-                    <p class="text-xs text-slate-500 mt-0.5">Click below to immediately load 15 realistic sample leads across GATE branches.</p>
+                    <h4 class="font-bold text-slate-800 text-sm">No Student Submissions Yet</h4>
+                    <p class="text-xs text-slate-500 mt-0.5">Real GATE 2026 candidate submissions from the Student Portal will appear here automatically.</p>
                   </div>
-                  <button type="button" onclick="triggerSeedSampleData()" class="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-900 rounded-lg text-xs font-black shadow-md transition flex items-center space-x-2">
-                    <i class="fa-solid fa-database"></i>
-                    <span>Seed 15 Demo Student Leads Now</span>
-                  </button>
                 </div>
               </td>
             </tr>
@@ -934,22 +930,25 @@
       window.open(`/api/v1/counsellor/export/csv?${params.toString()}`, '_blank');
     }
 
-    async function triggerSeedSampleData() {
+    async function triggerClearMockData() {
+      if (!confirm("Clear all mock/test student submissions and reset active papers to official GATE 2026 keys?")) {
+        return;
+      }
       try {
-        const resp = await fetch('/api/v1/counsellor/seed-data', {
+        const resp = await fetch('/api/v1/counsellor/clear-mock-data', {
           method: 'POST',
           headers: getAuthHeaders()
         });
         if (!resp.ok) {
           const errData = await resp.json().catch(() => ({}));
-          throw new Error(errData.detail || "Failed to populate demo data");
+          throw new Error(errData.detail || "Failed to clear mock data");
         }
         const data = await resp.json();
-        showToast(data.message || "Sample student leads populated successfully!", "green");
+        showToast(data.message || "All mock data cleared!", "green");
         loadCounsellorStudents();
         loadCounsellorAnalytics();
       } catch (err) {
-        showToast("Error seeding data: " + err.message, "red");
+        showToast("Error clearing data: " + err.message, "red");
       }
     }
 
