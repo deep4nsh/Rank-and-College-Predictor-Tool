@@ -99,6 +99,10 @@
             <i class="fa-solid fa-headset"></i>
             <span>Lead Triage</span>
           </button>
+          <button onclick="switchTab('predictor-tab')" id="nav-predictor" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
+            <i class="fa-solid fa-building-columns text-amber-400"></i>
+            <span>College & PSU Predictor</span>
+          </button>
           <button onclick="switchTab('admin-tab')" id="nav-admin" class="px-3 py-1.5 rounded-md hover:bg-white/10 text-blue-100 flex items-center space-x-1.5 transition">
             <i class="fa-solid fa-key"></i>
             <span>Answer Keys</span>
@@ -380,6 +384,45 @@
       </div>
     </div>
 
+    <!-- CANDIDATE COLLEGE & PSU PREDICTIONS MODAL -->
+    <div id="student-predictor-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-4xl w-full overflow-hidden transform transition-all max-h-[90vh] flex flex-col">
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-pw-blue to-indigo-900 text-white p-4 flex items-center justify-between flex-shrink-0">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-amber-300 text-lg">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h3 id="pred-modal-name" class="font-black text-base">Candidate College & PSU Predictions</h3>
+                <span id="pred-modal-phone" class="font-mono text-xs text-blue-200 bg-white/10 px-2 py-0.5 rounded"></span>
+              </div>
+              <p id="pred-modal-meta" class="text-xs text-blue-200">GATE CS | Category: GEN | GATE Score: 780 | AIR: 150 - 320</p>
+            </div>
+          </div>
+          <button onclick="closeStudentPredictorModal()" class="text-white/80 hover:text-white text-xl p-1.5 transition" title="Close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Modal Body Content -->
+        <div id="pred-modal-content" class="p-6 overflow-y-auto space-y-6 text-xs flex-1">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="bg-slate-50 border-t border-slate-200 px-6 py-3 flex items-center justify-between flex-shrink-0">
+          <div class="text-[11px] text-slate-500">
+            Weighted moving average cutoffs across 2022-2025 COAP, CCMT & PSU recruitment rounds.
+          </div>
+          <button onclick="closeStudentPredictorModal()" class="px-4 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-lg transition">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- TAB 2: ANSWER KEY MANAGEMENT -->
     <section id="admin-tab" class="hidden">
       <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -441,6 +484,76 @@
             <i class="fa-solid fa-arrows-rotate"></i>
             <span>Run Batch Re-Evaluation</span>
           </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: INTERACTIVE COLLEGE & PSU PREDICTOR -->
+    <section id="predictor-tab" class="hidden">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b pb-4 mb-6">
+          <div>
+            <h2 class="text-base font-bold text-slate-800 flex items-center space-x-2">
+              <i class="fa-solid fa-building-columns text-amber-500"></i>
+              <span>Interactive College, IIT & PSU Predictor Simulator</span>
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">Simulate admissions, GATE score normalization, and PSU eligibility for any student on call.</p>
+          </div>
+          <button type="button" onclick="runCounsellorSimulator()" class="px-4 py-2 bg-pw-blue hover:bg-blue-900 text-white font-bold text-xs rounded-lg shadow-sm transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <span>Refresh Simulation</span>
+          </button>
+        </div>
+
+        <!-- Simulation Inputs -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">GATE Paper Code *</label>
+            <select id="sim-paper" class="w-full border rounded-lg px-2.5 py-1.5 text-xs font-bold text-pw-blue bg-white focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="CS" selected>CS - Computer Science</option>
+              <option value="DA">DA - Data Science & AI</option>
+              <option value="ME">ME - Mechanical</option>
+              <option value="CE">CE - Civil</option>
+              <option value="EE">EE - Electrical</option>
+              <option value="EC">EC - Electronics</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Category *</label>
+            <select id="sim-category" class="w-full border rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-700 bg-white focus:ring-2 focus:ring-pw-accent outline-none">
+              <option value="GEN" selected>General (GEN)</option>
+              <option value="OBC_NCL">OBC-NCL</option>
+              <option value="EWS">EWS</option>
+              <option value="SC">SC</option>
+              <option value="ST">ST</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Raw Marks (out of 100) *</label>
+            <input type="number" id="sim-score" min="0" max="100" step="0.1" value="68.5" class="w-full border rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800 bg-white focus:ring-2 focus:ring-pw-accent outline-none">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">B.Tech %</label>
+            <input type="number" id="sim-btech" min="40" max="100" step="0.1" value="75.0" class="w-full border rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-white focus:ring-2 focus:ring-pw-accent outline-none">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Age (Years)</label>
+            <input type="number" id="sim-age" min="18" max="40" value="23" class="w-full border rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-white focus:ring-2 focus:ring-pw-accent outline-none">
+          </div>
+          <div class="flex items-end">
+            <button type="button" onclick="runCounsellorSimulator()" id="btn-run-sim" class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg shadow-sm transition flex items-center justify-center space-x-1.5">
+              <i class="fa-solid fa-bolt"></i>
+              <span>Forecast</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Simulation Results Section -->
+        <div id="sim-results-container">
+          <div class="text-center p-8 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-slate-500">
+            <i class="fa-solid fa-chart-pie text-3xl text-slate-400 mb-2"></i>
+            <p class="text-xs font-medium">Click <strong>Forecast</strong> above to run multi-session rank, COAP, CCMT, and PSU predictions.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -575,10 +688,12 @@
     function switchTab(tabId) {
       document.getElementById('counsellor-tab').classList.add('hidden');
       document.getElementById('admin-tab').classList.add('hidden');
+      const predTab = document.getElementById('predictor-tab');
+      if (predTab) predTab.classList.add('hidden');
 
       document.getElementById(tabId).classList.remove('hidden');
 
-      const tabs = ['counsellor', 'admin'];
+      const tabs = ['counsellor', 'predictor', 'admin'];
       tabs.forEach(t => {
         const btn = document.getElementById(`nav-${t}`);
         if (!btn) return;
@@ -592,6 +707,11 @@
       if (tabId === 'counsellor-tab' && authToken) {
         loadCounsellorStudents();
         loadCounsellorAnalytics();
+      } else if (tabId === 'predictor-tab') {
+        const simContainer = document.getElementById('sim-results-container');
+        if (simContainer && simContainer.children.length <= 1) {
+          runCounsellorSimulator();
+        }
       }
     }
 
@@ -667,9 +787,13 @@
         }
 
         tbody.innerHTML = data.students.map(s => {
-          const priorityColor = s.lead_priority === 'SUPER_TOPPER' ? 'bg-purple-100 text-purple-800 border-purple-200' :
-                               (s.lead_priority === 'PSU_AND_TOP_IIT' ? 'bg-indigo-100 text-indigo-800 border-indigo-200' :
-                               (s.lead_priority === 'NIT_PROSPECT' ? 'bg-blue-100 text-blue-800 border-blue-200' : 'bg-slate-100 text-slate-700 border-slate-200'));
+          const leadPriority = s.lead_classification || s.lead_priority || 'NORMAL';
+          const studentCategory = s.category || s.student_category || 'GEN';
+          const airBand = s.air_range || s.air_prediction_range || (s.predicted_air ? `AIR ${s.predicted_air}` : '--');
+
+          const priorityColor = leadPriority === 'SUPER_TOPPER' ? 'bg-purple-100 text-purple-800 border-purple-200' :
+                               (leadPriority === 'PSU_AND_TOP_IIT' ? 'bg-indigo-100 text-indigo-800 border-indigo-200' :
+                               (leadPriority === 'NIT_PROSPECT' ? 'bg-blue-100 text-blue-800 border-blue-200' : 'bg-slate-100 text-slate-700 border-slate-200'));
 
           const dispColor = s.call_disposition === 'INTERESTED_IN_BATCH' ? 'bg-emerald-100 text-emerald-800' :
                            (s.call_disposition === 'COAP_COUNSELLING_BOOKED' ? 'bg-sky-100 text-sky-800' :
@@ -677,36 +801,42 @@
 
           const safeName = (s.student_name || 'Candidate').replace(/'/g, "\\'");
           const safeEmail = (s.student_email || '').replace(/'/g, "\\'");
-          const safeAir = (s.air_prediction_range || '--').replace(/'/g, "\\'");
+          const safeAir = airBand.replace(/'/g, "\\'");
+          const rawScoreVal = s.raw_score !== undefined ? Number(s.raw_score) : (s.raw_score_total !== undefined ? Number(s.raw_score_total) : 0);
+          const negMarksVal = s.marks_lost_to_negatives !== undefined ? Number(s.marks_lost_to_negatives) : 0;
+          const gateScoreVal = s.gate_score ? Number(s.gate_score) : 0;
 
           return `
             <tr class="hover:bg-slate-50 transition border-b">
               <td class="py-2.5 px-3 font-semibold text-slate-800">${s.student_name}</td>
               <td class="py-2.5 px-3">
-                <button type="button" onclick="openContactModal('${s.student_phone}', '${safeName}', '${s.paper_code}', ${s.raw_score}, '${safeAir}', '${s.student_category}', '${s.lead_priority}', '${s.call_disposition}', ${s.gate_score || 0}, ${s.marks_lost_to_negatives || 0}, '${safeEmail}')" class="font-mono text-pw-blue hover:text-blue-800 font-bold hover:underline flex items-center space-x-1" title="View Candidate Contact Details">
+                <button type="button" onclick="openContactModal('${s.student_phone}', '${safeName}', '${s.paper_code}', ${rawScoreVal}, '${safeAir}', '${studentCategory}', '${leadPriority}', '${s.call_disposition || 'PENDING'}', ${gateScoreVal}, ${negMarksVal}, '${safeEmail}')" class="font-mono text-pw-blue hover:text-blue-800 font-bold hover:underline flex items-center space-x-1" title="View Candidate Contact Details">
                   <i class="fa-solid fa-address-card text-[11px] text-slate-400"></i>
                   <span>${s.student_phone}</span>
                 </button>
               </td>
               <td class="py-2.5 px-3 font-mono font-bold">${s.paper_code}</td>
-              <td class="py-2.5 px-3">${s.student_category}</td>
-              <td class="py-2.5 px-3 font-bold text-slate-800">${s.raw_score.toFixed(2)}</td>
-              <td class="py-2.5 px-3 font-semibold ${s.marks_lost_to_negatives > 5 ? 'text-rose-600 font-bold' : 'text-slate-500'}">-${s.marks_lost_to_negatives.toFixed(2)}</td>
-              <td class="py-2.5 px-3 font-black text-emerald-600">${s.gate_score ? s.gate_score.toFixed(0) : '--'}</td>
-              <td class="py-2.5 px-3 font-semibold text-pw-blue">${s.air_prediction_range || '--'}</td>
+              <td class="py-2.5 px-3 font-semibold text-slate-700">${studentCategory}</td>
+              <td class="py-2.5 px-3 font-bold text-slate-800">${rawScoreVal.toFixed(2)}</td>
+              <td class="py-2.5 px-3 font-semibold ${negMarksVal > 5 ? 'text-rose-600 font-bold' : 'text-slate-500'}">-${negMarksVal.toFixed(2)}</td>
+              <td class="py-2.5 px-3 font-black text-emerald-600">${gateScoreVal ? gateScoreVal.toFixed(0) : '--'}</td>
+              <td class="py-2.5 px-3 font-semibold text-pw-blue">${airBand}</td>
               <td class="py-2.5 px-3">
                 <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${priorityColor}">
-                  ${s.lead_priority}
+                  ${leadPriority.replace(/_/g, ' ')}
                 </span>
               </td>
               <td class="py-2.5 px-3">
                 <span class="px-2 py-0.5 rounded text-[10px] font-bold ${dispColor}">
-                  ${s.call_disposition.replace(/_/g, ' ')}
+                  ${(s.call_disposition || 'PENDING').replace(/_/g, ' ')}
                 </span>
               </td>
-              <td class="py-2.5 px-3 text-right space-x-1.5 whitespace-nowrap">
-                <button type="button" onclick="openContactModal('${s.student_phone}', '${safeName}', '${s.paper_code}', ${s.raw_score}, '${safeAir}', '${s.student_category}', '${s.lead_priority}', '${s.call_disposition}', ${s.gate_score || 0}, ${s.marks_lost_to_negatives || 0}, '${safeEmail}')" class="px-2 py-1 bg-pw-blue hover:bg-blue-900 text-white rounded text-[11px] font-bold shadow-sm transition" title="Open Contact Details & Call Log">
-                  <i class="fa-solid fa-id-card mr-1"></i>Contact
+              <td class="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">
+                <button type="button" onclick="openStudentPredictionsModal('${s.student_phone}', '${safeName}', '${s.paper_code}', '${studentCategory}', ${gateScoreVal}, '${safeAir}')" class="px-2 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-[11px] font-bold shadow-sm transition" title="View Predicted Colleges, IITs & PSUs">
+                  <i class="fa-solid fa-building-columns mr-1"></i>Predictor
+                </button>
+                <button type="button" onclick="openContactModal('${s.student_phone}', '${safeName}', '${s.paper_code}', ${rawScoreVal}, '${safeAir}', '${studentCategory}', '${leadPriority}', '${s.call_disposition || 'PENDING'}', ${gateScoreVal}, ${negMarksVal}, '${safeEmail}')" class="px-2 py-1 bg-pw-blue hover:bg-blue-900 text-white rounded text-[11px] font-bold shadow-sm transition" title="Open Contact Details & Call Log">
+                  <i class="fa-solid fa-phone mr-1"></i>Contact
                 </button>
                 <button type="button" onclick="copyStudentWhatsApp('${s.student_phone}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[11px] font-bold transition" title="Copy WhatsApp Report">
                   <i class="fa-brands fa-whatsapp"></i>
@@ -763,6 +893,311 @@
     // Modal State Management
     let currentModalPhone = "";
     let currentModalEmail = "";
+
+    // Candidate Predictions Modal Functions
+    function closeStudentPredictorModal() {
+      document.getElementById('student-predictor-modal').classList.add('hidden');
+    }
+
+    async function openStudentPredictionsModal(phone, name, branch, category, gateScore, airRange) {
+      document.getElementById('pred-modal-name').innerText = name || 'Candidate';
+      document.getElementById('pred-modal-meta').innerText = `GATE ${branch} | Category: ${category} | GATE Score: ${gateScore} / 1000 | AIR: ${airRange}`;
+      document.getElementById('pred-modal-phone').innerText = phone;
+      document.getElementById('pred-modal-content').innerHTML = `
+        <div class="p-8 text-center text-slate-500 text-xs">
+          <i class="fa-solid fa-spinner fa-spin text-2xl text-pw-accent mb-2 block"></i>
+          <span>Loading institutional and PSU cutoffs...</span>
+        </div>
+      `;
+      document.getElementById('student-predictor-modal').classList.remove('hidden');
+
+      try {
+        const resp = await fetch(`/api/v1/counsellor/students/${phone}`, {
+          headers: getAuthHeaders()
+        });
+        if (!resp.ok) throw new Error("Failed to load candidate prediction details");
+        const data = await resp.json();
+        renderStudentPredictionsInModal(data);
+      } catch (err) {
+        document.getElementById('pred-modal-content').innerHTML = `
+          <div class="p-6 text-center text-rose-600 bg-rose-50 rounded-xl">
+            <i class="fa-solid fa-circle-exclamation text-2xl mb-2 block"></i>
+            <div>${err.message}</div>
+          </div>
+        `;
+      }
+    }
+
+    function renderStudentPredictionsInModal(data) {
+      const content = document.getElementById('pred-modal-content');
+      const coapList = data.coap_options || [];
+      const ccmtList = data.ccmt_options || [];
+      const psuList = data.psu_options || [];
+      const interList = data.interdisciplinary_options || [];
+
+      content.innerHTML = `
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 text-center">
+            <span class="text-[10px] font-bold text-purple-700 uppercase tracking-wider block">COAP (IIT) Matches</span>
+            <div class="text-2xl font-black text-purple-900 mt-0.5">${coapList.length}</div>
+          </div>
+          <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 text-center">
+            <span class="text-[10px] font-bold text-pw-blue uppercase tracking-wider block">CCMT (NIT) Matches</span>
+            <div class="text-2xl font-black text-pw-blue mt-0.5">${ccmtList.length}</div>
+          </div>
+          <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 text-center">
+            <span class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">PSU Eligible Posts</span>
+            <div class="text-2xl font-black text-emerald-900 mt-0.5">${psuList.filter(p => p.is_eligible).length}</div>
+          </div>
+          <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 text-center">
+            <span class="text-[10px] font-bold text-amber-700 uppercase tracking-wider block">Cross-Discipline</span>
+            <div class="text-2xl font-black text-amber-900 mt-0.5">${interList.length}</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-200">
+            <h4 class="font-extrabold text-sm text-slate-800 flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+              <span>COAP Allotments (IITs & IISc)</span>
+            </h4>
+            <span class="text-[11px] text-purple-700 font-bold bg-purple-100 px-2 py-0.5 rounded">${coapList.length} Options</span>
+          </div>
+          ${coapList.length === 0 ? '<p class="text-slate-400 italic">No direct COAP IIT cutoffs matched for this score tier. Review CCMT options below.</p>' : `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 max-h-56 overflow-y-auto custom-scrollbar p-1">
+              ${coapList.map(c => `
+                <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between hover:border-purple-300 transition">
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-slate-800">${c.institution_name}</span>
+                    <span class="px-2 py-0.5 rounded text-[9px] font-bold ${c.match_tier === 'AMBITIOUS' ? 'bg-purple-100 text-purple-800' : (c.match_tier === 'TARGET' ? 'bg-blue-100 text-blue-800' : 'bg-emerald-100 text-emerald-800')}">
+                      ${c.match_tier} (${c.probability_pct}%)
+                    </span>
+                  </div>
+                  <div class="text-[11px] text-slate-600 font-semibold mt-1">${c.program_name}</div>
+                  <div class="flex items-center justify-between text-[10px] text-slate-400 mt-2 pt-1.5 border-t border-slate-100">
+                    <span>Cutoff Score: <strong class="text-slate-700">${c.historical_closing_score}</strong></span>
+                    <span class="font-semibold text-pw-accent">${c.offer_type}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `}
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-200">
+            <h4 class="font-extrabold text-sm text-slate-800 flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-pw-blue"></span>
+              <span>CCMT Allotments (NITs, IIITs & CFTIs)</span>
+            </h4>
+            <span class="text-[11px] text-blue-700 font-bold bg-blue-100 px-2 py-0.5 rounded">${ccmtList.length} Options</span>
+          </div>
+          ${ccmtList.length === 0 ? '<p class="text-slate-400 italic">No CCMT cutoffs found for this score tier.</p>' : `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 max-h-56 overflow-y-auto custom-scrollbar p-1">
+              ${ccmtList.map(c => `
+                <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between hover:border-blue-300 transition">
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-slate-800">${c.institution_name}</span>
+                    <span class="px-2 py-0.5 rounded text-[9px] font-bold ${c.match_tier === 'AMBITIOUS' ? 'bg-purple-100 text-purple-800' : (c.match_tier === 'TARGET' ? 'bg-blue-100 text-blue-800' : 'bg-emerald-100 text-emerald-800')}">
+                      ${c.match_tier} (${c.probability_pct}%)
+                    </span>
+                  </div>
+                  <div class="text-[11px] text-slate-600 font-semibold mt-1">${c.program_name}</div>
+                  <div class="flex items-center justify-between text-[10px] text-slate-400 mt-2 pt-1.5 border-t border-slate-100">
+                    <span>Cutoff Score: <strong class="text-slate-700">${c.historical_closing_score}</strong></span>
+                    <span class="font-semibold text-pw-accent">${c.offer_type}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `}
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-200">
+            <h4 class="font-extrabold text-sm text-slate-800 flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+              <span>Public Sector Undertakings (PSU) Opportunities</span>
+            </h4>
+            <span class="text-[11px] text-emerald-700 font-bold bg-emerald-100 px-2 py-0.5 rounded">${psuList.length} PSUs</span>
+          </div>
+          ${psuList.length === 0 ? '<p class="text-slate-400 italic">PSUs generally require GATE Score > 650. Prioritize M.Tech admissions.</p>' : `
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-56 overflow-y-auto custom-scrollbar p-1">
+              ${psuList.map(p => `
+                <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition">
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-slate-900">${p.psu_name}</span>
+                    <span class="px-2 py-0.5 rounded text-[9px] font-extrabold ${p.is_eligible ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                      ${p.is_eligible ? 'ELIGIBLE' : 'DISQUALIFIED'}
+                    </span>
+                  </div>
+                  <div class="text-[11px] text-slate-700 font-bold mt-1">${p.post_name}</div>
+                  <p class="text-[10px] text-slate-500 mt-1">${p.eligibility_note || ''}</p>
+                  <div class="flex items-center justify-between text-[10px] text-slate-400 mt-2 pt-1.5 border-t border-slate-100">
+                    <span>Min Score: <strong class="text-slate-700">${p.min_gate_score}</strong></span>
+                    <span class="font-bold text-pw-accent">${p.probability_pct}% Shortlist</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    // Interactive Simulator Functions
+    async function runCounsellorSimulator() {
+      const paper = document.getElementById('sim-paper').value;
+      const cat = document.getElementById('sim-category').value;
+      const score = parseFloat(document.getElementById('sim-score').value) || 65.0;
+      const btech = parseFloat(document.getElementById('sim-btech').value) || 75.0;
+      const age = parseInt(document.getElementById('sim-age').value) || 23;
+      const btn = document.getElementById('btn-run-sim');
+      const container = document.getElementById('sim-results-container');
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Forecasting...</span>`;
+      }
+      container.innerHTML = `
+        <div class="p-12 text-center text-slate-500 text-xs">
+          <i class="fa-solid fa-spinner fa-spin text-3xl text-pw-accent mb-3 block"></i>
+          <span>Running spline rank prediction, multi-year COAP/CCMT cutoffs, and PSU rules...</span>
+        </div>
+      `;
+
+      try {
+        const resp = await fetch(`/api/v1/predictor/quick-estimate?score=${score}&paper_code=${paper}&category=${cat}&btech_pct=${btech}&age=${age}&has_ncl=true&include_interdisciplinary=true`);
+        if (!resp.ok) throw new Error("Simulation failed");
+        const data = await resp.json();
+        renderSimulatorResults(data);
+      } catch (err) {
+        container.innerHTML = `
+          <div class="p-6 text-center text-rose-600 bg-rose-50 rounded-xl">
+            <i class="fa-solid fa-triangle-exclamation text-2xl mb-2 block"></i>
+            <div>${err.message}</div>
+          </div>
+        `;
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = `<i class="fa-solid fa-bolt"></i> <span>Forecast</span>`;
+        }
+      }
+    }
+
+    function renderSimulatorResults(data) {
+      const container = document.getElementById('sim-results-container');
+      const coapList = data.coap_options || [];
+      const ccmtList = data.ccmt_options || [];
+      const psuList = data.psu_options || [];
+
+      container.innerHTML = `
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-gradient-to-r from-pw-blue to-blue-900 text-white p-4 rounded-xl shadow-md">
+          <div class="p-2 border-r border-white/10">
+            <span class="text-[10px] text-blue-200 font-bold uppercase tracking-wider block">Normalized Score</span>
+            <div class="text-2xl font-black mt-0.5">${data.approx_gate_score} <span class="text-xs text-blue-200 font-normal">/ 1000</span></div>
+          </div>
+          <div class="p-2 border-r border-white/10">
+            <span class="text-[10px] text-blue-200 font-bold uppercase tracking-wider block">Predicted AIR Range</span>
+            <div class="text-2xl font-black mt-0.5">${data.air_range}</div>
+          </div>
+          <div class="p-2 border-r border-white/10">
+            <span class="text-[10px] text-blue-200 font-bold uppercase tracking-wider block">Lead Priority</span>
+            <div class="text-base font-extrabold text-amber-300 mt-1">${(data.lead_classification || 'NORMAL').replace(/_/g, ' ')}</div>
+          </div>
+          <div class="p-2">
+            <span class="text-[10px] text-blue-200 font-bold uppercase tracking-wider block">Total Institutional Matches</span>
+            <div class="text-2xl font-black text-emerald-400 mt-0.5">${coapList.length + ccmtList.length + psuList.length}</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div class="border rounded-xl p-4 bg-purple-50/40 border-purple-200">
+            <div class="flex items-center justify-between pb-2 mb-3 border-b border-purple-200">
+              <span class="font-extrabold text-xs text-purple-950 uppercase tracking-wide flex items-center space-x-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+                <span>COAP (IITs & IISc)</span>
+              </span>
+              <span class="text-[10px] font-bold bg-purple-100 text-purple-800 px-2 py-0.5 rounded">${coapList.length} Options</span>
+            </div>
+            ${coapList.length === 0 ? '<p class="text-slate-400 italic text-xs">No IIT cutoffs matched for this score level.</p>' : `
+              <div class="space-y-2 max-h-80 overflow-y-auto custom-scrollbar p-1">
+                ${coapList.map(c => `
+                  <div class="p-2.5 bg-white rounded-lg border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                      <span class="font-bold text-slate-800 text-xs">${c.institution_name}</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-100 text-purple-800">${c.match_tier}</span>
+                    </div>
+                    <div class="text-[11px] text-slate-600 font-medium mt-0.5">${c.program_name}</div>
+                    <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1 pt-1 border-t border-slate-100">
+                      <span>Cutoff: <strong class="text-slate-700">${c.historical_closing_score}</strong></span>
+                      <span class="font-bold text-pw-accent">${c.probability_pct}% Prob.</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+
+          <div class="border rounded-xl p-4 bg-blue-50/40 border-blue-200">
+            <div class="flex items-center justify-between pb-2 mb-3 border-b border-blue-200">
+              <span class="font-extrabold text-xs text-blue-950 uppercase tracking-wide flex items-center space-x-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-pw-blue"></span>
+                <span>CCMT (NITs & IIITs)</span>
+              </span>
+              <span class="text-[10px] font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded">${ccmtList.length} Options</span>
+            </div>
+            ${ccmtList.length === 0 ? '<p class="text-slate-400 italic text-xs">No NIT cutoffs matched for this score level.</p>' : `
+              <div class="space-y-2 max-h-80 overflow-y-auto custom-scrollbar p-1">
+                ${ccmtList.map(c => `
+                  <div class="p-2.5 bg-white rounded-lg border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                      <span class="font-bold text-slate-800 text-xs">${c.institution_name}</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-100 text-blue-800">${c.match_tier}</span>
+                    </div>
+                    <div class="text-[11px] text-slate-600 font-medium mt-0.5">${c.program_name}</div>
+                    <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1 pt-1 border-t border-slate-100">
+                      <span>Cutoff: <strong class="text-slate-700">${c.historical_closing_score}</strong></span>
+                      <span class="font-bold text-pw-accent">${c.probability_pct}% Prob.</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+
+          <div class="border rounded-xl p-4 bg-emerald-50/40 border-emerald-200">
+            <div class="flex items-center justify-between pb-2 mb-3 border-b border-emerald-200">
+              <span class="font-extrabold text-xs text-emerald-950 uppercase tracking-wide flex items-center space-x-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                <span>PSU Recruiters</span>
+              </span>
+              <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">${psuList.length} PSUs</span>
+            </div>
+            ${psuList.length === 0 ? '<p class="text-slate-400 italic text-xs">Score too low for PSU recruitment shortlist.</p>' : `
+              <div class="space-y-2 max-h-80 overflow-y-auto custom-scrollbar p-1">
+                ${psuList.map(p => `
+                  <div class="p-2.5 bg-white rounded-lg border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                      <span class="font-black text-slate-900 text-xs">${p.psu_name}</span>
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold ${p.is_eligible ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                        ${p.is_eligible ? 'ELIGIBLE' : 'DISQUALIFIED'}
+                      </span>
+                    </div>
+                    <div class="text-[11px] text-slate-700 font-semibold mt-0.5">${p.post_name}</div>
+                    <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1 pt-1 border-t border-slate-100">
+                      <span>Min Score: <strong class="text-slate-700">${p.min_gate_score}</strong></span>
+                      <span class="font-bold text-pw-accent">${p.probability_pct}% Shortlist</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+    }
 
     async function openContactModal(phone, name, branch, rawScore, airRange, category = "GEN", leadPriority = "LEAD", currentDisp = "PENDING", gateScore = 0, negLost = 0, email = "") {
       currentModalPhone = phone;

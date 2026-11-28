@@ -357,6 +357,20 @@
               </ul>
             </div>
           </div>
+
+          <!-- PSU Opportunities Section -->
+          <div class="mt-8 pt-6 border-t border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <h3 class="text-base font-bold text-slate-800 flex items-center space-x-2">
+                <i class="fa-solid fa-briefcase text-emerald-600"></i>
+                <span>Public Sector Undertakings (PSU) Recruitment & Cutoffs</span>
+              </h3>
+              <span class="text-xs text-slate-500 font-semibold">IOCL, ONGC, NTPC, HPCL, BARC, DRDO</span>
+            </div>
+            <div id="psu-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -816,23 +830,57 @@
           ul.innerHTML = '<li class="text-slate-400 italic">No historical matches in this tier.</li>';
           return;
         }
-        items.slice(0, 5).forEach(item => {
+        items.slice(0, 6).forEach(item => {
           ul.innerHTML += `
-            <li class="p-2.5 bg-white rounded border border-slate-200 shadow-xs">
-              <div class="font-bold text-slate-800">${item.institution_name}</div>
-              <div class="text-[11px] text-slate-600">${item.program_or_post}</div>
-              <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1">
-                <span>Cutoff: ${item.historical_cutoff_score}</span>
-                <span class="font-semibold text-pw-accent">${item.admission_mode || item.target_type}</span>
+            <li class="p-2.5 bg-white rounded-lg border border-slate-200 shadow-xs hover:border-pw-accent transition">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-800 text-xs">${item.institution_name}</span>
+                <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-blue-50 text-pw-blue border border-blue-200">${item.counselling_body || 'COAP'}</span>
+              </div>
+              <div class="text-[11px] text-slate-600 mt-0.5 font-medium leading-tight">${item.program_name || item.program_or_post || 'M.Tech Specialization'}</div>
+              <div class="flex items-center justify-between text-[10px] text-slate-500 mt-1.5 pt-1 border-t border-slate-100">
+                <span>Cutoff: <strong class="text-slate-700">${item.historical_closing_score || item.historical_cutoff_score || '--'}</strong></span>
+                <span class="font-bold text-emerald-600">${item.offer_type || 'Direct Offer'} • ${item.probability_pct || 85}% Prob.</span>
               </div>
             </li>
           `;
         });
       };
 
-      fillList('list-ambitious', data.ambitious);
-      fillList('list-target', data.target);
-      fillList('list-safe', data.safe);
+      fillList('list-ambitious', data.ambitious && data.ambitious.length ? data.ambitious : (data.coap_options || []).slice(0, 5));
+      fillList('list-target', data.target && data.target.length ? data.target : (data.ccmt_options || []).slice(0, 5));
+      fillList('list-safe', data.safe && data.safe.length ? data.safe : (data.ccmt_options || []).slice(5, 10));
+
+      // Render PSU Opportunities
+      const psuGrid = document.getElementById('psu-cards-grid');
+      if (psuGrid) {
+        psuGrid.innerHTML = '';
+        const psus = data.psu_options || [];
+        if (psus.length === 0) {
+          psuGrid.innerHTML = '<div class="text-slate-400 italic text-xs col-span-full bg-slate-50 p-4 rounded-xl text-center">PSU interviews generally call candidates with GATE Scores above 650. Focus on top COAP/CCMT options above.</div>';
+        } else {
+          psus.slice(0, 8).forEach(psu => {
+            psuGrid.innerHTML += `
+              <div class="p-3.5 bg-white rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="font-black text-slate-900 text-sm">${psu.psu_name}</span>
+                    <span class="px-2 py-0.5 rounded text-[9px] font-extrabold ${psu.is_eligible ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                      ${psu.is_eligible ? 'ELIGIBLE' : 'AGE/CUTOFF GATE'}
+                    </span>
+                  </div>
+                  <div class="text-[11px] text-slate-700 font-bold mt-1">${psu.post_name}</div>
+                  <p class="text-[10px] text-slate-500 mt-1">${psu.eligibility_note || 'Direct shortlist based on GATE Score.'}</p>
+                </div>
+                <div class="flex items-center justify-between text-[10px] pt-2 mt-2 border-t border-slate-100">
+                  <span class="text-slate-500">Min Score: <strong class="text-slate-800">${psu.min_gate_score}</strong></span>
+                  <span class="font-bold text-pw-accent">${psu.probability_pct}% Shortlist Prob.</span>
+                </div>
+              </div>
+            `;
+          });
+        }
+      }
 
       card.scrollIntoView({ behavior: 'smooth' });
     }

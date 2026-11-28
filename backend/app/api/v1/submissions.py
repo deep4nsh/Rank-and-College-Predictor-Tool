@@ -157,8 +157,13 @@ def submit_student_exam_paper(
         return {
             "status": "success",
             "submission_id": submission.submission_id,
+            "student_name": payload.student_name,
+            "student_phone": payload.student_phone,
+            "paper_code": clean_paper,
+            "category": payload.student_category,
             "key_version": active_key.version if active_key else 1,
             "key_type": active_key.key_type if active_key else "DIRECT_SCORE",
+            "raw_score": raw_score,
             "raw_score_total": raw_score,
             "raw_score_aptitude": 0.0,
             "raw_score_core": 0.0,
@@ -176,6 +181,9 @@ def submit_student_exam_paper(
             "ccmt_matches": [o.__dict__ for o in rec_summary.ccmt_options],
             "psu_matches": [o.__dict__ for o in rec_summary.psu_options],
             "interdisciplinary_matches": [o.__dict__ for o in rec_summary.interdisciplinary_options],
+            "ambitious": [o.__dict__ for o in rec_summary.coap_options + rec_summary.ccmt_options if o.match_tier == "AMBITIOUS"],
+            "target": [o.__dict__ for o in rec_summary.coap_options + rec_summary.ccmt_options if o.match_tier == "TARGET"],
+            "safe": [o.__dict__ for o in rec_summary.coap_options + rec_summary.ccmt_options if o.match_tier == "SAFE"],
         }
 
     # Mode B: Digital OMR Response Sheet Mode
@@ -310,8 +318,13 @@ def submit_student_exam_paper(
     return {
         "status": "success",
         "submission_id": submission.submission_id,
+        "student_name": payload.student_name,
+        "student_phone": payload.student_phone,
+        "paper_code": clean_paper,
+        "category": payload.student_category,
         "key_version": active_key.version,
         "key_type": active_key.key_type,
+        "raw_score": summary.total_raw_score,
         "raw_score_total": summary.total_raw_score,
         "raw_score_aptitude": summary.aptitude_score,
         "raw_score_core": summary.core_score,
@@ -329,4 +342,7 @@ def submit_student_exam_paper(
         "ccmt_matches": [o.__dict__ for o in rec_summary.ccmt_options],
         "psu_matches": [o.__dict__ for o in rec_summary.psu_options],
         "interdisciplinary_matches": [o.__dict__ for o in rec_summary.interdisciplinary_options],
+        "ambitious": [o.__dict__ for o in rec_summary.coap_options + rec_summary.ccmt_options if o.match_tier == "AMBITIOUS"],
+        "target": [o.__dict__ for o in rec_summary.coap_options + rec_summary.ccmt_options if o.match_tier == "TARGET"],
+        "safe": [o.__dict__ for o in rec_summary.coap_options + rec_summary.ccmt_options if o.match_tier == "SAFE"],
     }
